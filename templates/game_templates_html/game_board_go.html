@@ -1,0 +1,93 @@
+{{define "game_board"}}
+<div class="game-board game-board-{{.selected_character}}">
+  <div class="keyboard-map">
+    {{range $rowIndex, $row := .text_grid}}
+    <div class="keyboard-row">
+      {{range $colIndex, $letter := $row}} {{$mapValue := index (index
+      $.game_map $rowIndex) $colIndex}}
+      <div
+        class="key"
+        data-letter="{{$letter}}"
+        data-row="{{$rowIndex}}"
+        data-col="{{$colIndex}}"
+        data-map="{{$mapValue}}"
+      >
+        <div class="key-top">
+          <span class="key-letter">{{$letter}}</span>
+          {{if eq $mapValue 1}}
+          <div class="boba-character">
+            <div class="boba-shadow"></div>
+            {{if eq $.selected_character "boba"}}
+            <img
+              src="/static/sprites/character/boba.png"
+              alt="Boba"
+              class="boba-sprite"
+            />
+            {{else if eq $.selected_character "pinky"}}
+            <img
+              src="/static/sprites/character/pinky_boba.png"
+              alt="Pinky Boba"
+              class="boba-sprite"
+            />
+            {{else if eq $.selected_character "golden"}}
+            <img
+              src="/static/sprites/character/golden_boba.png"
+              alt="Golden Boba"
+              class="boba-sprite"
+            />
+            {{else if eq $.selected_character "black"}}
+            <img
+              src="/static/sprites/character/black_boba.png"
+              alt="Black Boba"
+              class="boba-sprite"
+            />
+            {{else if eq $.selected_character "boba_diamond"}}
+            <img
+              src="/static/sprites/character/boba_diamond.png"
+              alt="Boba Diamond"
+              class="boba-sprite"
+            />
+            {{else}}
+            <img
+              src="/static/sprites/character/{{$.selected_character}}_boba.png"
+              alt="{{$.selected_character}} Boba"
+              class="boba-sprite"
+            />
+            {{end}}
+          </div>
+          {{else if eq $mapValue 2}}
+          <div class="enemy">
+            <div class="enemy-shadow"></div>
+            <img
+              src="/static/sprites/character/stop_boba.png"
+              alt="Enemy"
+              class="enemy-sprite"
+            />
+          </div>
+          {{else if eq $mapValue 3}}
+          <div class="pearl">
+            <div class="pearl-shadow"></div>
+            <img
+              src="/static/sprites/character/pearl.png"
+              alt="Pearl"
+              class="pearl-sprite"
+            />
+          </div>
+          {{else if eq $mapValue 4}}
+          <div class="pearl-mold">
+            <div class="pearl-mold-shadow"></div>
+            <img
+              src="/static/sprites/character/pearl_mold.png"
+              alt="Pearl Mold"
+              class="pearl-mold-sprite"
+            />
+          </div>
+          {{end}}
+        </div>
+      </div>
+      {{end}}
+    </div>
+    {{end}}
+  </div>
+</div>
+{{end}}

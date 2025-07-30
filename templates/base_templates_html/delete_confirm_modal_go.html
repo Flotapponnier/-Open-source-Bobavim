@@ -1,0 +1,29 @@
+{{define "delete_confirm_modal"}}
+<!-- Delete Account Confirmation Modal -->
+<div id="deleteConfirmModal" class="settings-modal hidden">
+  <div class="settings-modal-content">
+    <div class="settings-header">
+      <h3>Confirm Account Deletion</h3>
+      <button id="closeDeleteModal" class="close-btn">×</button>
+    </div>
+    
+    <div class="settings-body">
+      <p class="warning-text">Are you absolutely sure you want to delete your account?</p>
+      <p>This will permanently delete:</p>
+      <ul>
+        <li>Your profile and game progress</li>
+        <li>All your scores and statistics</li>
+        <li>Your account data</li>
+      </ul>
+      <div class="form-group">
+        <label for="deleteConfirmation">Type "Boba" to confirm deletion:</label>
+        <input type="text" id="deleteConfirmation" placeholder="Type Boba here">
+      </div>
+      <div class="modal-actions">
+        <button id="confirmDeleteBtn" class="btn danger" disabled>Delete My Account</button>
+        <button id="cancelDeleteBtn" class="btn secondary">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+{{end}}

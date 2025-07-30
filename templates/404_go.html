@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{.title}}</title>
+    <!-- Global CSS -->
+    <link rel="stylesheet" href="/static/css/global.css" />
+    <!-- 404 Page specific CSS -->
+    <link rel="stylesheet" href="/static/css/404.css" />
+  </head>
+  <body>
+    <!-- Animated clouds background -->
+    <div class="clouds-container" id="clouds-background"></div>
+
+    <div class="container">
+      <div class="error-content">
+        <div class="boba-sprite-container">
+          <img
+            src="/static/sprites/character/not_found_boba.png"
+            alt="Stop Boba - 404"
+            class="stop-boba-404"
+          />
+        </div>
+        <h1 class="error-title">Oops! Page Not Found</h1>
+        <p class="error-message">
+          The boba you're looking for isn't brewing here.
+        </p>
+        <div class="error-details">
+          <p>Requested path: <code class="path-code">{{.path}}</code></p>
+        </div>
+        <div class="error-actions">
+          <button onclick="window.location.href='/'" class="btn home-btn">
+            Back to Home
+          </button>
+          <div class="help-text">🧋 Let's get you back to the good stuff!</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cloud animation system -->
+    <script type="module" src="/static/js/cloud.js"></script>
+  </body>
+</html>

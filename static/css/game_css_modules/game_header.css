@@ -1,0 +1,80 @@
+/* ===================================
+   GAME HEADER MODULE
+   =================================== */
+
+/* Import submodules */
+@import url("./game_header_submodules/animations.css");
+@import url("./game_header_submodules/banner_system.css");
+@import url("./game_header_submodules/character_avatar.css");
+@import url("./game_header_submodules/score_display.css");
+
+/* Core game header layout */
+.game-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.5rem;
+  padding: 0.8rem;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
+  flex-shrink: 0;
+  min-height: 100px;
+  position: relative;
+  z-index: 100;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  gap: 0.5rem;
+  overflow: visible;
+}
+
+.game-title {
+  font-size: clamp(1rem, 2.5vw, 2rem);
+  color: #333;
+  margin: 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  flex-shrink: 0;
+  min-width: 150px;
+  overflow: visible;
+}
+
+.header-center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  min-width: 200px;
+  overflow: visible;
+  padding: 0.5rem;
+  margin: 0 1rem;
+  z-index: 10;
+}
+
+.header-right {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 2.5rem;
+  flex-shrink: 0;
+  min-width: 200px;
+  overflow: visible;
+  justify-content: flex-end;
+  margin-right: 0;
+  padding-right: 1rem;
+}
+
+
+/* Responsive header height adjustments */
+@media (max-width: 768px) {
+  .game-header {
+    min-height: clamp(70px, 12vh, 100px);
+    padding: clamp(0.5rem, 1.5vw, 0.8rem);
+  }
+}
+
+@media (max-width: 480px) {
+  .game-header {
+    min-height: clamp(60px, 10vh, 80px);
+    gap: clamp(0.5rem, 1vw, 1rem);
+  }
+}

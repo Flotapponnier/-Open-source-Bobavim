@@ -1,0 +1,15 @@
+{{define "user_panel"}}
+<!-- User authentication UI - positioned over cloud background -->
+<div id="userPanel" class="user-panel hidden">
+  <div class="user-info">
+    <span id="welcomeMessage">Welcome, <span id="loggedUsername"></span>!</span>
+    <button id="logoutButton" class="btn logout-btn">Logout</button>
+    <button id="settingsButton" class="btn settings-btn">⚙️</button>
+  </div>
+</div>
+
+<div id="authButtons" class="auth-buttons">
+  <button id="loginButton" class="btn secondary">Login</button>
+  <button id="registerButton" class="btn primary">Register</button>
+</div>
+{{end}}

@@ -1,0 +1,75 @@
+{{define "character_selection"}}
+<div class="menu-buttons">
+  <button id="playButton" class="eightbit-btn">Play</button>
+
+  <div class="character-selection">
+    <div class="character-grid">
+      <div
+        class="character-box unlocked"
+        data-character="boba"
+        title="Classic Boba"
+      >
+        <img
+          src="/static/sprites/character/boba.png"
+          alt="Boba"
+          class="character-sprite"
+        />
+      </div>
+      <div
+        class="character-box unlocked"
+        data-character="pinky"
+        title="Pinky Boba"
+      >
+        <img
+          src="/static/sprites/character/pinky_boba.png"
+          alt="Pinky Boba"
+          class="character-sprite"
+        />
+      </div>
+      <div
+        class="character-box locked"
+        data-character="golden"
+        title="Golden Boba - Register to unlock"
+      >
+        <img
+          src="/static/sprites/character/golden_boba.png"
+          alt="Golden Boba"
+          class="character-sprite"
+        />
+        <span class="lock-icon">🔒</span>
+      </div>
+      <div
+        class="character-box locked"
+        data-character="black"
+        title="Black Boba - Register to unlock"
+      >
+        <img
+          src="/static/sprites/character/black_boba.png"
+          alt="Black Boba"
+          class="character-sprite"
+        />
+        <span class="lock-icon">🔒</span>
+      </div>
+      <div
+        class="character-box locked"
+        data-character="boba_diamond"
+        title="Diamond Boba - Coming soon"
+      >
+        <img
+          src="/static/sprites/character/boba_diamond.png"
+          alt="Diamond Boba"
+          class="character-sprite"
+        />
+        <span class="lock-icon">💎</span>
+      </div>
+    </div>
+  </div>
+
+  <button id="playOnline" class="eightbit-btn">Play online</button>
+  
+  <button id="leaderboardButton" class="eightbit-btn">
+    🏆 Leaderboard
+  </button>
+</div>
+{{end}}
+

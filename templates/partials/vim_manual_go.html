@@ -1,0 +1,426 @@
+{{define "vim_manual_go"}}
+<!-- Retro 70s Vim Manual Book -->
+<div id="vimManualModal" class="vim-manual-modal hidden">
+  <div class="retro-book-container">
+    <!-- Book Cover -->
+    <div class="book-cover">
+      <div class="book-spine"></div>
+      <div class="book-front">
+        <div class="book-title">
+          <h1>Boba.vim</h1>
+          <h2>Motion Guide</h2>
+          <div class="book-subtitle">The Groovy Guide to Vim Mastery</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Book Pages -->
+    <div class="book-content">
+      <!-- Close Button -->
+      <button id="closeManual" class="retro-close-btn">✕</button>
+
+      <!-- Page 1: Welcome Page with Beach Image -->
+      <div class="book-page page-1 active">
+        <div class="page-header">
+          <h2>Welcome, Groovy Coder!</h2>
+        </div>
+        <div class="page-content">
+          <div class="beach-image-container">
+            <img
+              src="/static/sprites/widget/boba_beach.png"
+              alt="Boba Beach"
+              class="beach-image"
+            />
+          </div>
+          <div class="teaser-text">
+            <p>
+              Hey it's uncle Bob, welcome to to my new vim retro guide, it took
+              me a year to write this guide, i hope i you find it useful
+            </p>
+            <p>Ready to learn some far-out Vim motions?</p>
+            <p>
+              These moves will make you the coolest coder on the beach! and
+              forever eheh !
+            </p>
+            <p>
+              Learn vim and you will have a senior position as a programmer like
+              me forever eheh !
+            </p>
+            <p>Never we will replace me ! Never !</p>
+          </div>
+          <button id="showKeymapBtn" class="retro-button">
+            Show Keymap Guide
+          </button>
+        </div>
+      </div>
+
+      <!-- Page 2: Config Section (Hidden by default) -->
+      <div class="book-page page-2 hidden">
+        <div class="page-header">
+          <h2>~/.vimrc Customize your game</h2>
+        </div>
+        <div class="page-content">
+          <div class="config-section">
+            <p class="intro-text">
+              These shortcuts will make your game far out, man!
+            </p>
+            <div class="config-list">
+              <div class="config-item">
+                <code>space space</code>
+                <span>Make spaces more visible in the map</span>
+              </div>
+              <div class="config-item">
+                <code>space f</code>
+                <span>Make your game in full screen</span>
+              </div>
+              <div class="config-item">
+                <code>space enter</code> <span>Hide all characters</span>
+              </div>
+              <div class="config-item">
+                <code>space n</code> <span>Activate the grid numbers</span>
+              </div>
+              <div class="config-item">
+                <code>space r</code> <span>Activate relative grid numbers (vim-style)</span>
+              </div>
+              <div class="config-item">
+                <code>space m</code> <span>Open the map</span>
+              </div>
+              <div class="config-item">
+                <code>space t</code> <span>Random tutorial command</span>
+              </div>
+            </div>
+          </div>
+          <div class="page-navigation">
+            <button id="showMotionsBtn" class="retro-button">
+              See Vim Motions
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Page 3: Motion Guide (Hidden by default) -->
+      <div class="book-page page-3 hidden">
+        <div class="page-header">
+          <h2>Groovy Vim Motions</h2>
+        </div>
+        <div class="page-content">
+          <div id="motionGuide" class="motion-guide">
+            <div class="motion-section">
+              <h3>Basic Movement</h3>
+              <div class="motion-item">
+                <code>h</code> - Move cursor left
+                <div class="example">
+                  Try: Move cursor left character by character
+                </div>
+              </div>
+              <div class="motion-item">
+                <code>j</code> - Move cursor down
+                <div class="example">Try: Move cursor down one line</div>
+              </div>
+              <div class="motion-item">
+                <code>k</code> - Move cursor up
+                <div class="example">Try: Move cursor up one line</div>
+              </div>
+              <div class="motion-item">
+                <code>l</code> - Move cursor right
+                <div class="example">
+                  Try: Move cursor right character by character
+                </div>
+              </div>
+            </div>
+            <hr style="border: 1px solid #0077b7; margin: 20px 0" />
+            <div class="motion-section">
+              <h3>Word Movement</h3>
+              <div class="motion-item">
+                <code>w</code> - Move to beginning of next word
+                <div class="example">
+                  Try: Jump to start of next word (punctuation separated)
+                  punctuation is ':', '.', ','
+                </div>
+              </div>
+              <div class="motion-item">
+                <code>W</code> - Move to beginning of next WORD
+                <div class="example">
+                  Try: Jump to start of next WORD (space separated)
+                </div>
+              </div>
+              <div class="motion-item">
+                <code>e</code> - Move to end of current word
+                <div class="example">Try: Jump to end of current/next word</div>
+              </div>
+              <div class="motion-item">
+                <code>B</code> - Move to beginning of previous WORD
+                <div class="example">Try: Jump backwards to start of WORD</div>
+              </div>
+              <div class="motion-item">
+                <code>gE</code> - Move to end of previous WORD
+                <div class="example">
+                  Try: Jump backwards to end of WORD punctuation : ',' ':' '.'
+                </div>
+              </div>
+              <div class="motion-item">
+                <code>ge</code> - Move to end of previous word
+                <div class="example">Try: Jump backwards to end of word</div>
+              </div>
+              <div class="motion-item">
+                <code>g_</code> - Move to last non-blank character of line
+                <div class="example">
+                  Try: Jump to last non-whitespace character
+                </div>
+              </div>
+            </div>
+
+            <div class="motion-section">
+              <h3>Line Movement</h3>
+              <div class="motion-item">
+                <code>0</code> - Move to beginning of line
+                <div class="example">Try: Jump to first character of line</div>
+              </div>
+              <div class="motion-item">
+                <code>^</code> - Move to first non-blank character of line
+                <div class="example">
+                  Try: Jump to first non-whitespace character
+                </div>
+              </div>
+              <div class="motion-item">
+                <code>$</code> - Move to end of line
+                <div class="example">Try: Jump to last character of line</div>
+              </div>
+            </div>
+
+            <div class="motion-section">
+              <h3>Character Search</h3>
+              <div class="motion-item">
+                <code>f{char}</code> - Find next occurrence of character
+                <div class="example">Try: fa (find next 'a' character)</div>
+              </div>
+              <div class="motion-item">
+                <code>F{char}</code> - Find previous occurrence of character
+                <div class="example">Try: FA (find previous 'A' character)</div>
+              </div>
+              <div class="motion-item">
+                <code>t{char}</code> - Move to before next occurrence of
+                character
+                <div class="example">
+                  Try: ta (move until next 'a' character)
+                </div>
+              </div>
+              <div class="motion-item">
+                <code>T{char}</code> - Move to after previous occurrence of
+                character
+                <div class="example">
+                  Try: TA (move until previous 'A' character)
+                </div>
+              </div>
+              <div class="motion-item">
+                <code>;</code> - Repeat last f, F, t, or T search
+                <div class="example">Try: After fa, use ; to find next 'a'</div>
+              </div>
+              <div class="motion-item">
+                <code>,</code> - Repeat last f, F, t, or T search in opposite
+                direction
+                <div class="example">
+                  Try: After fa, use , to find previous 'a'
+                </div>
+              </div>
+            </div>
+
+            <div class="motion-section">
+              <h3>File & Screen Navigation</h3>
+              <div class="motion-item">
+                <code>gg</code> - Go to beginning of file
+                <div class="example">Try: Jump to first line of document</div>
+              </div>
+              <div class="motion-item">
+                <code>G</code> - Go to end of file
+                <div class="example">Try: Jump to last line of document</div>
+              </div>
+              <div class="motion-item">
+                <code>5G</code> - Go to line 5
+                <div class="example">
+                  Try : space n to show line numbers, or space r for relative numbers (vim-style), then use xG (x = line number you want)
+                </div>
+              </div>
+              <div class="motion-item">
+                <code>H</code> - Move to top of screen
+                <div class="example">Try: Jump to highest visible line</div>
+              </div>
+              <div class="motion-item">
+                <code>M</code> - Move to middle of screen
+                <div class="example">Try: Jump to middle visible line</div>
+              </div>
+              <div class="motion-item">
+                <code>L</code> - Move to bottom of screen
+                <div class="example">Try: Jump to lowest visible line</div>
+              </div>
+            </div>
+
+            <div class="motion-section">
+              <h3>Bracket & Parentheses</h3>
+              <div class="motion-item">
+                <code>(</code> - Move to previous sentence, sentence is : '.'
+                '!' '?' separated by ' ' ']' '"',' ', '\n'
+                <div class="example">
+                  Try: Jump backward by sentences, sentence is : '.' '!' '?'
+                  separated by ' ' ']' '"',' ', '\n'
+                </div>
+              </div>
+              <div class="motion-item">
+                <code>)</code> - Move to next sentence
+                <div class="example">
+                  Try: Jump forward by sentences, sentence is : '.' '!' '?'
+                  separated by ' ' ']' '"',' ', '\n'
+                </div>
+              </div>
+              <div class="motion-item">
+                <code>{</code> - Move to previous paragraph, paragraph : group
+                of non-empty lines separated by one or more blank lines.
+                <div class="example">Try: Jump backward by paragraphs</div>
+              </div>
+              <div class="motion-item">
+                <code>}</code> - Move to next paragraph, paragraph : group of
+                non-empty lines separated by one or more blank lines.
+
+                <div class="example">Try: Jump forward by paragraphs</div>
+              </div>
+              <div class="motion-item">
+                <code>%</code> - Jump to matching bracket/parenthesis
+                <div class="example">Try: Jump between (), [], {} pairs</div>
+              </div>
+            </div>
+
+            <div class="motion-section">
+              <h3>Multipliers</h3>
+              <div class="motion-item">
+                <code>3j</code> - Move down 3 lines
+                <div class="example">
+                  Try: Any number + motion (5w, 10k, 2f)
+                </div>
+              </div>
+              <div class="motion-item">
+                <code>5w</code> - Move forward 5 words
+                <div class="example">
+                  Try: Combine numbers with any motion command
+                </div>
+              </div>
+            </div>
+
+            <div class="retro-game-tip">
+              <strong>Groovy Tip:</strong> Use these motions to navigate the
+              keyboard and collect pearls like a true Vim master!
+            </div>
+          </div>
+          <div class="page-navigation">
+            <button id="toScoreAttributionBtn" class="retro-button primary">
+              Score Attribution
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Page 4: Score Attribution -->
+      <div class="book-page page-4 hidden">
+        <div class="page-header">
+          <h2>Score Attribution System</h2>
+        </div>
+        <div class="page-content">
+          <div class="motion-guide">
+            <p class="intro-text">
+              Understanding how points are awarded for different Vim motions, dude!
+            </p>
+
+            <div class="motion-section">
+              <h3>Motion Categories & Points</h3>
+              <div class="motion-item">
+                <code>h j k l</code> - Basic Movement (100 points)
+                <div class="example">
+                  Fundamental directional movements
+                </div>
+              </div>
+              <div class="motion-item">
+                <code>w W e E b B ge gE</code> - Word Movement (120 points)
+                <div class="example">
+                  Efficient word-based navigation
+                </div>
+              </div>
+              <div class="motion-item">
+                <code>0 $</code> - Line Movement (120 points)
+                <div class="example">
+                  Basic line positioning
+                </div>
+              </div>
+              <div class="motion-item">
+                <code>^ g_</code> - Smart Line Movement (130 points)
+                <div class="example">
+                  Advanced line positioning
+                </div>
+              </div>
+              <div class="motion-item">
+                <code>f F t T</code> - Find Character (125 points)
+                <div class="example">
+                  Character search within line
+                </div>
+              </div>
+              <div class="motion-item">
+                <code>; ,</code> - Repeat Find (130 points)
+                <div class="example">
+                  Repeat last character search
+                </div>
+              </div>
+              <div class="motion-item">
+                <code>gg G 5G</code> - File Jump (130 points)
+                <div class="example">
+                  Jump to file positions
+                </div>
+              </div>
+              <div class="motion-item">
+                <code>H M L</code> - Screen Movement (150 points)
+                <div class="example">
+                  Navigate by screen position
+                </div>
+              </div>
+              <div class="motion-item">
+                <code>{ } ( )</code> - Paragraph Movement (160 points)
+                <div class="example">
+                  Advanced text object navigation
+                </div>
+              </div>
+              <div class="motion-item">
+                <code>%</code> - Match Movement (200 points)
+                <div class="example">
+                  Master-level bracket matching
+                </div>
+              </div>
+              <div class="motion-item" style="background-color: rgba(255, 0, 0, 0.1);">
+                <code>↑ ↓ ← →</code> - Arrow Key Penalty (-50 points)
+                <div class="example">
+                  Noob moves! Use hjkl instead!
+                </div>
+              </div>
+            </div>
+
+            <div class="retro-game-tip">
+              <strong>Uncle Boba's Tip:</strong> Master the high-point motions to maximize your score! 
+              The more efficient your movement, the more boba pearls you earn!
+            </div>
+
+            <div class="retro-game-tip">
+              <strong>Strategy:</strong> Combine motions for maximum efficiency! For example, 
+              use <code>5w</code> instead of pressing <code>l</code> multiple times.
+            </div>
+          </div>
+          
+          <div class="page-navigation">
+            <button id="backToCommandsBtn" class="retro-button secondary">
+              Back to Commands
+            </button>
+            <button id="backToConfigBtn" class="retro-button primary">
+              Back to Config
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{{end}}

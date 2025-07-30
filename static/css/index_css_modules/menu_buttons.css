@@ -1,0 +1,27 @@
+/* ===================================
+   MENU BUTTONS MODULE
+   =================================== */
+
+.menu-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  align-items: center;
+}
+
+.menu-buttons .btn {
+  min-width: 250px;
+  transition: all 0.3s ease;
+}
+
+.menu-buttons .btn:hover:not(.eightbit-btn) {
+  transform: translateY(-3px) scale(1.05);
+}
+
+/* Responsive adjustments for menu buttons */
+@media (max-width: 480px) {
+  .menu-buttons .btn {
+    min-width: 200px;
+    font-size: 1rem;
+  }
+}

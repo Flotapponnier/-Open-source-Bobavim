@@ -1,0 +1,94 @@
+{{define "head"}}
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{.title}}</title>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="{{if .metaDescription}}{{.metaDescription}}{{else}}Boba.vim - Learn Vim commands through interactive speedrun challenges. Master vim motions, practice text editing skills, and compete with players worldwide in this addictive vim game.{{end}}" />
+  <meta name="keywords" content="vim game, learn vim, vim speedrun, vim practice, vim tutorial, text editor game, vim commands, vim motions, programming game, coding practice" />
+  <meta name="author" content="Florent Tapponnier" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="{{if .canonicalURL}}{{.canonicalURL}}{{else}}https://boba.vim{{end}}" />
+  
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="{{if .ogTitle}}{{.ogTitle}}{{else}}{{.title}}{{end}}" />
+  <meta property="og:description" content="{{if .ogDescription}}{{.ogDescription}}{{else}}Learn Vim commands through interactive speedrun challenges. Master vim motions and compete with players worldwide in Boba.vim!{{end}}" />
+  <meta property="og:image" content="https://boba.vim/static/sprites/logo/boba_vim_banner.png" />
+  <meta property="og:url" content="{{if .ogURL}}{{.ogURL}}{{else}}https://boba.vim{{end}}" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Boba.vim" />
+  
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="{{if .twitterTitle}}{{.twitterTitle}}{{else}}{{.title}}{{end}}" />
+  <meta name="twitter:description" content="{{if .twitterDescription}}{{.twitterDescription}}{{else}}Learn Vim commands through interactive speedrun challenges in Boba.vim!{{end}}" />
+  <meta name="twitter:image" content="https://boba.vim/static/sprites/logo/boba_vim_banner.png" />
+  <meta name="twitter:creator" content="@florent_tap" />
+  
+  <!-- Google Site Verification -->
+  <meta name="google-site-verification" content="OTZaOpLwzAD13nM0ds557yxUDlg-IHkWZrcyNsFawbg" />
+  
+  <!-- Additional Meta Tags -->
+  <meta name="theme-color" content="#8B4513" />
+  <meta name="application-name" content="Boba.vim" />
+  <meta name="format-detection" content="telephone=no" />
+  
+  <!-- Favicon and Icons -->
+  <link rel="icon" type="image/png" href="/static/sprites/logo/boba_vim_banner.png" />
+  <link rel="apple-touch-icon" href="/static/sprites/logo/boba_vim_banner.png" />
+  
+  <!-- Preconnect for Performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  
+  <!-- Structured Data for Game -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "VideoGame",
+    "name": "Boba.vim",
+    "description": "Interactive vim learning game with speedrun challenges. Master vim commands and motions while collecting pearls in keyboard-based adventures.",
+    "url": "https://boba.vim",
+    "image": "https://boba.vim/static/sprites/logo/boba_vim_banner.png",
+    "author": {
+      "@type": "Person",
+      "name": "Florent Tapponnier"
+    },
+    "publisher": {
+      "@type": "Person",
+      "name": "Florent Tapponnier"
+    },
+    "genre": ["Educational", "Puzzle", "Action"],
+    "gamePlatform": "Web Browser",
+    "applicationCategory": "Game",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.8",
+      "ratingCount": "150"
+    },
+    "gameItem": [
+      {
+        "@type": "Thing",
+        "name": "Vim Commands"
+      },
+      {
+        "@type": "Thing", 
+        "name": "Text Editor Skills"
+      }
+    ]
+  }
+  </script>
+  
+  <!-- Global CSS -->
+  <link rel="stylesheet" href="/static/css/global.css?v=20250724" />
+  <!-- Page-specific CSS -->
+  {{block "css" .}}{{end}}
+</head>
+{{end}}

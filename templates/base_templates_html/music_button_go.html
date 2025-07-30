@@ -1,0 +1,18 @@
+{{define "music_button"}}
+<!-- Music button - bottom left, next to instructions book -->
+<div class="music-button">
+  <img
+    src="/static/sprites/avatar/uncle_song.png"
+    alt="Music Control"
+    id="musicButton"
+    class="music-icon"
+    title="Play/Stop Music"
+  />
+  <div class="stop-overlay" id="stopOverlay">⏸</div>
+</div>
+<audio id="backgroundMusic" loop>
+  <source src="/static/music/index/homepage.mp3" type="audio/mpeg" />
+  Your browser does not support the audio element.
+</audio>
+{{end}}
+

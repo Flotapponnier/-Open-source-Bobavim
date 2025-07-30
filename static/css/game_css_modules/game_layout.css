@@ -1,0 +1,152 @@
+/* ===================================
+   GAME LAYOUT MODULE
+   =================================== */
+
+.game-page {
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: var(--gradient-sky);
+}
+
+.game-container {
+  width: 100vw;
+  height: 100vh;
+  max-width: 100vw;
+  max-height: 100vh;
+  position: relative;
+  padding: 0.2rem;
+  display: flex;
+  flex-direction: column;
+  /* Allow sprites to be visible outside container boundaries */
+  overflow: visible;
+  box-sizing: border-box;
+}
+
+.game-board {
+  background: linear-gradient(135deg, #2c3e50, #34495e);
+  border-radius: 20px;
+  padding: 0.5rem;
+  border: 6px solid #1a252f;
+  box-shadow:
+    inset 0 0 30px rgba(0, 0, 0, 0.4),
+    0 15px 40px rgba(0, 0, 0, 0.3);
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Default: center maps - JavaScript will override for wide maps */
+  /* CRITICAL: Allow sprites to be visible outside board boundaries */
+  overflow: visible;
+  min-height: 0;
+  position: relative;
+  z-index: 50;
+  /* CRITICAL: Never exceed screen dimensions */
+  width: 100%;
+  height: 100%;
+  max-width: 100vw;
+  max-height: 100vh;
+  box-sizing: border-box;
+  /* Ensure proper containment of scaled content but allow sprite overflow */
+  contain: layout;
+  /* Smooth transitions when map changes */
+  transition: padding 0.3s ease;
+}
+
+/* Character-specific game board backgrounds - matching header text colors */
+.game-board.game-board-pinky {
+  background: linear-gradient(
+    135deg,
+    rgba(254, 189, 211, 0.4),
+    rgba(254, 189, 211, 0.5)
+  ); /* #FEBDD3 pink tinted */
+  border-color: rgba(254, 189, 211, 0.9);
+}
+
+.game-board.game-board-golden {
+  background: linear-gradient(
+    135deg,
+    rgba(254, 207, 53, 0.4),
+    rgba(254, 207, 53, 0.5)
+  ); /* #FECF35 golden tinted */
+  border-color: rgba(254, 207, 53, 0.9);
+}
+
+.game-board.game-board-black {
+  background: linear-gradient(
+    135deg,
+    rgba(23, 14, 2, 0.7),
+    rgba(23, 14, 2, 0.8)
+  ); /* #170E02 black tinted */
+  border-color: rgba(23, 14, 2, 0.9);
+}
+
+.game-board.game-board-boba {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 162, 91, 0.4),
+    rgba(255, 162, 91, 0.5)
+  ); /* #FFA25B orange tinted */
+  border-color: rgba(255, 162, 91, 0.9);
+}
+
+.game-board.game-board-boba_diamond {
+  background: linear-gradient(
+    135deg,
+    rgba(107, 207, 198, 0.4),
+    rgba(107, 207, 198, 0.5)
+  ); /* #6bcfc6 diamond tinted */
+  border-color: rgba(107, 207, 198, 0.9);
+}
+
+/* Instructions Book - Now handled by vim_manual.css and vim_manual_positions.css */
+
+/* Vim Manual Modal - Now handled by vim_manual.css and vim_manual_positions.css */
+
+/* ===================================
+   FULLSCREEN MODE
+   =================================== */
+
+/* Hide UI elements in fullscreen mode (keep clouds, music, and manual visible) */
+.fullscreen-mode .game-header {
+  display: none !important;
+}
+
+/* Expand game container in fullscreen mode */
+.fullscreen-mode .game-container {
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  max-width: 100vw;
+  max-height: 100vh;
+  /* Ensure sprites remain visible in fullscreen */
+  overflow: visible;
+  box-sizing: border-box;
+}
+
+/* Adjust game board for fullscreen */
+.fullscreen-mode .game-board {
+  border-radius: 0;
+  margin: 0;
+  padding: 2rem;
+  border: none;
+  box-shadow: none;
+  /* CRITICAL: Exactly match screen dimensions in fullscreen */
+  width: 100vw;
+  height: 100vh;
+  max-width: 100vw;
+  max-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  /* Position keyboard 20% from left in fullscreen for more space */
+  padding-left: 20%;
+  /* CRITICAL: Allow sprites to be visible outside board boundaries */
+  overflow: visible;
+  contain: layout;
+  /* Adaptive padding based on map complexity */
+  padding: clamp(1rem, 3vw, 3rem);
+  /* Smooth transitions */
+  transition: padding 0.3s ease;
+}

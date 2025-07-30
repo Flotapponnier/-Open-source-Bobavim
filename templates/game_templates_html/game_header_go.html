@@ -1,0 +1,65 @@
+{{define "game_header"}}
+<div class="game-header">
+  <h1 class="game-title">
+    <img
+      src="/static/sprites/logo/boba_vim_banner.png"
+      alt="Boba.vim"
+      class="game-header-banner"
+    />
+    <div class="character-avatar">
+      {{if eq $.selected_character "pinky"}}
+      <img
+        src="/static/sprites/avatar/pinky_boba_avatar.png"
+        alt="Pinky Boba"
+        class="avatar-image"
+      />
+      <span class="character-text pinky-text">🧋 Pinky Boba</span>
+      {{else if eq $.selected_character "golden"}}
+      <img
+        src="/static/sprites/avatar/golden_boba_avatar.png"
+        alt="Golden Boba"
+        class="avatar-image"
+      />
+      <span class="character-text golden-text">🧋 Golden Boba</span>
+      {{else if eq $.selected_character "black"}}
+      <img
+        src="/static/sprites/avatar/black_boba_avatar.png"
+        alt="Black Boba"
+        class="avatar-image"
+      />
+      <span class="character-text black-text">🧋 Black Boba</span>
+      {{else if eq $.selected_character "boba_diamond"}}
+      <img
+        src="/static/sprites/avatar/diamond_boba_avatar.png"
+        alt="Boba Diamond"
+        class="avatar-image"
+      />
+      <span class="character-text boba_diamond-text">
+        🧋 {{if $.character_level}}Boba Diamond Level
+        {{$.character_level}}{{else}}Boba Diamond{{end}}</span
+      >
+      {{else}}
+      <img
+        src="/static/sprites/avatar/boba_avatar.png"
+        alt="Boba"
+        class="avatar-image"
+      />
+      <span class="character-text boba-text">🧋 Boba</span>
+      {{end}}
+    </div>
+  </h1>
+
+  <div class="header-center">
+    <div class="header-info" id="helpText">
+      How to use vim 😢? (press space + h)
+    </div>
+  </div>
+
+  <div class="header-right">
+    <div class="score-display">
+      Tapioca pearl score : <strong id="score">{{.score}}</strong>
+    </div>
+    <button id="backMenu" class="btn eightbit-btn">Menu</button>
+  </div>
+</div>
+{{end}}

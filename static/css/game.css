@@ -1,0 +1,14 @@
+/* ===================================
+   GAME CSS - MAIN IMPORT FILE
+   =================================== */
+
+/* Import all game CSS modules */
+@import url("./game_css_modules/game_layout.css");
+@import url("./game_css_modules/game_header.css");
+@import url("./game_css_modules/menu_button.css");
+@import url("./index_css_modules/retro_buttons.css");
+@import url("./game_css_modules/keyboard.css");
+@import url("./game_css_modules/characters.css");
+@import url("./game_css_modules/chat_modal.css");
+@import url("./game_css_modules/debug_map.css");
+@import url("./index_css_modules/leaderboard_modal.css");

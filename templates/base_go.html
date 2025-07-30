@@ -1,0 +1,24 @@
+{{define "base_go.html"}}
+<!doctype html>
+<html lang="en">
+  {{template "head" .}}
+  <body class="index-page">
+    {{template "clouds_container" .}}
+    {{template "user_panel" .}}
+    {{template "instructions_book" .}}
+    {{template "music_button" .}}
+    {{template "social_section" .}}
+    {{template "vim_manual_go" .}}
+    {{template "survey" .}}
+    {{template "user_settings_modal" .}}
+    {{template "delete_confirm_modal" .}}
+    {{template "terms_modal" .}}
+
+    <div class="container {{block "container_class" .}}{{end}}">
+      {{block "content" .}}{{end}}
+    </div>
+    
+    {{template "base_scripts" .}}
+  </body>
+</html>
+{{end}}

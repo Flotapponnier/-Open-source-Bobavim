@@ -1,0 +1,198 @@
+# 🧋 Boba.vim - Open Source
+
+A multiplayer Vim game built with Go and vanilla JavaScript, teaching Vim commands through interactive gameplay.
+
+![Boba.vim Banner](static/sprites/logo/boba_vim_banner.png)
+
+## 🚀 Quick Start
+
+### Prerequisites
+- Go 1.19 or higher
+- Git
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/Flotapponnier/Open-source-Bobavim.git
+   cd Open-source-Bobavim
+   ```
+
+2. **Set up environment**
+   ```bash
+   make setup
+   ```
+   This will create a `.env` file from `.env.example`. Edit `.env` if you need custom settings.
+
+3. **Start the development server**
+   ```bash
+   make dev
+   # or simply: go run main.go
+   ```
+
+4. **Open your browser**
+   - Game: http://localhost:8080
+   - Admin Panel: http://localhost:8080/admin (username: `test`, password: `test`)
+
+## 🎮 How to Play
+
+1. **Choose your character** - Select from various boba-themed sprites
+2. **Select a map** - Pick from different difficulty levels
+3. **Navigate using Vim commands** - Use `h`, `j`, `k`, `l`, `w`, `b`, `0`, `$`, etc.
+4. **Collect pearls** - Reach pearls to score points
+5. **Complete the map** - Get to the mold before time runs out!
+
+### Game Modes
+- **Solo Play**: Practice Vim commands at your own pace
+- **Multiplayer**: Compete with other players in real-time
+- **Tutorial**: Learn basic Vim movements step-by-step
+
+## 🛠 Development
+
+### Available Commands
+
+```bash
+make help          # Show all available commands
+make setup         # Initial setup
+make dev           # Start development server
+make build         # Build the application
+make test          # Run tests
+make lint          # Run linter
+make clean         # Clean build artifacts
+make start         # Quick start (setup + dev)
+```
+
+### Project Structure
+
+```
+├── internal/           # Go backend code
+│   ├── handlers/      # HTTP request handlers
+│   ├── services/      # Business logic
+│   ├── models/        # Data models
+│   └── game/          # Game logic and multiplayer
+├── static/            # Frontend assets
+│   ├── css/          # Stylesheets
+│   ├── js/           # JavaScript modules
+│   ├── sprites/      # Game sprites and images
+│   └── music/        # Audio files
+├── templates/         # HTML templates
+└── main.go           # Application entry point
+```
+
+## 🔧 Configuration
+
+### Environment Variables
+
+Key settings in `.env`:
+
+```bash
+PORT=8080                    # Server port
+ENV=development             # Environment (development/production)
+DATABASE_URL=boba_vim.db    # SQLite database file
+ADMIN_USERNAME=test         # Admin panel username
+ADMIN_PASSWORD=test         # Admin panel password
+
+# Game Settings
+PEARL_POINTS=100           # Points per pearl
+TARGET_SCORE=500           # Score needed to win
+MAX_GAME_TIME=480          # Game time limit (seconds)
+
+# Optional: Email service (for password reset)
+RESEND_API_KEY=your-key-here
+FROM_EMAIL=noreply@yourdomain.com
+```
+
+### Database
+
+The game uses SQLite by default for local development. The database is automatically created on first run with:
+- Admin account (test/test)
+- Sample maps and game data
+- User progress tracking
+
+## 🎯 Features
+
+### Core Gameplay
+- **Vim Movement Training**: Practice `h`, `j`, `k`, `l`, `w`, `b`, `e`, `0`, `$`, `gg`, `G`, and more
+- **Progressive Difficulty**: Maps designed to teach specific Vim concepts
+- **Real-time Scoring**: Points based on movement efficiency
+- **Time Challenges**: Complete maps within time limits
+
+### Multiplayer
+- **Real-time Competition**: Race against other players
+- **WebSocket Communication**: Low-latency multiplayer experience
+- **Live Leaderboards**: See who's the fastest Vim navigator
+- **Spectator Mode**: Watch other players compete
+
+### Character System
+- **Multiple Characters**: Choose from various boba-themed sprites
+- **Character Progression**: Unlock new characters by completing maps
+- **Avatar System**: Profile pictures and customization
+
+### Technical Features
+- **Responsive Design**: Works on desktop and mobile
+- **Modular Architecture**: Clean separation of concerns
+- **Performance Optimized**: Efficient game state management
+- **Accessibility**: Keyboard-first navigation
+
+## 🤝 Contributing
+
+We welcome contributions! Here's how to get started:
+
+1. **Fork the repository**
+   ```bash
+   git fork https://github.com/Flotapponnier/Open-source-Bobavim.git
+   ```
+
+2. **Create a feature branch**
+   ```bash
+   git checkout -b feature/amazing-feature
+   ```
+
+3. **Make your changes and test**
+   ```bash
+   make test
+   make lint
+   ```
+
+4. **Submit a pull request**
+
+### Development Guidelines
+- Follow Go best practices and conventions
+- Write tests for new features
+- Keep JavaScript modular and well-documented
+- Test multiplayer functionality thoroughly
+- Maintain backwards compatibility
+
+## 📖 Game Design
+
+### Maps
+Maps are designed around specific Vim concepts:
+- **Beginner**: Basic `h`, `j`, `k`, `l` movement
+- **Word Movement**: `w`, `b`, `e` commands
+- **Line Navigation**: `0`, `$`, `^` commands
+- **Advanced**: `f`, `t`, `/`, `?` search commands
+
+### Scoring System
+- **Movement Efficiency**: Fewer keystrokes = higher score
+- **Time Bonus**: Complete maps quickly for bonus points
+- **Combo System**: Chain movements for multiplier bonuses
+
+## 🔗 Links
+
+- **Repository**: https://github.com/Flotapponnier/Open-source-Bobavim
+- **Issues**: https://github.com/Flotapponnier/Open-source-Bobavim/issues
+- **Discussions**: https://github.com/Flotapponnier/Open-source-Bobavim/discussions
+
+## 📄 License
+
+This project is open source. Feel free to use, modify, and distribute according to the license terms.
+
+## 🙏 Acknowledgments
+
+- Built with ❤️ for the Vim community
+- Inspired by Vim's elegant movement philosophy
+- Thanks to all contributors and players!
+
+---
+
+**Happy Vimming!** 🧋✨

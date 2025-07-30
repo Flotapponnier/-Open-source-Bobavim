@@ -1,0 +1,63 @@
+{{define "multiplayer_game_header"}}
+<div class="game-header multiplayer-vs-header">
+  <!-- Boba.vim Banner -->
+  <div class="banner-side">
+    <img
+      src="/static/sprites/logo/boba_vim_banner.png"
+      alt="Boba.vim"
+      class="multiplayer-header-banner"
+    />
+  </div>
+
+  <!-- Player 1 Side -->
+  <div class="player-side player1-side">
+    <div class="player-info">
+      <img
+        id="player1-character"
+        src="/static/sprites/avatar/boba_avatar.png"
+        alt="Player 1"
+        class="player-avatar"
+      />
+      <div class="player-details">
+        <span class="player-username" id="player1-username">Player 1</span>
+        <div class="player-score-display">
+          <span class="score-label">Score:</span>
+          <span id="player1-score" class="score-value">0</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Center VERSUS Text -->
+  <div class="versus-center">
+    <div class="versus-text-container">
+      <span class="versus-text-retro">VERSUS</span>
+      <div class="versus-subtext">First to 1300 wins!</div>
+    </div>
+  </div>
+
+  <!-- Player 2 Side -->
+  <div class="player-side player2-side">
+    <div class="player-info">
+      <div class="player-details">
+        <span class="player-username" id="player2-username">Player 2</span>
+        <div class="player-score-display">
+          <span class="score-label">Score:</span>
+          <span id="player2-score" class="score-value">0</span>
+        </div>
+      </div>
+      <img
+        id="player2-character"
+        src="/static/sprites/avatar/boba_avatar.png"
+        alt="Player 2"
+        class="player-avatar"
+      />
+    </div>
+  </div>
+
+  <!-- Quit Button Side -->
+  <div class="quit-side">
+    <button id="quit-multiplayer-btn" class="btn eightbit-btn quit-btn">Quit</button>
+  </div>
+</div>
+{{end}}

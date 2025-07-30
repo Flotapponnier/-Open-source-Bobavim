@@ -1,0 +1,429 @@
+/* ===================================
+   8-BIT RETRO AUTH MODAL MODULE
+   =================================== */
+
+.registration-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, 
+    rgba(0, 0, 0, 0.9) 0%, 
+    rgba(16, 0, 32, 0.95) 50%, 
+    rgba(0, 0, 0, 0.9) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: retro-modal-fade-in 0.3s ease-out;
+  font-family: 'Courier New', monospace;
+}
+
+.registration-modal.hidden {
+  display: none;
+}
+
+.modal-content {
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+  border: 4px solid #00ff00;
+  box-shadow: 
+    0 0 30px #00ff00,
+    inset 0 0 30px rgba(0, 255, 0, 0.1),
+    0 0 60px rgba(0, 255, 0, 0.3);
+  padding: 0;
+  text-align: center;
+  max-width: 500px;
+  width: 90%;
+  animation: retro-modal-glow-pulse 2s ease-in-out infinite alternate;
+  position: relative;
+  overflow: hidden;
+}
+
+.modal-content::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, 
+    transparent 0%,
+    #00ff00 20%,
+    #ffff00 40%,
+    #ff00ff 60%,
+    #00ffff 80%,
+    transparent 100%);
+  animation: retro-scan-line 3s linear infinite;
+}
+
+.modal-content::after {
+  content: 'BOBA.VIM SECURE LOGIN v2.0';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(90deg, #000000 0%, #333333 50%, #000000 100%);
+  color: #666666;
+  font-size: 10px;
+  padding: 5px;
+  letter-spacing: 1px;
+  border-top: 1px solid #00ff00;
+}
+
+.modal-content h4 {
+  background: linear-gradient(90deg, #ff0000 0%, #ff6600 50%, #ff0000 100%);
+  color: #ffffff;
+  margin: 0;
+  padding: 20px;
+  font-size: 1.4rem;
+  font-weight: bold;
+  text-shadow: 
+    0 0 10px #ffffff,
+    2px 2px 0px #000000,
+    -2px -2px 0px #000000;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border-bottom: 2px solid #00ff00;
+  animation: retro-title-blink 2s infinite;
+  position: relative;
+  z-index: 1;
+}
+
+.modal-content p {
+  color: #00ffff;
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+  padding: 0 2rem;
+  text-shadow: 0 0 5px #00ffff;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  padding: 0 2rem 2rem 2rem;
+}
+
+.modal-btn {
+  padding: 0.8rem 2rem;
+  border: 3px solid;
+  background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+  cursor: pointer;
+  font-weight: bold;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+  min-width: 120px;
+  text-shadow: 0 0 8px currentColor;
+}
+
+.modal-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.modal-btn:hover {
+  transform: translateY(-2px);
+  text-shadow: 0 0 15px currentColor;
+  animation: retro-modal-button-glow 0.3s ease;
+}
+
+.modal-btn:hover::before {
+  left: 100%;
+}
+
+.modal-btn:active {
+  transform: translateY(1px);
+}
+
+.modal-btn.primary {
+  border-color: #ffff00;
+  color: #ffff00;
+  box-shadow: 
+    0 0 15px rgba(255, 255, 0, 0.4),
+    inset 0 0 15px rgba(255, 255, 0, 0.1),
+    0 4px 0 #333300;
+  animation: retro-modal-primary-pulse 2s ease-in-out infinite;
+}
+
+.modal-btn.primary:hover {
+  box-shadow: 
+    0 0 25px rgba(255, 255, 0, 0.8),
+    inset 0 0 25px rgba(255, 255, 0, 0.2),
+    0 6px 0 #333300;
+}
+
+.modal-btn.primary:active {
+  box-shadow: 
+    0 0 20px rgba(255, 255, 0, 0.8),
+    inset 0 0 20px rgba(255, 255, 0, 0.2),
+    0 2px 0 #333300;
+}
+
+.modal-btn.secondary {
+  border-color: #ff00ff;
+  color: #ff00ff;
+  box-shadow: 
+    0 0 15px rgba(255, 0, 255, 0.4),
+    inset 0 0 15px rgba(255, 0, 255, 0.1),
+    0 4px 0 #330033;
+}
+
+.modal-btn.secondary:hover {
+  box-shadow: 
+    0 0 25px rgba(255, 0, 255, 0.8),
+    inset 0 0 25px rgba(255, 0, 255, 0.2),
+    0 6px 0 #330033;
+}
+
+.modal-btn.secondary:active {
+  box-shadow: 
+    0 0 20px rgba(255, 0, 255, 0.8),
+    inset 0 0 20px rgba(255, 0, 255, 0.2),
+    0 2px 0 #330033;
+}
+
+/* 8-bit retro form styles */
+.auth-form {
+  width: 100%;
+  padding: 2rem;
+  color: #00ff00;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 1rem;
+  border: 3px solid #00ff00;
+  background: linear-gradient(135deg, #000000 0%, #111111 100%);
+  color: #00ff00;
+  font-family: 'Courier New', monospace;
+  font-size: 1rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  text-shadow: 0 0 5px currentColor;
+  box-shadow: 
+    0 0 10px rgba(0, 255, 0, 0.3),
+    inset 0 0 10px rgba(0, 255, 0, 0.1);
+}
+
+.form-group input::placeholder {
+  color: #006600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  opacity: 0.8;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #ffff00;
+  color: #ffff00;
+  text-shadow: 0 0 8px #ffff00;
+  box-shadow: 
+    0 0 20px rgba(255, 255, 0, 0.5),
+    inset 0 0 20px rgba(255, 255, 0, 0.1);
+  animation: retro-input-focus 0.3s ease;
+}
+
+.form-group input:focus::placeholder {
+  color: #666600;
+}
+
+.form-group input[type="email"]:focus,
+.form-group input[name="email"]:focus {
+  border-color: #00ffff;
+  color: #00ffff;
+  text-shadow: 0 0 8px #00ffff;
+  box-shadow: 
+    0 0 20px rgba(0, 255, 255, 0.5),
+    inset 0 0 20px rgba(0, 255, 255, 0.1);
+}
+
+.form-group input[type="password"]:focus,
+.form-group input[name="password"]:focus {
+  border-color: #ff00ff;
+  color: #ff00ff;
+  text-shadow: 0 0 8px #ff00ff;
+  box-shadow: 
+    0 0 20px rgba(255, 0, 255, 0.5),
+    inset 0 0 20px rgba(255, 0, 255, 0.1);
+}
+
+.error-message {
+  color: #ff0000 !important;
+  font-size: 0.9rem;
+  margin: 1rem 2rem;
+  padding: 1rem;
+  background: linear-gradient(135deg, #330000 0%, #440000 100%);
+  border: 3px solid #ff0000;
+  font-family: 'Courier New', monospace;
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  display: block;
+  visibility: visible;
+  position: relative;
+  z-index: 10;
+  text-shadow: 0 0 8px #ff0000;
+  box-shadow: 
+    0 0 15px rgba(255, 0, 0, 0.4),
+    inset 0 0 15px rgba(255, 0, 0, 0.1);
+  animation: retro-error-blink 1s infinite;
+}
+
+.error-message.hidden {
+  display: none !important;
+}
+
+/* Auth form switching */
+.auth-form.hidden {
+  display: none;
+}
+
+.auth-switch {
+  text-align: center;
+  margin-top: 1.5rem;
+  color: #00ffff;
+  font-size: 0.85rem;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 1px;
+  text-shadow: 0 0 5px #00ffff;
+}
+
+.auth-switch a {
+  color: #ffff00;
+  text-decoration: none;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-shadow: 0 0 8px #ffff00;
+  transition: all 0.3s ease;
+  letter-spacing: 1px;
+}
+
+.auth-switch a:hover {
+  color: #ffffff;
+  text-shadow: 0 0 15px #ffffff;
+  animation: retro-link-glow 0.3s ease;
+}
+
+/* 8-bit modal animations */
+@keyframes retro-modal-fade-in {
+  from { opacity: 0; transform: scale(0.8); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes retro-modal-glow-pulse {
+  0% { box-shadow: 0 0 30px #00ff00, inset 0 0 30px rgba(0, 255, 0, 0.1), 0 0 60px rgba(0, 255, 0, 0.3); }
+  100% { box-shadow: 0 0 40px #00ff00, inset 0 0 40px rgba(0, 255, 0, 0.2), 0 0 80px rgba(0, 255, 0, 0.5); }
+}
+
+@keyframes retro-scan-line {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
+}
+
+@keyframes retro-title-blink {
+  0%, 80% { opacity: 1; }
+  85%, 95% { opacity: 0.7; }
+}
+
+@keyframes retro-modal-primary-pulse {
+  0% { box-shadow: 0 0 15px rgba(255, 255, 0, 0.4), inset 0 0 15px rgba(255, 255, 0, 0.1), 0 4px 0 #333300; }
+  50% { box-shadow: 0 0 25px rgba(255, 255, 0, 0.7), inset 0 0 25px rgba(255, 255, 0, 0.2), 0 4px 0 #333300; }
+  100% { box-shadow: 0 0 15px rgba(255, 255, 0, 0.4), inset 0 0 15px rgba(255, 255, 0, 0.1), 0 4px 0 #333300; }
+}
+
+@keyframes retro-modal-button-glow {
+  0% { transform: translateY(-2px) scale(1); }
+  50% { transform: translateY(-2px) scale(1.05); }
+  100% { transform: translateY(-2px) scale(1); }
+}
+
+@keyframes retro-input-focus {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+
+@keyframes retro-error-blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0.7; }
+}
+
+@keyframes retro-link-glow {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+/* Responsive adjustments for 8-bit modal */
+@media (max-width: 480px) {
+  .modal-content {
+    width: 95%;
+    max-width: none;
+  }
+
+  .modal-content h4 {
+    font-size: 1.1rem;
+    padding: 15px;
+    letter-spacing: 1px;
+  }
+
+  .modal-content p {
+    font-size: 0.8rem;
+    padding: 0 1rem;
+  }
+
+  .auth-form {
+    padding: 1.5rem;
+  }
+
+  .modal-buttons {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 0 1.5rem 1.5rem 1.5rem;
+  }
+
+  .modal-btn {
+    padding: 0.8rem 1rem;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    min-width: auto;
+    width: 100%;
+  }
+
+  .form-group input {
+    padding: 0.8rem;
+    font-size: 0.9rem;
+  }
+
+  .auth-switch {
+    font-size: 0.75rem;
+  }
+
+  .error-message {
+    margin: 1rem;
+    padding: 0.8rem;
+    font-size: 0.8rem;
+  }
+}

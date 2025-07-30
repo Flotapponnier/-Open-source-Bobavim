@@ -1,0 +1,313 @@
+/* ===================================
+   RETRO 8-BIT BUTTONS MODULE
+   =================================== */
+
+/* 8-bit button base styles - fully self-contained */
+.eightbit-btn {
+    background: #92CD41; /* Default green */
+    display: inline-block;
+    position: relative;
+    text-align: center;
+    font-size: 18px;
+    padding: 12px 16px;
+    font-family: 'Press Start 2P', cursive;
+    text-decoration: none; 
+    color: white;
+    box-shadow: inset -4px -4px 0px 0px #4AA52E;
+    border: none;
+    border-radius: 50px; /* Restore rounded effect */
+    cursor: pointer;
+    transition: all 0.1s ease;
+    font-weight: normal;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    width: 250px;
+    box-sizing: border-box;
+    margin: 0.5rem; /* Include margin since not inheriting from .btn */
+    white-space: normal;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.eightbit-btn:hover,
+.eightbit-btn:focus {
+    background: #76c442;
+    box-shadow: inset -6px -6px 0px 0px #4AA52E;
+}
+
+.eightbit-btn:active {
+    box-shadow: inset 4px 4px 0px 0px #4AA52E;
+}
+
+
+/* Play button uses default green styling - no overrides needed */
+
+/* Leaderboard button variant (yellow - Next Level style) */
+#leaderboardButton.eightbit-btn {
+    background: #F7D51D;
+    box-shadow: inset -4px -4px 0px 0px #E59400;
+    white-space: nowrap !important;
+    overflow: visible;
+    min-width: 300px;
+    width: 300px;
+}
+
+#leaderboardButton.eightbit-btn:hover,
+#leaderboardButton.eightbit-btn:focus {
+    background: #F2C409;
+    box-shadow: inset -6px -6px 0px 0px #E59400;
+}
+
+#leaderboardButton.eightbit-btn:active {
+    box-shadow: inset 4px 4px 0px 0px #E59400;
+}
+
+/* Play Online button variant (red - Reset style) */
+#playOnline.eightbit-btn {
+    background: #E76E55;
+    box-shadow: inset -4px -4px 0px 0px #8C2022;
+}
+
+#playOnline.eightbit-btn:hover,
+#playOnline.eightbit-btn:focus {
+    background: #CE372B;
+    box-shadow: inset -6px -6px 0px 0px #8C2022;
+}
+
+#playOnline.eightbit-btn:active {
+    box-shadow: inset 4px 4px 0px 0px #8C2022;
+}
+
+/* Leaderboard section layout */
+.leaderboard-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+/* Toggle button variant (purple - Mode switcher) */
+#leaderboardModeToggle.eightbit-btn {
+    background: #9B59B6;
+    box-shadow: inset -4px -4px 0px 0px #6C3483;
+    font-size: 14px;
+    padding: 8px 16px;
+}
+
+#leaderboardModeToggle.eightbit-btn:hover,
+#leaderboardModeToggle.eightbit-btn:focus {
+    background: #8E44AD;
+    box-shadow: inset -6px -6px 0px 0px #6C3483;
+}
+
+#leaderboardModeToggle.eightbit-btn:active {
+    box-shadow: inset 4px 4px 0px 0px #6C3483;
+}
+
+/* Responsive layout for larger screens */
+@media (min-width: 768px) {
+    .leaderboard-section {
+        flex-direction: row;
+        justify-content: center;
+        gap: 15px;
+    }
+    
+    #leaderboardModeToggle.eightbit-btn,
+    #leaderboardButton.eightbit-btn {
+        flex: 1;
+        max-width: 200px;
+    }
+}
+
+/* Hidden class for general use */
+.hidden {
+    display: none !important;
+}
+
+/* Responsive adjustments for 8-bit buttons */
+@media (max-width: 768px) {
+    .eightbit-btn {
+        font-size: 16px;
+        padding: 10px 14px;
+        width: 220px;
+    }
+}
+
+@media (max-width: 480px) {
+    .eightbit-btn {
+        font-size: 14px;
+        padding: 8px 12px;
+        width: 200px;
+    }
+}
+
+
+/* Game page Menu button styling */
+#backMenu.eightbit-btn {
+    width: auto; /* Allow natural width for "Menu" text */
+    min-width: 100px;
+    font-size: 16px;
+    padding: 8px 16px;
+    background: #E76E55; /* Red like Play Online */
+    box-shadow: inset -4px -4px 0px 0px #8C2022;
+}
+
+#backMenu.eightbit-btn:hover,
+#backMenu.eightbit-btn:focus {
+    background: #CE372B;
+    box-shadow: inset -6px -6px 0px 0px #8C2022;
+}
+
+#backMenu.eightbit-btn:active {
+    box-shadow: inset 4px 4px 0px 0px #8C2022;
+}
+
+/* Game completion modal buttons - override default styles */
+.eightbit-completion-btn {
+    background: #92CD41 !important; /* Default green - same as Play button */
+    border: none !important;
+    color: white !important;
+    font-family: 'Press Start 2P', cursive !important;
+    font-size: 18px !important; /* Same as index buttons */
+    padding: 12px 16px !important; /* Same as index buttons */
+    border-radius: 0 !important;
+    cursor: pointer !important;
+    transition: all 0.1s ease !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    box-shadow: inset -4px -4px 0px 0px #4AA52E !important;
+    min-width: 180px !important;
+    white-space: normal !important; /* Allow text wrapping */
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+    font-weight: normal !important;
+    /* Override any inherited font properties */
+    font-style: normal !important;
+    font-variant: normal !important;
+}
+
+.eightbit-completion-btn:hover {
+    background: #76c442 !important;
+    box-shadow: inset -6px -6px 0px 0px #4AA52E !important;
+    transform: none !important; /* Disable other transform effects */
+}
+
+.eightbit-completion-btn:active {
+    box-shadow: inset 4px 4px 0px 0px #4AA52E !important;
+}
+
+/* Leaderboard button - same as index leaderboard (yellow) */
+.eightbit-completion-btn.leaderboard {
+    background: #F7D51D !important; /* Yellow - same as index leaderboard */
+    box-shadow: inset -4px -4px 0px 0px #E59400 !important;
+}
+
+.eightbit-completion-btn.leaderboard:hover {
+    background: #F2C409 !important;
+    box-shadow: inset -6px -6px 0px 0px #E59400 !important;
+}
+
+.eightbit-completion-btn.leaderboard:active {
+    box-shadow: inset 4px 4px 0px 0px #E59400 !important;
+}
+
+/* Back to menu button - same as Play Online (red) */
+.eightbit-completion-btn.menu {
+    background: #E76E55 !important; /* Red - same as Play Online */
+    box-shadow: inset -4px -4px 0px 0px #8C2022 !important;
+}
+
+.eightbit-completion-btn.menu:hover {
+    background: #CE372B !important;
+    box-shadow: inset -6px -6px 0px 0px #8C2022 !important;
+}
+
+.eightbit-completion-btn.menu:active {
+    box-shadow: inset 4px 4px 0px 0px #8C2022 !important;
+}
+
+/* Navigation buttons (next/previous map) - different color */
+.eightbit-completion-btn.navigation {
+    background: #9B59B6 !important; /* Purple for navigation */
+    box-shadow: inset -4px -4px 0px 0px #6C3483 !important;
+}
+
+.eightbit-completion-btn.navigation:hover {
+    background: #8E44AD !important;
+    box-shadow: inset -6px -6px 0px 0px #6C3483 !important;
+}
+
+.eightbit-completion-btn.navigation:active {
+    box-shadow: inset 4px 4px 0px 0px #6C3483 !important;
+}
+
+/* Allow text wrapping as requested by user - except for leaderboard button */
+.eightbit-btn:not(#leaderboardButton) {
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+}
+
+/* ===================================
+   LEADERBOARD 8-BIT BUTTONS
+   =================================== */
+
+/* Leaderboard map selection buttons - Trophy Gold */
+.eightbit-leaderboard-btn {
+    background: #F7D51D; /* Same as leaderboard button - trophy gold */
+    display: inline-block;
+    position: relative;
+    text-align: center;
+    font-size: 12px;
+    padding: 6px 8px;
+    font-family: 'Press Start 2P', cursive;
+    text-decoration: none; 
+    color: white;
+    box-shadow: inset -3px -3px 0px 0px #E59400;
+    border: none;
+    cursor: pointer;
+    transition: all 0.1s ease;
+    font-weight: normal;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    width: 100%;
+    box-sizing: border-box;
+    white-space: normal;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    min-height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.eightbit-leaderboard-btn:hover,
+.eightbit-leaderboard-btn:focus {
+    background: #F2C409;
+    box-shadow: inset -4px -4px 0px 0px #E59400;
+}
+
+.eightbit-leaderboard-btn:active {
+    box-shadow: inset 3px 3px 0px 0px #E59400;
+}
+
+/* Close button - Red like Play Online */
+.eightbit-close-btn {
+    background: #E76E55 !important; /* Red like Play Online */
+    box-shadow: inset -4px -4px 0px 0px #8C2022 !important;
+    width: auto !important;
+    min-width: 100px !important;
+    font-size: 14px !important;
+    padding: 8px 16px !important;
+}
+
+.eightbit-close-btn:hover,
+.eightbit-close-btn:focus {
+    background: #CE372B !important;
+    box-shadow: inset -6px -6px 0px 0px #8C2022 !important;
+}
+
+.eightbit-close-btn:active {
+    box-shadow: inset 4px 4px 0px 0px #8C2022 !important;
+}
+

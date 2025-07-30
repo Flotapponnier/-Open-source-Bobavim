@@ -1,0 +1,41 @@
+/* ===================================
+   SCORE DISPLAY SUBMODULE
+   =================================== */
+
+.score-display {
+  color: #333;
+  font-size: clamp(0.9rem, 2vw, 1.1rem);
+  font-weight: bold;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  order: 0;
+}
+
+.score-display strong {
+  background: linear-gradient(45deg, #9b59b6, #3498db);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: clamp(1rem, 2.2vw, 1.2rem);
+  transition: all 0.3s ease;
+}
+
+/* Game Header Banner */
+.game-header-banner {
+  height: clamp(60px, 10vw, 100px);
+  margin-right: clamp(8px, 1.2vw, 12px);
+  vertical-align: middle;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  flex-shrink: 1;
+}
+
+/* Arial font styling for key instructions with clear 0/o distinction */
+.key-instruction {
+  font-family: "Arial", "Helvetica", "Verdana", sans-serif !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.5px;
+  font-size: clamp(0.75rem, 1.4vw, 1rem) !important;
+}

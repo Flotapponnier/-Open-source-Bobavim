@@ -1,0 +1,70 @@
+/* ===================================
+   HOME BANNER MODULE
+   =================================== */
+
+.home-banner {
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.home-banner img {
+  max-width: 100%;
+  height: auto;
+  max-height: 150px;
+  opacity: 0;
+  animation: fadeInSlideUp 2s ease-out 0.3s forwards;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+}
+
+@keyframes fadeInSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  50% {
+    opacity: 0.7;
+    transform: translateY(10px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.welcome-text {
+  font-size: 1.1rem;
+  color: #666;
+  margin-bottom: 1.5rem;
+  line-height: 1.4;
+}
+
+.love-letter-container {
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.love-letter-image {
+  max-width: 60px;
+  height: auto;
+  cursor: pointer;
+  transition: transform 0.3s ease, filter 0.3s ease;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+  opacity: 0;
+  animation: fadeInSlideUp 2s ease-out 0.5s forwards;
+}
+
+.love-letter-image:hover {
+  transform: scale(1.05);
+  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.3));
+}
+
+/* Responsive adjustments for home banner */
+@media (max-width: 480px) {
+  .welcome-text {
+    font-size: 1rem;
+  }
+
+  .home-banner img {
+    max-height: 150px;
+  }
+}

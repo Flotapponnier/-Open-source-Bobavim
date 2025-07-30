@@ -1,0 +1,344 @@
+/* ===================================
+   KEYBOARD MODULE
+   =================================== */
+
+.keyboard-map {
+  display: flex;
+  flex-direction: column;
+  gap: var(--key-gap, 6px);
+  align-items: flex-start;
+  padding: 0.5rem 0;
+  margin: 0;
+  width: fit-content;
+  height: fit-content;
+  flex-shrink: 0;
+  /* CRITICAL: Never exceed game board boundaries */
+  max-width: calc(100vw - 2rem);
+  max-height: calc(100vh - 4rem);
+  position: relative;
+  z-index: 10;
+  /* CRITICAL: Allow sprites to extend beyond map boundaries */
+  overflow: visible;
+  box-sizing: border-box;
+  /* Remove transform scaling - now using proportional sizing */
+  transform: none;
+  transition: gap 0.3s ease;
+  /* Ensure proper containment for layout only */
+  contain: layout;
+  /* Vim-like grid alignment */
+  font-family: monospace;
+}
+
+.keyboard-row {
+  display: flex;
+  gap: var(--key-gap, 4px);
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  /* Enhanced properties for consistent row layout */
+  width: calc(var(--map-cols, 20) * (var(--key-size, 50px) + var(--key-gap, 4px)) - var(--key-gap, 4px));
+  flex-shrink: 0;
+  /* Ensure vim-like grid alignment */
+  align-items: flex-start;
+  position: relative;
+  /* CRITICAL: Allow sprites to extend beyond row boundaries */
+  overflow: visible;
+  z-index: 1;
+}
+
+/* ===================================
+   PARAGRAPH SEPARATION STYLING
+   Visual indicators for paragraph breaks
+   =================================== */
+
+/* Empty rows (paragraph separators) get special styling */
+.keyboard-row.empty-row {
+  /* Make empty rows same size as keyboard keys for clear paragraph separation */
+  margin-bottom: var(--key-gap, 4px);
+  height: var(--key-size, 50px);
+  min-height: var(--key-size, 50px);
+  position: relative;
+  /* Add breathing room around the empty space */
+  margin-top: calc(var(--key-gap, 4px) * 1.5);
+}
+
+/* Add a subtle visual indicator for paragraph breaks */
+.keyboard-row.empty-row::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(108, 117, 125, 0.3) 20%,
+    rgba(108, 117, 125, 0.5) 50%,
+    rgba(108, 117, 125, 0.3) 80%,
+    transparent 100%
+  );
+  border-radius: 1px;
+  z-index: -1;
+}
+
+/* Hide keys in empty rows but keep the row structure */
+.keyboard-row.empty-row .key {
+  visibility: hidden;
+}
+
+/* Alternative: Show empty rows with subtle background */
+.keyboard-row.empty-row.visible-empty {
+  background: rgba(233, 236, 239, 0.15);
+  border-radius: calc(var(--key-size, 50px) * 0.1);
+  margin: calc(var(--key-gap, 4px) * 1.5) 0;
+  height: var(--key-size, 50px);
+  min-height: var(--key-size, 50px);
+}
+
+.keyboard-row.empty-row.visible-empty .key {
+  opacity: 0.3;
+}
+
+.key {
+  position: relative;
+  width: var(--key-size, 50px);
+  height: var(--key-size, 50px);
+  perspective: 100px;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  /* Ensure consistent sizing with boundaries */
+  max-width: min(var(--key-size, 50px), 15vw);
+  max-height: min(var(--key-size, 50px), 15vh);
+  min-width: min(var(--key-size, 50px), 20px);
+  min-height: min(var(--key-size, 50px), 20px);
+  /* CRITICAL: Allow sprites to be visible outside key boundaries */
+  overflow: visible;
+  /* Ensure sprites can extend beyond key boundaries */
+  z-index: 1;
+}
+
+.key-top {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background: linear-gradient(145deg, #f8f9fa, #e9ecef);
+  border: 3px solid #dee2e6;
+  border-radius: clamp(2px, calc(var(--key-size, 50px) * 0.1), 6px);
+  display: block;
+  transition: all 0.2s ease;
+  /* CRITICAL: Allow sprites to be visible outside key boundaries */
+  overflow: visible;
+  z-index: 0;
+
+  box-shadow:
+    0 6px 0 #adb5bd,
+    0 8px 12px rgba(0, 0, 0, 0.3),
+    inset 0 2px 0 rgba(255, 255, 255, 0.8),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.1);
+
+  transform: translateZ(0);
+  /* Ensure keys stay square */
+  aspect-ratio: 1/1;
+}
+
+.key-letter {
+  font-family: 'Trebuchet MS', 'Verdana', 'Geneva', 'DejaVu Sans', sans-serif;
+  font-size: var(--key-font-size, 1.2rem);
+  font-weight: bold;
+  color: #1a1a1a;
+  text-shadow: 
+    0 1px 2px rgba(255, 255, 255, 1.0),
+    0 2px 4px rgba(255, 255, 255, 0.9),
+    0 0 1px rgba(255, 255, 255, 1.0),
+    1px 1px 0px rgba(255, 255, 255, 0.9),
+    -1px -1px 0px rgba(255, 255, 255, 0.9);
+  user-select: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  line-height: 1;
+  white-space: nowrap;
+  /* Enhanced text rendering for clarity */
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Better spacing for readability */
+  letter-spacing: 0.05em;
+  /* Ensure text remains sharp at all sizes */
+  font-feature-settings: "liga" 0;
+  /* Clean outline for better definition */
+  -webkit-text-stroke: 0.5px rgba(255, 255, 255, 0.6);
+}
+
+.key[data-letter=" "] .key-letter {
+  content: "";
+}
+
+.key[data-map="1"] .key-top {
+  background: linear-gradient(145deg, #fff4e6, #ffe0b3);
+  border-color: #ff6b35;
+  box-shadow:
+    0 6px 0 #e55100,
+    0 8px 12px rgba(0, 0, 0, 0.3),
+    inset 0 2px 0 rgba(255, 255, 255, 0.9),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.1),
+    0 0 20px rgba(255, 107, 53, 0.4);
+}
+
+.key[data-map="2"] .key-top {
+  background: linear-gradient(145deg, #ffebee, #ffcdd2);
+  border-color: #f44336;
+  box-shadow:
+    0 6px 0 #d32f2f,
+    0 8px 12px rgba(0, 0, 0, 0.3),
+    inset 0 2px 0 rgba(255, 255, 255, 0.9),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.1),
+    0 0 20px rgba(244, 67, 54, 0.4);
+}
+
+.key[data-map="3"] .key-top {
+  background: linear-gradient(145deg, #e3f2fd, #bbdefb);
+  border-color: #2196f3;
+  box-shadow:
+    0 6px 0 #1976d2,
+    0 8px 12px rgba(0, 0, 0, 0.3),
+    inset 0 2px 0 rgba(255, 255, 255, 0.9),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.1),
+    0 0 15px rgba(33, 150, 243, 0.2);
+}
+
+.key[data-map="4"] .key-top {
+  background: linear-gradient(145deg, #f1f8e9, #c8e6c8);
+  border-color: #4caf50;
+  box-shadow:
+    0 6px 0 #388e3c,
+    0 8px 12px rgba(0, 0, 0, 0.3),
+    inset 0 2px 0 rgba(255, 255, 255, 0.9),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.1),
+    0 0 15px rgba(76, 175, 80, 0.3);
+}
+
+.key:hover .key-top {
+  transform: translateY(-2px);
+  box-shadow:
+    0 8px 0 #adb5bd,
+    0 12px 16px rgba(0, 0, 0, 0.4),
+    inset 0 2px 0 rgba(255, 255, 255, 0.9),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.1);
+}
+
+.key[data-map="1"]:hover .key-top {
+  transform: translateY(-2px);
+  box-shadow:
+    0 8px 0 #e55100,
+    0 12px 16px rgba(0, 0, 0, 0.4),
+    inset 0 2px 0 rgba(255, 255, 255, 0.9),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.1),
+    0 0 25px rgba(255, 107, 53, 0.6);
+}
+
+.key[data-map="2"]:hover .key-top {
+  transform: translateY(-2px);
+  box-shadow:
+    0 8px 0 #c62828,
+    0 12px 16px rgba(0, 0, 0, 0.4),
+    inset 0 2px 0 rgba(255, 255, 255, 0.9),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.1),
+    0 0 25px rgba(244, 67, 54, 0.4);
+}
+
+.key[data-map="4"]:hover .key-top {
+  transform: translateY(-2px);
+  box-shadow:
+    0 8px 0 #388e3c,
+    0 12px 16px rgba(0, 0, 0, 0.4),
+    inset 0 2px 0 rgba(255, 255, 255, 0.9),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.1),
+    0 0 25px rgba(76, 175, 80, 0.4);
+}
+
+/* ===================================
+   SPACE CHARACTER STYLING
+   =================================== */
+
+/* Override space character styling when pearl mold is present */
+.key[data-letter=" "][data-map="4"] .key-top {
+  background: linear-gradient(145deg, #81c784, #66bb6a) !important;
+  border-color: #4caf50 !important;
+  box-shadow:
+    0 6px 0 #388e3c,
+    0 8px 12px rgba(0, 0, 0, 0.3),
+    inset 0 2px 0 rgba(255, 255, 255, 0.9),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.1),
+    0 0 15px rgba(76, 175, 80, 0.3) !important;
+}
+
+.key[data-letter=" "][data-map="4"]:hover .key-top {
+  transform: translateY(-2px);
+  background: linear-gradient(145deg, #a5d6a7, #81c784) !important;
+  box-shadow:
+    0 8px 0 #388e3c,
+    0 12px 16px rgba(0, 0, 0, 0.4),
+    inset 0 2px 0 rgba(255, 255, 255, 0.9),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.1),
+    0 0 25px rgba(76, 175, 80, 0.4) !important;
+}
+
+.key:active .key-top {
+  transform: translateY(4px);
+  box-shadow:
+    0 2px 0 #adb5bd,
+    0 3px 6px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+/* ===================================
+   RESPONSIVE DESIGN ENHANCEMENTS
+   =================================== */
+
+/* High resolution displays - keep text quality optimizations */
+@media (min-resolution: 2dppx) {
+  .key-letter {
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* Ensure proper proportional scaling in all orientations */
+@media (orientation: landscape) {
+  .keyboard-map {
+    /* All sizing now handled by JavaScript proportional scaling */
+  }
+}
+
+@media (orientation: portrait) {
+  .keyboard-map {
+    /* All sizing now handled by JavaScript proportional scaling */
+  }
+}
+
+/* Fullscreen mode optimizations */
+.fullscreen-mode .keyboard-map {
+  /* Enhanced spacing and padding for fullscreen mode */
+  padding: 1rem 0;
+  /* CRITICAL: Strict boundaries for fullscreen - never exceed viewport */
+  max-width: calc(100vw - 6rem);
+  max-height: calc(100vh - 8rem);
+}
+
+.fullscreen-mode .key {
+  /* Relaxed size constraints in fullscreen */
+  max-width: min(var(--key-size, 50px), 20vw);
+  max-height: min(var(--key-size, 50px), 20vh);
+  min-width: min(var(--key-size, 50px), 25px);
+  min-height: min(var(--key-size, 50px), 25px);
+}
+
+.fullscreen-mode .game-board {
+  /* Ensure proper containment in fullscreen */
+  padding: 2rem;
+}
+

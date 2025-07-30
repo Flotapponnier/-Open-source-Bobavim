@@ -1,0 +1,186 @@
+/* ===================================
+   GAME BANNER SYSTEM SUBMODULE
+   =================================== */
+
+/* Base banner styling - 8-bit retro design */
+.header-info {
+  /* 8-bit pixelated background */
+  background: #8b4513;
+  color: #fff8dc;
+  font-size: clamp(0.85rem, 1.6vw, 1.1rem);
+  font-family: "Courier New", monospace;
+  font-weight: bold;
+  text-shadow: 1px 1px 0px #000, -1px -1px 0px #000, 1px -1px 0px #000, -1px 1px 0px #000;
+  padding: clamp(6px, 1.2vw, 10px) clamp(10px, 1.8vw, 16px);
+  margin: 0;
+  border-radius: 0px; /* No rounded corners for 8-bit look */
+  border: 4px solid #654321;
+  /* 8-bit style box shadow */
+  box-shadow:
+    inset 2px 2px 0px #a0522d,
+    inset -2px -2px 0px #5d3a1a,
+    4px 4px 0px rgba(0, 0, 0, 0.5);
+  position: relative;
+  text-align: center;
+  line-height: 1.3;
+  transition: none; /* Remove smooth transitions for pixelated feel */
+  width: 100%;
+  max-width: min(600px, 70vw);
+  flex-shrink: 0;
+  height: auto;
+  min-height: 44px;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+  word-wrap: break-word;
+  hyphens: auto;
+  /* Add pixelated effect */
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+.header-info::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #d2691e;
+  box-shadow: none;
+}
+
+.header-info::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #654321;
+  box-shadow: none;
+}
+
+/* Normal brown wood banner (default styling) - 8-bit retro */
+.header-info.game-banner {
+  /* Normal brown wood banner uses default .header-info styling */
+  animation: movementPulse 2s ease-in-out infinite;
+}
+
+/* Red banner for blocked moves - 8-bit style */
+.header-info.banner-blocked {
+  background: #cc0000;
+  border-color: #990000;
+  color: #ffffff;
+  animation: blockedShake 0.5s ease-in-out;
+}
+
+.header-info.banner-blocked::before {
+  background: #ff6666;
+}
+
+.header-info.banner-blocked::after {
+  background: #660000;
+}
+
+/* Yellow banner for pearl collection - 8-bit style */
+.header-info.banner-pearl {
+  background: #ffcc00;
+  border-color: #cc9900;
+  color: #000000;
+  text-shadow: 1px 1px 0px #ffff00, -1px -1px 0px #ffff00, 1px -1px 0px #ffff00, -1px 1px 0px #ffff00;
+  /* animation: pearlSparkle 0.8s ease-in-out infinite; */
+}
+
+.header-info.banner-pearl::before {
+  background: #ffff00;
+}
+
+.header-info.banner-pearl::after {
+  background: #996600;
+}
+
+/* Green banner for correct tutorial moves - 8-bit style */
+.header-info.banner-correct {
+  background: #00cc00;
+  border-color: #009900;
+  color: #ffffff;
+  animation: correctBounce 0.6s ease-in-out;
+}
+
+.header-info.banner-correct::before {
+  background: #66ff66;
+}
+
+.header-info.banner-correct::after {
+  background: #006600;
+}
+
+/* Red/error banner for incorrect tutorial moves - 8-bit style */
+.header-info.banner-error {
+  background: #ff0000;
+  border-color: #cc0000;
+  color: #ffffff;
+  animation: errorGlitch 0.4s ease-in-out;
+}
+
+.header-info.banner-error::before {
+  background: #ff6666;
+}
+
+.header-info.banner-error::after {
+  background: #990000;
+}
+
+/* Special styling for movement messages */
+.header-info strong[style*="color: #ff6b6b"] {
+  background: none !important;
+  -webkit-background-clip: unset !important;
+  -webkit-text-fill-color: unset !important;
+  color: #ff6b6b !important;
+  font-weight: bold;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.header-info strong[style*="color: #e74c3c"] {
+  background: none !important;
+  -webkit-background-clip: unset !important;
+  -webkit-text-fill-color: unset !important;
+  color: #e74c3c !important;
+  font-weight: bold;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.header-info strong[style*="color: #4ecdc4"] {
+  background: none !important;
+  -webkit-background-clip: unset !important;
+  -webkit-text-fill-color: unset !important;
+  color: #4ecdc4 !important;
+  font-weight: bold;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.header-info strong[style*="color: #ffd700"] {
+  background: none !important;
+  -webkit-background-clip: unset !important;
+  -webkit-text-fill-color: unset !important;
+  color: #ffd700 !important;
+  font-weight: bold;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Header info strong elements styling - 8-bit retro */
+.header-info strong {
+  background: none;
+  color: inherit;
+  padding: 2px 6px;
+  border-radius: 0px;
+  font-size: 1.2rem;
+  font-family: "Courier New", monospace;
+  text-shadow: 1px 1px 0px #000, -1px -1px 0px #000, 1px -1px 0px #000, -1px 1px 0px #000;
+}

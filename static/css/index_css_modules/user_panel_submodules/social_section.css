@@ -1,0 +1,218 @@
+/* ===================================
+   SOCIAL SECTION SUBMODULE
+   =================================== */
+
+/* Social section - bottom right */
+.social-section {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 999;
+  max-width: 250px;
+}
+
+.sidebar-section {
+  background: transparent;
+  padding: 0.8rem 1.2rem;
+  border-radius: 25px;
+  text-align: center;
+}
+
+/* Social media icons */
+.social-icons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  align-items: center;
+}
+
+.social-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.social-icon-img {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+}
+
+.linkedin-icon {
+  background: linear-gradient(45deg, #0077b5, #005582);
+  color: white;
+}
+
+.linkedin-icon:hover {
+  background: linear-gradient(45deg, #005582, #004471);
+  transform: translateY(-3px) scale(1.1);
+}
+
+.github-icon {
+  background: linear-gradient(45deg, #333, #24292e);
+  color: white;
+}
+
+.github-icon:hover {
+  background: linear-gradient(45deg, #24292e, #1a1e22);
+  transform: translateY(-3px) scale(1.1);
+}
+
+.portfolio-icon {
+  background: linear-gradient(45deg, #9b59b6, #8e44ad);
+  color: white;
+}
+
+.portfolio-icon:hover {
+  background: linear-gradient(45deg, #8e44ad, #7d3c98);
+  transform: translateY(-3px) scale(1.1);
+}
+
+/* Developer credit styling */
+.developer-credit {
+  margin-top: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.credit-text {
+  color: #654321;
+  font-size: 0.85rem;
+  font-family: "Georgia", serif;
+  font-weight: 500;
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.7);
+  opacity: 0.9;
+}
+
+.copyright-text {
+  color: #654321;
+  font-size: 0.75rem;
+  font-family: "Georgia", serif;
+  font-weight: 400;
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.7);
+  opacity: 0.8;
+}
+
+/* Terms and Conditions button - Completely isolated from all button styling */
+.social-section .terms-link,
+button.terms-link,
+.terms-link {
+  /* Core styling - override all global button styles */
+  background: linear-gradient(45deg, #8B4513, #A0522D) !important;
+  color: white !important;
+  border: none !important;
+  padding: 0.3rem 0.6rem !important;
+  border-radius: 8px !important;
+  font-size: 0.7rem !important;
+  font-family: "Georgia", serif !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+  margin: 0.3rem 0 0 0 !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3) !important;
+  
+  /* Completely override global .btn class styles */
+  text-transform: none !important;
+  letter-spacing: normal !important;
+  width: auto !important;
+  min-width: auto !important;
+  max-width: none !important;
+  display: inline-block !important;
+  position: relative !important;
+  text-align: center !important;
+  
+  /* Override any 8-bit button inheritance */
+  transform: none !important;
+  text-decoration: none !important;
+  white-space: normal !important;
+  word-wrap: normal !important;
+  overflow-wrap: normal !important;
+  
+  /* Ensure no font override from Press Start 2P */
+  font-style: normal !important;
+  font-variant: normal !important;
+  line-height: normal !important;
+}
+
+.social-section .terms-link:hover,
+button.terms-link:hover,
+.terms-link:hover {
+  background: linear-gradient(45deg, #A0522D, #8B4513) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3) !important;
+}
+
+.social-section .terms-link:active,
+button.terms-link:active,
+.terms-link:active {
+  transform: translateY(0) !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Responsive adjustments for social section */
+@media (max-width: 768px) {
+  .social-section {
+    right: 10px;
+    bottom: 15px;
+    max-width: 220px;
+  }
+  
+  .sidebar-section {
+    padding: 0.6rem 1rem;
+  }
+  
+  .social-icon {
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 1.3rem;
+  }
+  
+  .credit-text {
+    font-size: 0.8rem;
+  }
+  
+  .copyright-text {
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .social-section {
+    right: 5px;
+    bottom: 10px;
+    max-width: 200px;
+  }
+  
+  .sidebar-section {
+    padding: 0.5rem 0.8rem;
+  }
+  
+  .social-icons {
+    gap: 0.8rem;
+  }
+  
+  .social-icon {
+    width: 35px;
+    height: 35px;
+    line-height: 35px;
+    font-size: 1.1rem;
+  }
+  
+  .credit-text {
+    font-size: 0.75rem;
+  }
+  
+  .copyright-text {
+    font-size: 0.65rem;
+  }
+}

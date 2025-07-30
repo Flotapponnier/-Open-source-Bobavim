@@ -1,0 +1,352 @@
+/* ===================================
+   USER SETTINGS MODAL SUBMODULE
+   =================================== */
+
+.settings-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.settings-modal.hidden {
+  display: none;
+}
+
+.settings-modal-content {
+  background: white;
+  border-radius: 15px;
+  max-width: 600px;
+  max-height: 90vh;
+  width: 90%;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.settings-header {
+  background: linear-gradient(45deg, #8B4513, #A0522D);
+  color: white;
+  padding: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.settings-header h3 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.close-btn {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: background 0.3s ease;
+}
+
+.close-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.settings-body {
+  padding: 2rem;
+  max-height: calc(90vh - 120px);
+  overflow-y: auto;
+}
+
+.settings-section {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #eee;
+}
+
+.settings-section:last-child {
+  border-bottom: none;
+}
+
+.settings-section h4 {
+  color: #8B4513;
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+
+.profile-info {
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+  padding: 1.5rem;
+  background: #f8f9fa;
+  border-radius: 12px;
+  border: 2px solid #e9ecef;
+}
+
+.avatar-display {
+  flex-shrink: 0;
+}
+
+.user-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 3px solid #8B4513;
+  object-fit: cover;
+}
+
+.profile-details {
+  flex: 1;
+  min-width: 0;
+}
+
+.profile-field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #dee2e6;
+}
+
+.profile-field label {
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: #6c757d;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.25rem;
+}
+
+.profile-value {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #495057;
+  word-break: break-word;
+}
+
+.settings-form .form-group {
+  margin-bottom: 1rem;
+}
+
+.settings-form label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Password input fields - ensure white background and clean styling */
+.settings-form input,
+.settings-form input[type="password"],
+.settings-form input[type="text"],
+.settings-form input[type="email"],
+#currentPassword,
+#newPassword,
+#confirmNewPassword,
+#userSettingsModal input,
+.settings-modal input {
+  width: 100% !important;
+  padding: 0.75rem !important;
+  border: 2px solid #ddd !important;
+  border-radius: 8px !important;
+  font-size: 1rem !important;
+  transition: border-color 0.3s ease !important;
+  box-sizing: border-box !important;
+  background: white !important;
+  color: #333 !important;
+  
+  /* Override any auth modal or global styling */
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  text-shadow: none !important;
+  box-shadow: none !important;
+  animation: none !important;
+  text-transform: none !important;
+  letter-spacing: normal !important;
+}
+
+.settings-form input:focus,
+.settings-form input[type="password"]:focus,
+.settings-form input[type="text"]:focus,
+.settings-form input[type="email"]:focus,
+#currentPassword:focus,
+#newPassword:focus,
+#confirmNewPassword:focus,
+#userSettingsModal input:focus,
+.settings-modal input:focus {
+  outline: none !important;
+  border-color: #8B4513 !important;
+  background: white !important;
+  color: #333 !important;
+  box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.1) !important;
+}
+
+.btn-update-password {
+  background: linear-gradient(45deg, #27ae60, #219a52);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.btn-update-password:hover {
+  background: linear-gradient(45deg, #219a52, #1e8449);
+  transform: translateY(-2px);
+}
+
+.btn-update-password:disabled {
+  background: #95a5a6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.status-message {
+  padding: 0.75rem;
+  border-radius: 6px;
+  margin-top: 1rem;
+  text-align: center;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.status-message.info {
+  background: #d6f3ff;
+  color: #0c5460;
+  border: 1px solid #bee5eb;
+}
+
+.status-message.success {
+  background: #c6f6d5;
+  color: #22543d;
+  border: 1px solid #9ae6b4;
+}
+
+.status-message.error {
+  background: #fed7d7;
+  color: #c53030;
+  border: 1px solid #feb2b2;
+}
+
+.danger-section {
+  background: #fff5f5;
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid #fed7d7;
+}
+
+.warning-text {
+  color: #c53030;
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+
+.btn.danger {
+  background: linear-gradient(45deg, #e53e3e, #c53030);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.btn.danger:hover {
+  background: linear-gradient(45deg, #c53030, #9c2626);
+  transform: translateY(-2px);
+}
+
+.btn.danger:disabled {
+  background: #cbd5e0;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+.btn.secondary {
+  background: linear-gradient(45deg, #3498db, #2980b9);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.btn.secondary:hover {
+  background: linear-gradient(45deg, #2980b9, #21618c);
+  transform: translateY(-2px);
+}
+
+
+/* Mobile responsiveness for settings modal */
+@media (max-width: 768px) {
+  .settings-modal-content {
+    width: 95%;
+    max-height: 95vh;
+  }
+  
+  .settings-body {
+    padding: 1.5rem;
+  }
+  
+  .profile-info {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+  
+  .profile-field {
+    flex-direction: column;
+    text-align: left;
+  }
+  
+  .profile-field label {
+    min-width: auto;
+    margin-bottom: 0.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .settings-header {
+    padding: 1rem;
+  }
+  
+  .settings-header h3 {
+    font-size: 1.2rem;
+  }
+  
+  .settings-body {
+    padding: 1rem;
+  }
+  
+  .user-avatar {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .modal-actions {
+    flex-direction: column;
+  }
+}

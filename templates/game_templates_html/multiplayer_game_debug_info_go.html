@@ -1,0 +1,65 @@
+{{define "multiplayer_game_debug_info"}}
+<div class="multiplayer-debug-info" id="multiplayer-debug-info" style="display: none;">
+  <div class="debug-header">
+    <h3>Multiplayer Debug Info</h3>
+    <button id="toggle-debug-btn" class="toggle-btn">Hide Debug</button>
+  </div>
+  
+  <div class="debug-content">
+    <div class="debug-section">
+      <h4>Connection Status</h4>
+      <div class="debug-item">
+        <span class="debug-label">Status:</span>
+        <div class="status-indicator" id="connection-status">
+          <span class="status-dot" id="status-dot"></span>
+          <span class="status-text" id="status-text">Connecting...</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="debug-section">
+      <h4>Game Info</h4>
+      <div class="debug-item">
+        <span class="debug-label">Match ID:</span>
+        <span class="debug-value" id="debug-match-id">{{.match_id}}</span>
+      </div>
+      <div class="debug-item">
+        <span class="debug-label">Game ID:</span>
+        <span class="debug-value" id="debug-game-id">Loading...</span>
+      </div>
+      <div class="debug-item">
+        <span class="debug-label">Map:</span>
+        <span class="debug-value" id="current-map-name">Loading...</span>
+      </div>
+    </div>
+    
+    <div class="debug-section">
+      <h4>Player Info</h4>
+      <div class="debug-item">
+        <span class="debug-label">Player 1:</span>
+        <span class="debug-value" id="debug-player1-pos">-</span>
+      </div>
+      <div class="debug-item">
+        <span class="debug-label">Player 2:</span>
+        <span class="debug-value" id="debug-player2-pos">-</span>
+      </div>
+      <div class="debug-item">
+        <span class="debug-label">Pearl:</span>
+        <span class="debug-value" id="debug-pearl-pos">-</span>
+      </div>
+    </div>
+    
+    <div class="debug-section">
+      <h4>Network</h4>
+      <div class="debug-item">
+        <span class="debug-label">WebSocket:</span>
+        <span class="debug-value" id="debug-websocket">-</span>
+      </div>
+      <div class="debug-item">
+        <span class="debug-label">Last Update:</span>
+        <span class="debug-value" id="debug-last-update">-</span>
+      </div>
+    </div>
+  </div>
+</div>
+{{end}}

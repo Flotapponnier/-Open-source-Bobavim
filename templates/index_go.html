@@ -1,0 +1,13 @@
+{{template "base_go.html" .}}
+
+{{define "content"}}
+{{template "home_banner" .}}
+{{template "tip_container" .}}
+{{template "character_selection" .}}
+{{template "auth_modal" .}}
+{{template "love_letter_modal" .}}
+{{end}} {{define "css"}}
+<link rel="stylesheet" href="/static/css/index.css?v=20250724" />
+{{end}} {{define "scripts"}}
+<script type="module" src="/static/js/index.js?v={{.cache_buster}}"></script>
+{{end}}

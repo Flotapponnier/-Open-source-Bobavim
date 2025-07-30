@@ -1,0 +1,416 @@
+/* ===================================
+   CORE GLOBAL STYLES MODULE
+   =================================== */
+
+/* CSS Custom Properties */
+:root {
+  /* Color Palette */
+  --gradient-sky: linear-gradient(180deg, #87ceeb 0%, #4682b4 30%, #6495ed 70%, #b0c4de 100%);
+  --gradient-button: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+  --gradient-button-hover: linear-gradient(45deg, #ff5252, #26a69a);
+  --gradient-primary: linear-gradient(45deg, #3498db, #2980b9);
+  
+  /* Typography */
+  --font-mono: "Monaco", "Courier New", monospace;
+  --font-mono-extended: "Monaco", "Consolas", "Courier New", monospace;
+  
+  /* Effects */
+  --wood-shadow: inset 3px 3px 6px rgba(255, 255, 255, 0.15),
+                 inset -3px -3px 6px rgba(0, 0, 0, 0.4),
+                 0 6px 12px rgba(0, 0, 0, 0.3);
+  --border-wood: 3px solid #654321;
+  --banner-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  
+  /* Container */
+  --container-bg: rgba(255, 255, 255, 0.95);
+  --backdrop-blur: blur(10px);
+  
+  /* Breakpoints */
+  --mobile-breakpoint: 768px;
+  --small-mobile: 480px;
+}
+
+/* CSS Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Base Layout */
+body {
+  font-family: var(--font-mono);
+  background: var(--gradient-sky);
+  position: relative;
+}
+
+body:not(.game-page) {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Container */
+.container {
+  text-align: center;
+  background: var(--container-bg);
+  padding: 2rem 2rem;
+  border-radius: 15px;
+  box-shadow: var(--banner-shadow);
+  backdrop-filter: var(--backdrop-blur);
+  max-width: 500px;
+  width: 95%;
+  position: relative;
+  z-index: 10;
+}
+
+/* Typography */
+h1 {
+  color: #333;
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Buttons */
+.btn {
+  background: var(--gradient-button);
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  font-family: inherit;
+  font-weight: bold;
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0.5rem;
+  display: inline-block;
+}
+
+.btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3);
+  background: var(--gradient-button-hover);
+}
+
+.btn:active {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Utility classes removed - not used in current HTML */
+
+/* Terms Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Terms modal - completely isolated from 8-bit auth modal styling */
+.terms-modal,
+.modal-content.terms-modal,
+#termsModal .modal-content {
+  background: linear-gradient(135deg, #ffffff, #f8f9fa) !important;
+  border-radius: 15px !important;
+  padding: 0 !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3) !important;
+  border: 2px solid #8B4513 !important;
+  max-width: 700px !important;
+  max-height: 80vh !important;
+  width: 90% !important;
+  overflow: hidden !important;
+  
+  /* Override 8-bit auth modal styles completely */
+  animation: none !important;
+  font-family: "Georgia", serif !important;
+}
+
+/* Remove all auth modal pseudo-elements and animations from terms modal */
+.terms-modal::before,
+.modal-content.terms-modal::before,
+#termsModal .modal-content::before {
+  display: none !important;
+  content: none !important;
+  animation: none !important;
+}
+
+.terms-modal::after,
+.modal-content.terms-modal::after,
+#termsModal .modal-content::after {
+  display: none !important;
+  content: none !important;
+  animation: none !important;
+}
+
+/* Fix all text colors in terms modal */
+.terms-modal p,
+.terms-modal h1,
+.terms-modal h2,
+.terms-modal h3,
+.terms-modal h4,
+.terms-modal h5,
+.terms-modal h6,
+.terms-modal li,
+.terms-modal span,
+.terms-modal div,
+#termsModal p,
+#termsModal h1,
+#termsModal h2,
+#termsModal h3,
+#termsModal h4,
+#termsModal h5,
+#termsModal h6,
+#termsModal li,
+#termsModal span,
+#termsModal div {
+  color: #333 !important;
+  text-shadow: none !important;
+  background: none !important;
+  animation: none !important;
+  font-family: "Georgia", serif !important;
+}
+
+/* Modal header - protected from 8-bit styling for terms modal */
+.terms-modal .modal-header,
+#termsModal .modal-header,
+.modal-header {
+  background: linear-gradient(45deg, #8B4513, #A0522D) !important;
+  color: white !important;
+  padding: 1.5rem 2rem !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  border-bottom: 2px solid #654321 !important;
+  
+  /* Override any 8-bit auth modal styling */
+  border-top: none !important;
+  border-left: none !important;
+  border-right: none !important;
+  animation: none !important;
+  font-family: "Georgia", serif !important;
+}
+
+.terms-modal .modal-header h2,
+#termsModal .modal-header h2,
+.modal-header h2 {
+  margin: 0 !important;
+  font-size: 1.5rem !important;
+  font-family: var(--font-mono) !important;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3) !important;
+  color: white !important;
+  
+  /* Override any 8-bit styling */
+  background: none !important;
+  border: none !important;
+  animation: none !important;
+}
+
+.terms-modal .close-button,
+#termsModal .close-button,
+.close-button {
+  background: none !important;
+  border: none !important;
+  color: white !important;
+  font-size: 2rem !important;
+  cursor: pointer !important;
+  padding: 0 !important;
+  width: 40px !important;
+  height: 40px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 50% !important;
+  transition: all 0.3s ease !important;
+  
+  /* Override any 8-bit button styling */
+  font-family: inherit !important;
+  text-transform: none !important;
+  letter-spacing: normal !important;
+  box-shadow: none !important;
+  animation: none !important;
+}
+
+.terms-modal .close-button:hover,
+#termsModal .close-button:hover,
+.close-button:hover {
+  background: rgba(255, 255, 255, 0.2) !important;
+  transform: scale(1.1) !important;
+}
+
+.modal-body {
+  padding: 2rem;
+  overflow-y: auto;
+  max-height: calc(80vh - 100px);
+}
+
+.terms-content,
+#termsModal .terms-content,
+.terms-modal .terms-content {
+  font-family: "Georgia", serif !important;
+  line-height: 1.6 !important;
+  color: #333 !important;
+  background: none !important;
+  text-shadow: none !important;
+  animation: none !important;
+}
+
+.terms-section,
+#termsModal .terms-section,
+.terms-modal .terms-section {
+  margin-bottom: 1.5rem !important;
+  background: none !important;
+  animation: none !important;
+}
+
+.terms-section h3,
+#termsModal .terms-section h3,
+.terms-modal .terms-section h3 {
+  color: #8B4513 !important;
+  font-size: 1.1rem !important;
+  margin-bottom: 0.5rem !important;
+  font-family: var(--font-mono) !important;
+  background: none !important;
+  text-shadow: none !important;
+  animation: none !important;
+  border: none !important;
+}
+
+.terms-section p,
+#termsModal .terms-section p,
+.terms-modal .terms-section p {
+  margin-bottom: 0.8rem !important;
+  font-size: 0.9rem !important;
+  color: #333 !important;
+  background: none !important;
+  text-shadow: none !important;
+  animation: none !important;
+}
+
+.terms-section ul,
+#termsModal .terms-section ul,
+.terms-modal .terms-section ul {
+  margin-left: 1.5rem !important;
+  margin-bottom: 0.8rem !important;
+  color: #333 !important;
+  background: none !important;
+}
+
+.terms-section li,
+#termsModal .terms-section li,
+.terms-modal .terms-section li {
+  margin-bottom: 0.3rem !important;
+  font-size: 0.9rem !important;
+  color: #333 !important;
+  background: none !important;
+  text-shadow: none !important;
+  animation: none !important;
+}
+
+.terms-footer,
+#termsModal .terms-footer,
+.terms-modal .terms-footer {
+  border-top: 1px solid #ddd !important;
+  padding-top: 1rem !important;
+  margin-top: 2rem !important;
+  text-align: center !important;
+  font-size: 0.8rem !important;
+  color: #666 !important;
+  background: none !important;
+  text-shadow: none !important;
+  animation: none !important;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .hide-mobile { 
+    display: none; 
+  }
+  
+  .hide-desktop { 
+    display: block; 
+  }
+  
+  .terms-modal {
+    width: 95%;
+    max-height: 85vh;
+  }
+  
+  .modal-header {
+    padding: 1rem 1.5rem;
+  }
+  
+  .modal-header h2 {
+    font-size: 1.3rem;
+  }
+  
+  .modal-body {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 2rem;
+  }
+
+  .container {
+    padding: 1.5rem 1rem;
+    max-width: 95%;
+  }
+
+  .btn {
+    font-size: 1rem;
+    padding: 0.8rem 1.5rem;
+  }
+  
+  .terms-modal {
+    width: 98%;
+    max-height: 90vh;
+  }
+  
+  .modal-header {
+    padding: 0.8rem 1rem;
+  }
+  
+  .modal-header h2 {
+    font-size: 1.1rem;
+  }
+  
+  .modal-body {
+    padding: 1rem;
+  }
+  
+  .terms-section h3 {
+    font-size: 1rem;
+  }
+  
+  .terms-section p,
+  .terms-section li {
+    font-size: 0.85rem;
+  }
+}

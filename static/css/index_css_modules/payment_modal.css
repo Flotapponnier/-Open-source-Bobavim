@@ -1,0 +1,920 @@
+/* Payment Modal Styles */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+.payment-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, rgba(0, 0, 0, 0.9) 0%, rgba(16, 16, 64, 0.9) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+}
+
+.payment-modal.hidden {
+  display: none;
+}
+
+.payment-modal-content {
+  background: linear-gradient(145deg, #2a1810, #1a1810);
+  border: 4px solid #ff6b35;
+  border-radius: 0;
+  box-shadow: 
+    0 0 20px #ff6b35,
+    inset 0 0 20px rgba(255, 107, 53, 0.1),
+    8px 8px 0 #000000;
+  max-width: 600px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  font-family: 'Press Start 2P', monospace;
+  image-rendering: pixelated;
+}
+
+.payment-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background: linear-gradient(90deg, #ff6b35, #e55100);
+  border-bottom: 4px solid #000;
+  position: relative;
+}
+
+.payment-modal-header::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.1) 2px,
+    rgba(0, 0, 0, 0.1) 4px
+  );
+  pointer-events: none;
+}
+
+.payment-modal-header h2 {
+  margin: 0;
+  font-size: 16px;
+  color: #fff;
+  text-shadow: 2px 2px 0 #000;
+  letter-spacing: 2px;
+}
+
+.close-payment-modal {
+  background: #000;
+  border: 2px solid #fff;
+  font-size: 16px;
+  cursor: pointer;
+  color: #fff;
+  padding: 8px;
+  font-family: 'Press Start 2P', monospace;
+  min-width: 40px;
+  min-height: 40px;
+  transition: all 0.1s;
+}
+
+.close-payment-modal:hover {
+  background: #fff;
+  color: #000;
+  transform: translate(-2px, -2px);
+  box-shadow: 2px 2px 0 #ff6b35;
+}
+
+.close-payment-modal:active {
+  transform: translate(0, 0);
+  box-shadow: none;
+}
+
+.payment-modal-body {
+  padding: 20px;
+  background: linear-gradient(145deg, #1a1810, #2a1810);
+}
+
+.character-preview {
+  text-align: center;
+  margin-bottom: 30px;
+  padding: 20px;
+  background: linear-gradient(145deg, #003366, #004488);
+  border: 4px solid #00ffff;
+  position: relative;
+  overflow: hidden;
+}
+
+
+.character-icon {
+  margin-bottom: 16px;
+  position: relative;
+}
+
+.diamond-avatar {
+  width: 120px;
+  height: 120px;
+  image-rendering: pixelated;
+  border: 4px solid #fff;
+  background: linear-gradient(45deg, #00ffff, #ff00ff);
+  padding: 8px;
+  box-shadow: 0 0 20px #00ffff;
+}
+
+.character-preview h3 {
+  margin: 16px 0 12px;
+  font-size: 18px;
+  color: #fff;
+  text-shadow: 2px 2px 0 #000;
+  letter-spacing: 2px;
+}
+
+.pixel-text {
+  margin: 12px 0;
+  font-size: 10px;
+  color: #00ffff;
+  text-shadow: 1px 1px 0 #000;
+  line-height: 1.6;
+  letter-spacing: 1px;
+}
+
+.retro-stats {
+  margin-top: 16px;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.stat-item {
+  background: rgba(0, 0, 0, 0.7);
+  border: 2px solid #fff;
+  padding: 8px 12px;
+  min-width: 120px;
+}
+
+.stat-label {
+  display: block;
+  font-size: 8px;
+  color: #ff6b35;
+  margin-bottom: 4px;
+}
+
+.stat-value {
+  display: block;
+  font-size: 10px;
+  color: #fff;
+  text-shadow: 1px 1px 0 #000;
+}
+
+.payment-amount-section {
+  margin-bottom: 30px;
+  background: rgba(0, 0, 0, 0.5);
+  border: 2px solid #fff;
+  padding: 20px;
+}
+
+.payment-amount-section label {
+  display: block;
+  margin-bottom: 12px;
+  font-size: 10px;
+  color: #fff;
+  text-shadow: 1px 1px 0 #000;
+  letter-spacing: 1px;
+}
+
+.amount-input-container {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.amount-input-container input {
+  width: 100%;
+  padding: 12px 50px 12px 16px;
+  border: 4px solid #fff;
+  background: #000;
+  color: #00ff00;
+  font-size: 16px;
+  font-family: 'Press Start 2P', monospace;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.amount-input-container input:focus {
+  outline: none;
+  border-color: #ff6b35;
+  box-shadow: 0 0 20px #ff6b35;
+}
+
+
+.currency-symbol {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  font-family: 'Press Start 2P', monospace;
+  color: #fff;
+  text-shadow: 1px 1px 0 #000;
+}
+
+.level-display {
+  background: linear-gradient(145deg, #000, #333);
+  padding: 16px;
+  border: 4px solid #00ff00;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.level-display #character-level {
+  font-size: 14px;
+  color: #00ff00;
+  display: block;
+  margin-bottom: 8px;
+  text-shadow: 1px 1px 0 #000;
+}
+
+.level-display .level-description {
+  font-size: 8px;
+  color: #fff;
+  line-height: 1.4;
+}
+
+.support-message-section {
+  margin-bottom: 30px;
+  background: rgba(0, 0, 0, 0.5);
+  border: 2px solid #fff;
+  padding: 20px;
+}
+
+.support-message-section label {
+  display: block;
+  margin-bottom: 12px;
+  font-size: 10px;
+  color: #fff;
+  text-shadow: 1px 1px 0 #000;
+  letter-spacing: 1px;
+}
+
+.support-message-section textarea {
+  width: 100%;
+  padding: 12px;
+  border: 4px solid #fff;
+  background: #000;
+  color: #00ff00;
+  font-size: 10px;
+  font-family: 'Press Start 2P', monospace;
+  resize: vertical;
+  min-height: 80px;
+  box-sizing: border-box;
+}
+
+.support-message-section textarea:focus {
+  outline: none;
+  border-color: #ff6b35;
+  box-shadow: 0 0 20px #ff6b35;
+}
+
+.payment-form {
+  background: rgba(0, 0, 0, 0.7);
+  border: 4px solid #fff;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.form-row {
+  margin-bottom: 16px;
+}
+
+.form-row label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 10px;
+  color: #fff;
+  text-shadow: 1px 1px 0 #000;
+}
+
+.StripeElement {
+  background: #000;
+  border: 4px solid #fff;
+  padding: 12px;
+  color: #00ff00;
+  font-family: 'Press Start 2P', monospace;
+}
+
+.StripeElement:focus {
+  border-color: #ff6b35;
+  box-shadow: 0 0 20px #ff6b35;
+}
+
+#card-errors {
+  background: linear-gradient(145deg, #ff3333, #cc0000);
+  border: 2px solid #fff;
+  padding: 12px 16px;
+  margin: 12px 0;
+  color: #fff;
+  font-size: 10px;
+  font-family: 'Press Start 2P', monospace;
+  text-shadow: 1px 1px 0 #000;
+  text-align: center;
+  display: none;
+  animation: errorShake 0.5s ease-in-out;
+}
+
+#card-errors:not(:empty) {
+  display: block;
+}
+
+.payment-button {
+  width: 100%;
+  padding: 0;
+  background: linear-gradient(145deg, #ff6b35, #e55100);
+  border: 4px solid #fff;
+  color: #fff;
+  font-family: 'Press Start 2P', monospace;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.payment-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+  transition: left 0.5s;
+  z-index: 1;
+}
+
+.payment-button:hover::before {
+  left: 100%;
+}
+
+.payment-button:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 
+    6px 6px 0 #000, 
+    0 0 30px #ff6b35,
+    inset 0 0 20px rgba(255, 255, 255, 0.2);
+  background: linear-gradient(145deg, #ff8b55, #ff6b35);
+}
+
+.payment-button:active {
+  transform: translate(-1px, -1px);
+  box-shadow: 2px 2px 0 #000;
+}
+
+.payment-button:disabled {
+  background: linear-gradient(145deg, #666, #555);
+  cursor: not-allowed;
+  opacity: 0.6;
+  color: #ccc;
+}
+
+.payment-button:disabled:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.button-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  position: relative;
+  z-index: 2;
+  padding: 20px;
+  width: 100%;
+}
+
+.button-icon {
+  font-size: 20px;
+  filter: grayscale(1) contrast(2);
+}
+
+.button-text {
+  font-size: 14px;
+  font-weight: bold;
+  text-shadow: 2px 2px 0 #000;
+  letter-spacing: 2px;
+  color: #fff;
+}
+
+.payment-spinner {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+  z-index: 2;
+  padding: 20px;
+}
+
+.payment-spinner.show {
+  display: flex;
+}
+
+.payment-spinner .spinner {
+  width: 30px;
+  height: 30px;
+  border: 4px solid #333;
+  border-top: 4px solid #000;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.payment-spinner .processing-text {
+  font-size: 10px;
+  color: #fff;
+  text-shadow: 1px 1px 0 #000;
+  letter-spacing: 1px;
+}
+
+.payment-messages {
+  margin-bottom: 20px;
+}
+
+.payment-error {
+  background: linear-gradient(145deg, #ff3333, #cc0000);
+  border: 4px solid #fff;
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.payment-error.hidden,
+.payment-success.hidden {
+  display: none;
+}
+
+.payment-error.show {
+  display: block;
+}
+
+
+.error-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px 20px;
+  background: rgba(0, 0, 0, 0.3);
+  border-bottom: 2px solid #fff;
+}
+
+.error-icon {
+  font-size: 20px;
+  color: #fff;
+  text-shadow: 2px 2px 0 #000;
+}
+
+
+.error-title {
+  font-size: 14px;
+  color: #fff;
+  font-weight: bold;
+  text-shadow: 2px 2px 0 #000;
+  letter-spacing: 2px;
+}
+
+.error-content {
+  padding: 16px 20px 20px;
+  text-align: center;
+}
+
+.error-text {
+  font-size: 10px;
+  color: #fff;
+  text-shadow: 1px 1px 0 #000;
+  margin: 0 0 16px 0;
+  line-height: 1.4;
+}
+
+.retry-button {
+  background: linear-gradient(145deg, #fff, #ccc);
+  border: 2px solid #000;
+  color: #000;
+  font-size: 10px;
+  font-family: 'Press Start 2P', monospace;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-shadow: none;
+  letter-spacing: 1px;
+}
+
+.retry-button:hover {
+  background: linear-gradient(145deg, #ccc, #999);
+  transform: translate(-1px, -1px);
+  box-shadow: 2px 2px 0 #000;
+}
+
+.retry-button:active {
+  transform: translate(0, 0);
+  box-shadow: 1px 1px 0 #000;
+}
+
+.payment-success {
+  background: linear-gradient(145deg, #00ff00, #00cc00);
+  border: 4px solid #fff;
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.payment-success.show {
+  display: block;
+  animation: successCelebration 1s ease-in-out;
+}
+
+@keyframes successCelebration {
+  0% { 
+    transform: scale(0.8) rotate(-5deg);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.1) rotate(2deg);
+  }
+  100% { 
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+.success-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px 20px;
+  background: rgba(0, 0, 0, 0.2);
+  border-bottom: 2px solid #fff;
+}
+
+.success-icon {
+  font-size: 24px;
+  color: #000;
+  text-shadow: 2px 2px 0 #fff;
+  animation: successPulse 1s ease-in-out infinite;
+}
+
+@keyframes successPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+.success-title {
+  font-size: 14px;
+  color: #000;
+  font-weight: bold;
+  text-shadow: 2px 2px 0 #fff;
+  letter-spacing: 2px;
+}
+
+.success-content {
+  padding: 16px 20px 20px;
+  text-align: center;
+}
+
+.success-text {
+  font-size: 10px;
+  color: #000;
+  text-shadow: 1px 1px 0 #fff;
+  margin: 0;
+  line-height: 1.4;
+  font-weight: bold;
+}
+
+.processing-indicator {
+  display: none;
+  text-align: center;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.7);
+  border: 4px solid #00ff00;
+  margin-bottom: 20px;
+}
+
+.processing-indicator.show {
+  display: block;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #333;
+  border-top: 4px solid #00ff00;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 12px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.processing-text {
+  font-size: 10px;
+  color: #00ff00;
+  text-shadow: 1px 1px 0 #000;
+}
+
+.success-notification {
+  display: none;
+  background: linear-gradient(145deg, #00ff00, #00cc00);
+  border: 4px solid #fff;
+  padding: 20px;
+  text-align: center;
+  color: #000;
+  margin-bottom: 20px;
+}
+
+.success-notification.show {
+  display: block;
+  animation: successPulse 0.5s ease-in-out;
+}
+
+@keyframes successPulse {
+  0% { transform: scale(0.8); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.success-notification h3 {
+  margin: 0 0 12px;
+  font-size: 14px;
+  text-shadow: 1px 1px 0 #fff;
+}
+
+.success-notification p {
+  margin: 0;
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+.error-message {
+  background: linear-gradient(145deg, #ff0000, #cc0000);
+  border: 4px solid #fff;
+  padding: 16px;
+  color: #fff;
+  font-size: 10px;
+  text-shadow: 1px 1px 0 #000;
+  margin-top: 16px;
+  text-align: center;
+  display: none;
+}
+
+.error-message.show {
+  display: block;
+  animation: errorShake 0.5s ease-in-out;
+}
+
+@keyframes errorShake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+.payment-info {
+  background: linear-gradient(145deg, #001a1a, #003333);
+  border: 4px solid #00ff00;
+  padding: 20px;
+  margin-top: 20px;
+  position: relative;
+}
+
+.payment-info::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 10px,
+    rgba(0, 255, 0, 0.05) 10px,
+    rgba(0, 255, 0, 0.05) 12px
+  );
+  pointer-events: none;
+}
+
+.security-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(145deg, #00ff00, #00cc00);
+  border: 2px solid #fff;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  gap: 12px;
+  position: relative;
+  overflow: hidden;
+}
+
+.security-badge::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+  animation: securityShine 3s infinite;
+}
+
+@keyframes securityShine {
+  0% { left: -100%; }
+  50% { left: -100%; }
+  100% { left: 100%; }
+}
+
+.security-icon {
+  font-size: 12px;
+  color: #000;
+  font-weight: bold;
+  text-shadow: 1px 1px 0 #fff;
+  padding: 4px 8px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid #000;
+}
+
+.security-text {
+  font-size: 10px;
+  color: #000;
+  font-weight: bold;
+  text-shadow: 1px 1px 0 #fff;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  padding: 8px 12px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid #00ff00;
+}
+
+.info-item:last-child {
+  margin-bottom: 0;
+}
+
+.info-label {
+  font-size: 9px;
+  color: #00ff00;
+  font-weight: bold;
+  min-width: 80px;
+  text-shadow: 1px 1px 0 #000;
+}
+
+.info-text {
+  font-size: 9px;
+  color: #fff;
+  text-shadow: 1px 1px 0 #000;
+  text-align: right;
+  flex: 1;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .payment-modal-content {
+    width: 95%;
+    margin: 10px;
+  }
+  
+  .payment-modal-header h2 {
+    font-size: 12px;
+  }
+  
+  .character-preview h3 {
+    font-size: 14px;
+  }
+  
+  .diamond-avatar {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .retro-stats {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .stat-item {
+    min-width: 100px;
+  }
+  
+  .security-badge {
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px;
+  }
+  
+  .info-item {
+    flex-direction: column;
+    text-align: center;
+    gap: 4px;
+  }
+  
+  .info-label {
+    min-width: auto;
+  }
+  
+  .info-text {
+    text-align: center;
+  }
+  
+  .button-content {
+    gap: 8px;
+    padding: 16px;
+  }
+  
+  .button-text {
+    font-size: 12px;
+  }
+  
+  .error-header,
+  .success-header {
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .payment-modal-body {
+    padding: 15px;
+  }
+  
+  .payment-modal-header {
+    padding: 15px;
+  }
+  
+  .payment-modal-header h2 {
+    font-size: 10px;
+  }
+  
+  .character-preview h3 {
+    font-size: 12px;
+  }
+  
+  .diamond-avatar {
+    width: 60px;
+    height: 60px;
+  }
+}
+
+/* Payment Success Banner */
+.payment-success-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+  color: white;
+  z-index: 20000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  animation: slideDown 0.5s ease-out;
+}
+
+.success-banner-content {
+  text-align: center;
+  padding: 16px 20px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 12px;
+  font-weight: bold;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  letter-spacing: 1px;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .success-banner-content {
+    font-size: 10px;
+    padding: 12px 16px;
+  }
+}

@@ -1,0 +1,21 @@
+{{define "game_debug_info"}}
+<div class="game-info" id="mapDisplay" style="display: none">
+  <div class="debug-info">
+    <h3>Game Map</h3>
+    <p>
+      Map Legend: 0=Empty, 1=Boba player 2= Boba stop 3=Pearl 4= Boba mold|
+      Press - to toggle
+    </p>
+    <div class="map-display" id="mapGrid">
+      {{range $row := .game_map}}
+      <div class="map-row">
+        {{range $value := $row}}
+        <span class="map-cell map-{{$value}}">{{$value}}</span>
+        {{end}}
+      </div>
+      {{end}}
+    </div>
+  </div>
+</div>
+{{end}}
+

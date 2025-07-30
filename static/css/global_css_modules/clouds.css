@@ -1,0 +1,171 @@
+/* ===================================
+   CLOUD ANIMATION SYSTEM MODULE
+   =================================== */
+
+.clouds-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.cloud {
+  position: absolute;
+  opacity: 0.6;
+  animation: float-cloud linear infinite;
+  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.1));
+  will-change: transform;
+}
+
+/* Different cloud sizes */
+.cloud-small {
+  width: 60px;
+  height: auto;
+}
+
+.cloud-medium {
+  width: 100px;
+  height: auto;
+}
+
+.cloud-large {
+  width: 140px;
+  height: auto;
+}
+
+/* Cloud floating animation - right to left */
+@keyframes float-cloud {
+  from {
+    transform: translateX(calc(100vw + 200px));
+  }
+  to {
+    transform: translateX(-200px);
+  }
+}
+
+/* Individual cloud animations with different speeds */
+.cloud-1 {
+  animation-duration: 45s;
+  top: 15%;
+}
+.cloud-2 {
+  animation-duration: 60s;
+  top: 25%;
+}
+.cloud-3 {
+  animation-duration: 50s;
+  top: 35%;
+}
+.cloud-4 {
+  animation-duration: 65s;
+  top: 45%;
+}
+.cloud-5 {
+  animation-duration: 40s;
+  top: 55%;
+}
+.cloud-6 {
+  animation-duration: 55s;
+  top: 65%;
+}
+.cloud-7 {
+  animation-duration: 70s;
+  top: 75%;
+}
+.cloud-8 {
+  animation-duration: 48s;
+  top: 85%;
+}
+.cloud-9 {
+  animation-duration: 58s;
+  top: 10%;
+}
+.cloud-10 {
+  animation-duration: 42s;
+  top: 20%;
+}
+.cloud-11 {
+  animation-duration: 62s;
+  top: 30%;
+}
+.cloud-12 {
+  animation-duration: 52s;
+  top: 40%;
+}
+
+/* Stagger the clouds so they don't all start together */
+.cloud:nth-child(1) {
+  animation-delay: 0s;
+}
+.cloud:nth-child(2) {
+  animation-delay: -10s;
+}
+.cloud:nth-child(3) {
+  animation-delay: -20s;
+}
+.cloud:nth-child(4) {
+  animation-delay: -30s;
+}
+.cloud:nth-child(5) {
+  animation-delay: -5s;
+}
+.cloud:nth-child(6) {
+  animation-delay: -15s;
+}
+.cloud:nth-child(7) {
+  animation-delay: -25s;
+}
+.cloud:nth-child(8) {
+  animation-delay: -35s;
+}
+.cloud:nth-child(9) {
+  animation-delay: -12s;
+}
+.cloud:nth-child(10) {
+  animation-delay: -22s;
+}
+.cloud:nth-child(11) {
+  animation-delay: -8s;
+}
+.cloud:nth-child(12) {
+  animation-delay: -18s;
+}
+
+/* Responsive cloud adjustments */
+@media (max-width: 768px) {
+  .cloud-small {
+    width: 40px;
+  }
+  .cloud-medium {
+    width: 70px;
+  }
+  .cloud-large {
+    width: 100px;
+  }
+
+  /* Reduce number of clouds on mobile */
+  .cloud:nth-child(n + 9) {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .cloud-small {
+    width: 30px;
+  }
+  .cloud-medium {
+    width: 50px;
+  }
+  .cloud-large {
+    width: 70px;
+  }
+
+  /* Even fewer clouds on small screens */
+  .cloud:nth-child(n + 7) {
+    display: none;
+  }
+}

@@ -1,0 +1,26 @@
+User-agent: *
+Allow: /
+
+# Important pages for search engines
+Allow: /static/css/
+Allow: /static/js/
+Allow: /static/sprites/
+
+# Block admin and private areas
+Disallow: /admin/
+Disallow: /api/auth/
+Disallow: /api/admin/
+
+# Allow game pages
+Allow: /game/*
+Allow: /multiplayer/*
+
+# Block temporary files
+Disallow: /*.tmp$
+Disallow: /*.temp$
+
+# Sitemap location
+Sitemap: https://www.bobavim.com/sitemap.xml
+
+# Crawl-delay for respectful crawling
+Crawl-delay: 1

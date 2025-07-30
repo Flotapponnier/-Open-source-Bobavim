@@ -1,0 +1,634 @@
+/* Retro 70s Vim Manual Book Styles */
+@import url('https://fonts.googleapis.com/css2?family=Righteous&family=Orbitron:wght@400;700;900&display=swap');
+
+/* === INSTRUCTIONS BOOK BASE STYLES === */
+.instructions-book {
+  position: fixed;
+  z-index: 999;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  /* Position will be set by vim_manual_positions.css */
+}
+
+.instructions-book img {
+  width: 70px;
+  height: 80px;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+  transition: all 0.3s ease;
+}
+
+.instructions-book:hover img {
+  transform: translateY(-3px) scale(1.1);
+  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.3));
+}
+
+/* === RETRO 70S BOOK MODAL === */
+.vim-manual-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(161, 227, 193, 0.3), rgba(224, 189, 225, 0.3));
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  animation: modalFadeIn 0.5s ease;
+}
+
+.vim-manual-modal.hidden {
+  display: none;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+  }
+  to {
+    opacity: 1;
+    backdrop-filter: blur(8px);
+  }
+}
+
+/* === RETRO BOOK CONTAINER === */
+.retro-book-container {
+  perspective: 1000px;
+  animation: bookSlideIn 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+@keyframes bookSlideIn {
+  from {
+    transform: rotateY(-30deg) translateX(-100px);
+    opacity: 0;
+  }
+  to {
+    transform: rotateY(0deg) translateX(0px);
+    opacity: 1;
+  }
+}
+
+/* === BOOK COVER === */
+.book-cover {
+  position: relative;
+  width: 450px;
+  height: 600px;
+  background: linear-gradient(135deg, #a1e3c1, #e0bde1);
+  border-radius: 12px 4px 4px 12px;
+  box-shadow: 
+    0 0 30px rgba(161, 227, 193, 0.6),
+    inset 0 0 30px rgba(255, 255, 255, 0.3);
+  transform-style: preserve-3d;
+  transition: transform 0.6s ease;
+  border: 3px solid #8b6c8c;
+}
+
+.book-cover:hover {
+  transform: rotateY(-15deg);
+}
+
+.book-spine {
+  position: absolute;
+  left: -8px;
+  top: 0;
+  width: 8px;
+  height: 100%;
+  background: linear-gradient(180deg, #7db89e, #b89ab8);
+  border-radius: 12px 0 0 12px;
+  box-shadow: inset 2px 0 4px rgba(0, 0, 0, 0.3);
+}
+
+.book-front {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.4) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.3) 0%, transparent 50%),
+    linear-gradient(135deg, #a1e3c1, #e0bde1);
+  border-radius: 8px;
+}
+
+.book-title {
+  text-align: center;
+  padding: 2rem;
+  color: #2c1810;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.book-title h1 {
+  font-family: 'Righteous', cursive;
+  font-size: 2.5rem;
+  margin: 0 0 1rem 0;
+  letter-spacing: 3px;
+  text-shadow: 
+    3px 3px 0px #8b6c8c,
+    6px 6px 10px rgba(0, 0, 0, 0.3);
+}
+
+.book-title h2 {
+  font-family: 'Orbitron', monospace;
+  font-size: 1.2rem;
+  margin: 0 0 1rem 0;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.book-subtitle {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.9rem;
+  font-weight: 400;
+  font-style: italic;
+  opacity: 0.8;
+}
+
+/* === BOOK CONTENT === */
+.book-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 450px;
+  height: 600px;
+  background: linear-gradient(135deg, #f0f8f5, #f8f0f8);
+  border-radius: 8px;
+  overflow: hidden;
+  transform: translateX(100%);
+  transition: transform 0.6s ease;
+  box-shadow: 
+    -5px 0 15px rgba(0, 0, 0, 0.2),
+    inset 0 0 20px rgba(161, 227, 193, 0.1);
+  border: 2px solid #d1c4e0;
+}
+
+.book-content.open {
+  transform: translateX(20px);
+}
+
+/* === CLOSE BUTTON === */
+.retro-close-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+  color: white;
+  border: none;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+  z-index: 100;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(255, 107, 107, 0.3);
+}
+
+.retro-close-btn:hover {
+  transform: scale(1.1) rotate(90deg);
+  box-shadow: 0 6px 12px rgba(255, 107, 107, 0.5);
+}
+
+/* === BOOK PAGES === */
+.book-page {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 2rem;
+  opacity: 0;
+  transform: translateX(100%);
+  transition: all 0.5s ease;
+  overflow-y: auto;
+  background: 
+    radial-gradient(circle at 10% 20%, rgba(161, 227, 193, 0.1) 0%, transparent 20%),
+    radial-gradient(circle at 90% 80%, rgba(224, 189, 225, 0.1) 0%, transparent 20%);
+}
+
+.book-page.active {
+  opacity: 1;
+  transform: translateX(0%);
+}
+
+.book-page.hidden {
+  opacity: 0;
+  transform: translateX(-100%);
+}
+
+/* === PAGE HEADERS === */
+.page-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 3px groove #a1e3c1;
+}
+
+.page-header h2 {
+  font-family: 'Righteous', cursive;
+  font-size: 1.6rem;
+  color: #2c1810;
+  margin: 0;
+  text-shadow: 2px 2px 4px rgba(161, 227, 193, 0.5);
+  letter-spacing: 1px;
+}
+
+/* === PAGE 1: BEACH WELCOME === */
+.beach-image-container {
+  text-align: center;
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background: radial-gradient(circle, rgba(161, 227, 193, 0.2), transparent);
+  border-radius: 20px;
+}
+
+.beach-image {
+  width: 150px;
+  height: auto;
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.beach-image:hover {
+  transform: scale(1.05) rotate(2deg);
+}
+
+.teaser-text {
+  text-align: center;
+  margin: 1.5rem 0;
+  font-family: 'Orbitron', monospace;
+  line-height: 1.6;
+}
+
+.teaser-text p {
+  margin: 0.8rem 0;
+  color: #2c1810;
+  font-size: 1.1rem;
+  text-shadow: 1px 1px 2px rgba(161, 227, 193, 0.3);
+}
+
+/* === PAGE 2: CONFIG === */
+.config-section {
+  margin-bottom: 2rem;
+}
+
+.intro-text {
+  text-align: center;
+  font-family: 'Righteous', cursive;
+  color: #8b6c8c;
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+  text-shadow: 1px 1px 2px rgba(224, 189, 225, 0.5);
+}
+
+.config-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.config-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.8rem;
+  background: linear-gradient(90deg, rgba(161, 227, 193, 0.2), rgba(224, 189, 225, 0.2));
+  border-radius: 12px;
+  border-left: 4px solid #a1e3c1;
+  transition: all 0.3s ease;
+}
+
+.config-item:hover {
+  transform: translateX(5px);
+  box-shadow: 0 4px 8px rgba(161, 227, 193, 0.3);
+}
+
+.config-item code {
+  background: linear-gradient(45deg, #2c1810, #4a3528);
+  color: #a1e3c1;
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+  font-family: 'Orbitron', monospace;
+  font-weight: bold;
+  font-size: 1rem;
+  min-width: 100px;
+  text-align: center;
+  text-shadow: 0 0 10px rgba(161, 227, 193, 0.5);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.config-item span {
+  font-family: 'Orbitron', monospace;
+  color: #2c1810;
+  flex: 1;
+  font-size: 1rem;
+}
+
+/* === PAGE 3: MOTIONS === */
+.motion-guide {
+  max-height: 300px;
+  overflow-y: auto;
+  padding-right: 1rem;
+}
+
+.motion-guide::-webkit-scrollbar {
+  width: 8px;
+}
+
+.motion-guide::-webkit-scrollbar-track {
+  background: linear-gradient(180deg, #a1e3c1, #e0bde1);
+  border-radius: 4px;
+}
+
+.motion-guide::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #8b6c8c, #7db89e);
+  border-radius: 4px;
+}
+
+.motion-section {
+  margin-bottom: 1.5rem;
+}
+
+.motion-section h3 {
+  font-family: 'Righteous', cursive;
+  color: #8b6c8c;
+  font-size: 1.2rem;
+  margin-bottom: 0.8rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 2px solid #a1e3c1;
+  text-shadow: 1px 1px 2px rgba(161, 227, 193, 0.3);
+}
+
+.motion-item {
+  margin-bottom: 1rem;
+  padding: 0.8rem;
+  background: linear-gradient(135deg, rgba(161, 227, 193, 0.15), rgba(224, 189, 225, 0.15));
+  border-radius: 10px;
+  border-left: 3px solid #e0bde1;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.motion-item:hover {
+  transform: translateX(3px);
+  box-shadow: 0 3px 6px rgba(224, 189, 225, 0.3);
+}
+
+.motion-item code {
+  background: linear-gradient(45deg, #2c1810, #4a3528);
+  color: #e0bde1;
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  font-family: 'Orbitron', monospace;
+  font-weight: bold;
+  font-size: 0.9rem;
+  text-shadow: 0 0 8px rgba(224, 189, 225, 0.5);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.motion-item .example {
+  margin-top: 0.4rem;
+  color: #6a5a6b;
+  font-style: italic;
+  font-size: 0.85rem;
+  font-family: 'Orbitron', monospace;
+  opacity: 0.8;
+}
+
+/* === RETRO BUTTONS === */
+.retro-button {
+  background: linear-gradient(45deg, #a1e3c1, #7db89e);
+  color: #2c1810;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 25px;
+  cursor: pointer;
+  font-family: 'Righteous', cursive;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  box-shadow: 
+    0 6px 12px rgba(161, 227, 193, 0.4),
+    inset 0 2px 4px rgba(255, 255, 255, 0.3);
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+  letter-spacing: 1px;
+  position: relative;
+  overflow: hidden;
+}
+
+.retro-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transition: left 0.5s ease;
+}
+
+.retro-button:hover::before {
+  left: 100%;
+}
+
+.retro-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 
+    0 8px 16px rgba(161, 227, 193, 0.6),
+    inset 0 2px 4px rgba(255, 255, 255, 0.4);
+}
+
+.retro-button:active {
+  transform: translateY(-1px);
+  box-shadow: 
+    0 4px 8px rgba(161, 227, 193, 0.5),
+    inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.retro-button.secondary {
+  background: linear-gradient(45deg, #e0bde1, #b89ab8);
+  box-shadow: 
+    0 6px 12px rgba(224, 189, 225, 0.4),
+    inset 0 2px 4px rgba(255, 255, 255, 0.3);
+}
+
+.retro-button.secondary:hover {
+  box-shadow: 
+    0 8px 16px rgba(224, 189, 225, 0.6),
+    inset 0 2px 4px rgba(255, 255, 255, 0.4);
+}
+
+/* === PAGE NAVIGATION === */
+.page-navigation {
+  text-align: center;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 2px groove #e0bde1;
+}
+
+/* === RETRO GAME TIP === */
+.retro-game-tip {
+  background: linear-gradient(45deg, #ff9a9a, #ffb3ba);
+  color: #2c1810;
+  padding: 1rem;
+  border-radius: 15px;
+  text-align: center;
+  font-family: 'Orbitron', monospace;
+  font-size: 0.9rem;
+  margin-top: 1rem;
+  box-shadow: 
+    0 6px 12px rgba(255, 154, 154, 0.4),
+    inset 0 2px 4px rgba(255, 255, 255, 0.3);
+  border: 2px solid #ff8a8a;
+}
+
+.retro-game-tip strong {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-family: 'Righteous', cursive;
+  font-size: 1rem;
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+}
+
+/* === RESPONSIVE DESIGN === */
+@media (max-width: 768px) {
+  .retro-book-container {
+    transform: scale(0.85);
+  }
+  
+  .book-cover,
+  .book-content {
+    width: 280px;
+    height: 400px;
+  }
+  
+  .book-page {
+    padding: 1.5rem;
+  }
+  
+  .beach-image {
+    width: 120px;
+  }
+  
+  .page-header h2 {
+    font-size: 1.3rem;
+  }
+  
+  .retro-button {
+    padding: 0.8rem 1.5rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .retro-book-container {
+    transform: scale(0.7);
+  }
+  
+  .book-cover,
+  .book-content {
+    width: 250px;
+    height: 350px;
+  }
+  
+  .book-page {
+    padding: 1rem;
+  }
+  
+  .beach-image {
+    width: 100px;
+  }
+  
+  .motion-guide {
+    max-height: 200px;
+  }
+  
+  .config-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .config-item code {
+    min-width: auto;
+  }
+}
+
+/* Score Attribution Page Styles */
+.scoring-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.8rem;
+  margin: 1rem 0;
+}
+
+.score-category {
+  background: rgba(0, 255, 0, 0.1);
+  border: 1px solid #00ff00;
+  padding: 0.7rem;
+  border-radius: 4px;
+}
+
+.score-category.penalty {
+  background: rgba(255, 0, 0, 0.1);
+  border-color: #ff0000;
+}
+
+.score-category h4 {
+  color: #00ff00;
+  margin: 0 0 0.4rem 0;
+  font-family: 'Courier New', monospace;
+  font-size: 0.8rem;
+}
+
+.score-category.penalty h4 {
+  color: #ff0000;
+}
+
+.score-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin: 0.3rem 0;
+}
+
+.score-items code {
+  background: rgba(0, 255, 0, 0.2);
+  color: #00ff00;
+  padding: 0.25rem 0.5rem;
+  border-radius: 3px;
+  font-size: 0.8rem;
+  border: 1px solid #00ff00;
+}
+
+.score-category.penalty .score-items code {
+  background: rgba(255, 0, 0, 0.2);
+  color: #ff0000;
+  border-color: #ff0000;
+}
+
+.score-category p {
+  color: #cccccc;
+  margin: 0.5rem 0 0 0;
+  font-size: 0.8rem;
+  font-style: italic;
+}
+
+@media (max-width: 768px) {
+  .scoring-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .score-category {
+    padding: 0.75rem;
+  }
+  
+  .score-items {
+    gap: 0.25rem;
+  }
+}

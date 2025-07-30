@@ -1,0 +1,89 @@
+{{define "base_scripts"}}
+<!-- Environment configuration -->
+<script>
+  // Configure logger based on server environment
+  window.LOG_LEVEL = "{{.frontend_log_level}}";
+  window.ENV = "{{.env}}";
+</script>
+
+<!-- Environment-aware logging system -->
+<script src="/static/js/shared/logger.js"></script>
+<script>
+  // Re-initialize logger after environment variables are set
+  if (window.logger && window.logger.initializeLogger) {
+    window.logger.initializeLogger();
+  }
+  
+  // Create a global reference for modules
+  window.logger = window.logger || {
+    debug: function(...args) { console.log('[DEBUG]', ...args); },
+    info: function(...args) { console.log('[INFO]', ...args); },
+    warn: function(...args) { console.warn('[WARN]', ...args); },
+    error: function(...args) { console.error('[ERROR]', ...args); },
+    log: function(...args) { console.log(...args); }
+  };
+</script>
+
+<!-- Cloud animation system -->
+<script type="module" src="/static/js/cloud.js?v={{.cache_buster}}"></script>
+
+<!-- Stripe.js for payment processing -->
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+  // Set Stripe publishable key globally
+  window.STRIPE_PUBLISHABLE_KEY = "{{.stripe_publishable_key}}";
+</script>
+
+<!-- Vim Manual JavaScript -->
+<script type="module">
+  import { initializeVimManual } from "/static/js/vimManual.js?v={{.cache_buster}}";
+  document.addEventListener("DOMContentLoaded", function () {
+    initializeVimManual();
+  });
+</script>
+
+<!-- Terms and Conditions Modal Functions -->
+<script>
+  function openTermsModal() {
+    const modal = document.getElementById('termsModal');
+    if (modal) {
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+  }
+  
+  function closeTermsModal() {
+    const modal = document.getElementById('termsModal');
+    if (modal) {
+      modal.style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }
+  }
+  
+  // Close modal when clicking outside of it
+  document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('termsModal');
+    if (modal) {
+      modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+          closeTermsModal();
+        }
+      });
+    }
+  });
+  
+  // Close modal with Escape key
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      closeTermsModal();
+    }
+  });
+</script>
+
+<!-- Cloudflare Web Analytics -->
+<script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "d043df317ef84c0f83b45928b97c3322"}'></script>
+<!-- End Cloudflare Web Analytics -->
+
+<!-- Page-specific JavaScript -->
+{{block "scripts" .}}{{end}}
+{{end}}

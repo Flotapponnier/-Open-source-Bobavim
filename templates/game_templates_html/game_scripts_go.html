@@ -1,0 +1,13 @@
+{{define "game_scripts"}}
+<!-- Include base scripts for logging and environment -->
+{{template "base_scripts" .}}
+
+<!-- Game music system -->
+<script type="module" src="/static/js/game_js_modules/gameMusic.js?v={{.cache_buster}}"></script>
+
+<!-- Pass selected character to JavaScript -->
+<script>
+  window.selectedCharacter = "{{.selected_character}}";
+</script>
+<script type="module" src="/static/js/game.js?v={{.cache_buster}}"></script>
+{{end}}

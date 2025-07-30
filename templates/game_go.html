@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>boba.vim - Game</title>
+    <link
+      rel="icon"
+      type="image/png"
+      href="/static/sprites/logo/boba_vim_banner.png"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/static/css/global.css" />
+    <link rel="stylesheet" href="/static/css/game.css" />
+  </head>
+  <body class="game-page">
+    <!-- Animated clouds background -->
+    <div class="clouds-container" id="clouds-background"></div>
+
+    <div class="game-container">
+      {{template "game_header" .}} {{template "game_board" .}} {{template
+      "game_debug_info" .}} {{template "instructions_book" .}}
+    </div>
+
+
+    <!-- Game music button - bottom right -->
+    <div class="game-music-button">
+      <img
+        src="/static/sprites/avatar/uncle_song.png"
+        alt="Music Control"
+        id="gameMusicButton"
+        class="music-icon"
+        title="Play/Stop Music"
+      />
+      <div class="stop-overlay" id="gameStopOverlay">⏸</div>
+    </div>
+
+    <!-- Game background music -->
+    <audio id="gameBackgroundMusic" loop>
+      <source src="/static/music/game/boba_game.mp3" type="audio/mpeg" />
+      Your browser does not support the audio element.
+    </audio>
+
+    {{template "vim_manual_go" .}} {{template "game_scripts" .}}
+  </body>
+</html>
+

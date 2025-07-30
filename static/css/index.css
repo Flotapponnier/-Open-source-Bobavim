@@ -1,0 +1,17 @@
+/* ===================================
+   INDEX CSS - MAIN IMPORT FILE
+   =================================== */
+
+/* Import all index CSS modules */
+@import url("./index_css_modules/character_selection.css");
+@import url("./index_css_modules/auth_modal.css");
+@import url("./index_css_modules/user_panel.css");
+@import url("./index_css_modules/menu_buttons.css");
+@import url("./index_css_modules/retro_buttons.css");
+@import url("./index_css_modules/home_banner.css");
+@import url("./index_css_modules/tip_banner.css");
+@import url("./index_css_modules/love_letter_modal.css");
+@import url("./index_css_modules/payment_modal.css");
+@import url("./index_css_modules/match_modal.css");
+@import url("./index_css_modules/leaderboard_modal.css");
+@import url("./survey.css");

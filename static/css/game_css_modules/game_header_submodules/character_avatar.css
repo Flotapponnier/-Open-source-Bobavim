@@ -1,0 +1,91 @@
+/* ===================================
+   CHARACTER AVATAR DISPLAY SUBMODULE
+   =================================== */
+
+.character-avatar {
+  display: inline-flex;
+  align-items: center;
+  gap: clamp(4px, 1vw, 8px);
+  margin-left: clamp(8px, 2vw, 15px);
+  vertical-align: middle;
+  flex-shrink: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.avatar-image {
+  width: clamp(40px, 6vw, 60px);
+  height: clamp(40px, 6vw, 60px);
+  border-radius: 6px;
+  /* Wood border effect matching header-info styling */
+  border: 2px solid #654321;
+  box-shadow:
+    inset 2px 2px 4px rgba(255, 255, 255, 0.15),
+    inset -2px -2px 4px rgba(0, 0, 0, 0.4),
+    0 4px 8px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(145deg, #8b4513, #a0522d, #d2691e);
+  padding: 1px;
+  transition: transform 0.3s ease;
+  margin-right: clamp(4px, 1vw, 8px);
+  flex-shrink: 0;
+}
+
+.avatar-image:hover {
+  transform: scale(1.05);
+}
+
+/* Character text styling */
+.character-text {
+  font-weight: 600;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  font-size: clamp(0.8rem, 1.8vw, 1rem);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Character-specific text colors */
+.pinky-text {
+  color: #FEBDD3; /* Pink boba color */
+}
+
+.golden-text {
+  color: #FECF35; /* Yellow boba color */
+}
+
+.black-text {
+  color: #170E02; /* Black boba color */
+}
+
+.boba-text {
+  color: #FFA25B; /* Normal boba color */
+}
+
+.boba_diamond-text {
+  color: #6bcfc6; /* Diamond boba color */
+}
+
+/* Responsive adjustments for character avatar */
+@media (max-width: 768px) {
+  .character-avatar {
+    gap: 6px;
+    margin-left: 10px;
+  }
+
+  .avatar-image {
+    width: 35px;
+    height: 35px;
+  }
+}
+
+@media (max-width: 480px) {
+  .character-avatar {
+    gap: 4px;
+    margin-left: 8px;
+  }
+
+  .avatar-image {
+    width: 30px;
+    height: 30px;
+  }
+}

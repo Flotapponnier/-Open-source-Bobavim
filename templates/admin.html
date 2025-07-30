@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Boba.vim</title>
+    <link rel="stylesheet" href="/static/css/global_css_modules/body.css">
+    <link rel="stylesheet" href="/static/css/index.css">
+    <link rel="stylesheet" href="/static/css/admin.css">
+</head>
+<body>
+    {{if .authenticated}}
+    <div class="background-container">
+        <div class="index-container">
+            <!-- Header -->
+            <div class="title-container">
+                <h1 class="typing-title" data-text="ADMIN PANEL">ADMIN PANEL</h1>
+                <div class="boss-avatar-container">
+                    <img src="/static/sprites/avatar/boss_boba.png" alt="Boss Boba" class="boss-avatar-admin">
+                </div>
+            </div>
+
+            <!-- Admin Info -->
+            <div class="admin-info">
+                <p>Welcome, <span id="adminUsername">{{.admin_username}}</span>!</p>
+                <button id="logoutBtn" class="button-base logout-btn">Logout</button>
+            </div>
+
+            <!-- Newsletter Management -->
+            <div class="admin-section">
+                <h2>Newsletter Management</h2>
+                <div class="admin-controls">
+                    <button id="createNewsletterBtn" class="button-base admin-btn">Create Newsletter</button>
+                    <button id="viewNewslettersBtn" class="button-base admin-btn">View All Newsletters</button>
+                </div>
+            </div>
+
+            <!-- Survey Management -->
+            <div class="admin-section">
+                <h2>Survey Management</h2>
+                <div class="admin-controls">
+                    <button id="createSurveyBtn" class="button-base admin-btn">Create New Survey</button>
+                    <button id="viewSurveyResultsBtn" class="button-base admin-btn">View Survey Results</button>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <div class="admin-section">
+                <h2>Navigation</h2>
+                <div class="admin-controls">
+                    <button id="backToIndexBtn" class="button-base admin-btn">Back to Main Site</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Newsletter Creation Modal -->
+    <div id="newsletterModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Create Newsletter</h3>
+                <button id="closeNewsletterModal" class="close-btn">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="newsletterForm">
+                    <div class="form-group">
+                        <label for="newsletterTitle">Title:</label>
+                        <input type="text" id="newsletterTitle" name="title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="newsletterSummary">Summary:</label>
+                        <textarea id="newsletterSummary" name="summary" rows="3" placeholder="Brief summary for the newsletter list..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="newsletterContent">Content (HTML):</label>
+                        <textarea id="newsletterContent" name="content" rows="10" required placeholder="Full newsletter content with HTML formatting..."></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="button-base submit-btn">Create Newsletter</button>
+                        <button type="button" id="cancelNewsletterBtn" class="button-base cancel-btn">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Survey Creation Modal -->
+    <div id="surveyModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Create Survey</h3>
+                <button id="closeSurveyModal" class="close-btn">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="surveyForm">
+                    <div class="form-group">
+                        <label for="surveyTitle">Survey Title:</label>
+                        <input type="text" id="surveyTitle" name="title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="surveyDescription">Description:</label>
+                        <textarea id="surveyDescription" name="description" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="questionText">Question:</label>
+                        <input type="text" id="questionText" name="question" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="questionType">Question Type:</label>
+                        <select id="questionType" name="type" required>
+                            <option value="rating">Rating (1-10)</option>
+                            <option value="multiple_choice">Multiple Choice</option>
+                            <option value="text">Text Response</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="ratingOptions" style="display: none;">
+                        <label for="minValue">Min Value:</label>
+                        <input type="number" id="minValue" name="min_value" value="1">
+                        <label for="maxValue">Max Value:</label>
+                        <input type="number" id="maxValue" name="max_value" value="10">
+                    </div>
+                    <div class="form-group" id="multipleChoiceOptions" style="display: none;">
+                        <label for="questionOptions">Options (one per line):</label>
+                        <textarea id="questionOptions" name="options" rows="4" placeholder="Option 1&#10;Option 2&#10;Option 3"></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="button-base submit-btn">Create Survey</button>
+                        <button type="button" id="cancelSurveyBtn" class="button-base cancel-btn">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Newsletter List Modal -->
+    <div id="newsletterListModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>All Newsletters</h3>
+                <button id="closeNewsletterListModal" class="close-btn">×</button>
+            </div>
+            <div class="modal-body">
+                <div id="newsletterList" class="newsletter-list">
+                    <!-- Newsletter list will be populated here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success/Error Messages -->
+    <div id="messageContainer" class="message-container"></div>
+
+        </div>
+    </div>
+    
+    <script src="/static/js/admin_js_modules/adminAuth.js"></script>
+    <script src="/static/js/admin_js_modules/adminNewsletter.js"></script>
+    <script src="/static/js/admin_js_modules/adminSurvey.js"></script>
+    <script src="/static/js/admin_js_modules/adminMain.js"></script>
+    
+    {{else}}
+    <!-- Login Form for Unauthenticated Users -->
+    <div class="admin-login-container">
+        <div class="login-form-container">
+            <div class="login-header">
+                <h1 class="typing-title" data-text="ADMIN ACCESS">ADMIN ACCESS</h1>
+                <div class="boss-avatar-container">
+                    <img src="/static/sprites/avatar/boss_boba.png" alt="Boss Boba" class="boss-avatar-login">
+                </div>
+            </div>
+            
+            <form id="adminLoginForm" class="login-form">
+                <div class="form-group">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="button-base login-btn">Login</button>
+                    <button type="button" id="backToIndexBtn" class="button-base back-btn">Back to Index</button>
+                </div>
+            </form>
+            
+            <div id="loginError" class="error-message" style="display: none;"></div>
+        </div>
+    </div>
+    
+    <script src="/static/js/admin_js_modules/adminLogin.js"></script>
+    {{end}}
+</body>
+</html>

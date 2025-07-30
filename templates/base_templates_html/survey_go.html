@@ -1,0 +1,76 @@
+{{define "survey"}}
+<!-- Survey System -->
+<div class="survey-system">
+  <!-- Survey Button (Top-Left) -->
+  <div class="survey-button-container">
+    <button id="surveyButton" class="survey-button" title="Rate Our Game">
+      <span class="survey-text">Survey</span>
+      <span class="survey-plus" id="surveyPlus">+</span>
+    </button>
+  </div>
+
+  <!-- Newsletter Button (Top-Left, next to Survey) -->
+  <div class="newsletter-button-container">
+    <button id="newsletterButton" class="newsletter-button" title="Latest News">
+      <span class="newsletter-text">Newsletter</span>
+      <span class="newsletter-plus" id="newsletterPlus">+</span>
+    </button>
+  </div>
+
+  <!-- Survey Panel (Slides down from button) -->
+  <div id="surveyPanel" class="survey-panel hidden">
+    <div class="survey-content">
+      <h3 id="surveyTitle">Loading...</h3>
+      <p id="surveyDescription">Loading survey...</p>
+
+      <div id="surveyContent">
+        <!-- Survey content will be loaded dynamically -->
+      </div>
+
+      <div id="surveyResults" class="survey-results hidden">
+        <div class="results-text">
+          <strong
+            >Community Average: <span id="averageScore">0.0</span>/10</strong
+          ><br />
+          <small>Based on <span id="totalVotes">0</span> votes</small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Newsletter Panel (Slides down from newsletter button) -->
+  <div id="newsletterPanel" class="newsletter-panel hidden">
+    <div class="newsletter-content">
+      <h3>Latest News</h3>
+      <div class="news-list">
+        <!-- Newsletter items will be loaded dynamically -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 2D Game Diffusion Area for Full News Display -->
+<div id="newsGameArea" class="news-game-area hidden">
+  <div class="news-game-container">
+    <div class="news-header">
+      <div class="boss-avatar">
+        <img
+          src="/static/sprites/avatar/boss_boba.png"
+          alt="Boss Boba"
+          class="boss-avatar-img"
+        />
+      </div>
+      <div class="boss-info">
+        <h2>Boss Boba</h2>
+        <h3 id="newsTitle">Message from Boba Boss</h3>
+      </div>
+      <button id="closeNewsBtn" class="close-news-btn">×</button>
+    </div>
+    <div class="news-content-area">
+      <div id="newsContent" class="news-full-content">
+        <!-- Newsletter content will be loaded dynamically -->
+      </div>
+    </div>
+  </div>
+</div>
+{{end}}

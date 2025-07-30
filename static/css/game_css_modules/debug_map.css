@@ -1,0 +1,169 @@
+/* ===================================
+   DEBUG MAP MODULE
+   =================================== */
+
+.game-info {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  color: #fff8dc;
+  font-size: 1.1rem;
+  font-family: "Georgia", serif;
+}
+
+.game-info p {
+  margin: 0.5rem 0;
+  font-weight: 600;
+  text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.8);
+  color: #fff8dc;
+  font-family: "Georgia", serif;
+}
+
+.debug-info {
+  padding: 2rem;
+  background: linear-gradient(145deg, #8b4513, #a0522d, #d2691e);
+  color: #fff8dc;
+  border-radius: 12px;
+  font-family: "Georgia", serif;
+  font-weight: 600;
+  text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.8);
+  max-width: 95vw;
+  max-height: 95vh;
+  overflow: visible;
+  backdrop-filter: blur(10px);
+  border: 3px solid #654321;
+  box-shadow:
+    inset 3px 3px 6px rgba(255, 255, 255, 0.15),
+    inset -3px -3px 6px rgba(0, 0, 0, 0.4),
+    0 20px 40px rgba(0, 0, 0, 0.3);
+  position: relative;
+  /* Ensure the container fits the entire screen */
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.debug-info::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #d2691e, #cd853f, #d2691e);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.debug-info::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #654321, #8b4513, #654321);
+  box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.5);
+}
+
+.debug-info h3 {
+  color: #fff8dc;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  text-align: center;
+  font-family: "Georgia", serif;
+  font-weight: 600;
+  text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.8);
+}
+
+.map-display {
+  margin-top: 1rem;
+  padding: 1.5rem;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  overflow: visible;
+  /* Remove height constraints to show full map */
+  flex: 1;
+  /* Center the map grid */
+  justify-content: center;
+  /* Ensure map scales to fit */
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.map-row {
+  display: flex;
+  gap: min(3px, 0.5vw);
+  flex-wrap: nowrap;
+  /* Ensure rows don't exceed container width */
+  max-width: 100%;
+}
+
+.map-cell {
+  /* Responsive sizing based on viewport - bigger for better visibility */
+  width: min(25px, 2.5vw, 2.5vh);
+  height: min(25px, 2.5vw, 2.5vh);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: min(1.1rem, 2vw, 2vh);
+  flex-shrink: 0;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  /* Ensure aspect ratio is maintained */
+  aspect-ratio: 1/1;
+  /* Minimum size for readability - increased */
+  min-width: 16px;
+  min-height: 16px;
+}
+
+.map-0 {
+  background: #34495e;
+  color: #7f8c8d;
+}
+
+.map-1 {
+  background: #f39c12;
+  color: white;
+  box-shadow: 0 0 10px rgba(243, 156, 18, 0.5);
+  /* Make boba player more prominent */
+  font-weight: 900;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+  transform: scale(1.1);
+}
+
+.map-2 {
+  background: #e74c3c;
+  color: white;
+  box-shadow: 0 0 10px rgba(231, 76, 60, 0.5);
+  /* Make boba stop more prominent */
+  font-weight: 900;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+  transform: scale(1.1);
+}
+
+.map-3 {
+  background: #3498db;
+  color: white;
+  box-shadow: 0 0 10px rgba(52, 152, 219, 0.5);
+  /* Make pearl more prominent */
+  font-weight: 900;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+  transform: scale(1.1);
+}
+
+.map-4 {
+  background: #2ecc71;
+  color: white;
+  box-shadow: 0 0 10px rgba(46, 204, 113, 0.5);
+  /* Make boba mold more prominent */
+  font-weight: 900;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+  transform: scale(1.1);
+}

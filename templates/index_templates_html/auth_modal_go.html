@@ -1,0 +1,119 @@
+{{define "auth_modal"}}
+<div id="authModal" class="registration-modal hidden">
+  <div class="modal-content">
+    <h4 id="modalTitle">🔒 Register to Unlock Premium Characters</h4>
+
+    <!-- Registration Form -->
+    <form id="registrationForm" class="auth-form">
+      <div class="form-group">
+        <input
+          type="text"
+          id="reg-username"
+          name="username"
+          placeholder="Username"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <input
+          type="email"
+          id="reg-email"
+          name="email"
+          placeholder="Email"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <input
+          type="password"
+          id="reg-password"
+          name="password"
+          placeholder="Password (min 8 chars)"
+          required
+        />
+      </div>
+      <div class="modal-buttons">
+        <button type="submit" class="modal-btn primary">Register</button>
+        <button
+          type="button"
+          class="modal-btn secondary"
+          onclick="closeAuthModal()"
+        >
+          Cancel
+        </button>
+      </div>
+      <p class="auth-switch">
+        Already have an account? <a href="#" id="switchToLogin">Login here</a>
+      </p>
+    </form>
+
+    <!-- Login Form -->
+    <form id="loginForm" class="auth-form hidden">
+      <div class="form-group">
+        <input
+          type="text"
+          id="login-username"
+          name="username"
+          placeholder="Username or Email"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <input
+          type="password"
+          id="login-password"
+          name="password"
+          placeholder="Password"
+          required
+        />
+      </div>
+      <div class="modal-buttons">
+        <button type="submit" class="modal-btn primary">🔑 Login</button>
+        <button
+          type="button"
+          class="modal-btn secondary"
+          onclick="closeAuthModal()"
+        >
+          Cancel
+        </button>
+      </div>
+      <p class="auth-switch">
+        Don't have an account?
+        <a href="#" id="switchToRegister">Register here</a>
+      </p>
+      <p class="auth-switch">
+        <a href="#" id="switchToForgotPassword">Forgot password?</a>
+      </p>
+    </form>
+
+    <!-- Forgot Password Form -->
+    <form id="forgotPasswordForm" class="auth-form hidden">
+      <div class="form-group">
+        <input
+          type="email"
+          id="forgot-email"
+          name="email"
+          placeholder="Enter your email address"
+          required
+        />
+      </div>
+      <div class="modal-buttons">
+        <button type="submit" class="modal-btn primary">Send Reset Link</button>
+        <button
+          type="button"
+          class="modal-btn secondary"
+          onclick="closeAuthModal()"
+        >
+          Cancel
+        </button>
+      </div>
+      <p class="auth-switch">
+        Remember your password?
+        <a href="#" id="switchToLoginFromForgot">Login here</a>
+      </p>
+    </form>
+
+    <div id="authError" class="error-message hidden"></div>
+  </div>
+</div>
+{{end}}

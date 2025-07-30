@@ -1,0 +1,196 @@
+/* ===================================
+   500 ERROR PAGE STYLES
+   =================================== */
+
+.error-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: transparent;
+  position: relative;
+  z-index: 10;
+}
+
+.error-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
+  padding: 40px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  width: 100%;
+  text-align: center;
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.error-header {
+  margin-bottom: 30px;
+}
+
+.error-header h1 {
+  color: #e74c3c;
+  margin-bottom: 20px;
+  font-size: 2.2rem;
+  font-weight: bold;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.error-header p {
+  color: #333;
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+  line-height: 1.6;
+}
+
+.error-details {
+  color: #666;
+  font-size: 1rem;
+  font-style: italic;
+  margin-bottom: 0;
+}
+
+.error-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+/* Wood Game Button Effect */
+.wood-btn {
+  display: inline-block !important;
+  padding: 16px 32px !important;
+  font-size: 18px !important;
+  font-weight: bold !important;
+  color: #2c1810 !important;
+  text-decoration: none !important;
+  text-align: center !important;
+  cursor: pointer !important;
+  border: none !important;
+  border-radius: 8px !important;
+  min-width: 180px !important;
+  margin: 0.5rem !important;
+  
+  /* Wood texture effect */
+  background: linear-gradient(
+    135deg,
+    #8B4513 0%,
+    #A0522D 25%,
+    #CD853F 50%,
+    #D2691E 75%,
+    #8B4513 100%
+  ) !important;
+  
+  /* Wood grain pattern overlay */
+  background-image: 
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.1) 2px,
+      rgba(0,0,0,0.1) 4px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 1px,
+      rgba(0,0,0,0.05) 1px,
+      rgba(0,0,0,0.05) 2px
+    );
+  
+  /* 3D wood effect */
+  box-shadow: 
+    0 6px 0 #654321,
+    0 8px 12px rgba(0, 0, 0, 0.4),
+    inset 0 2px 0 rgba(255, 255, 255, 0.2),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.2) !important;
+  
+  transition: all 0.15s ease !important;
+  transform: translateY(0) !important;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3) !important;
+  text-transform: none !important;
+  letter-spacing: normal !important;
+}
+
+.wood-btn:hover {
+  background: linear-gradient(
+    135deg,
+    #A0522D 0%,
+    #CD853F 25%,
+    #DEB887 50%,
+    #F4A460 75%,
+    #A0522D 100%
+  ) !important;
+  
+  box-shadow: 
+    0 4px 0 #654321,
+    0 6px 8px rgba(0, 0, 0, 0.4),
+    inset 0 2px 0 rgba(255, 255, 255, 0.3),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.2) !important;
+  
+  transform: translateY(2px) !important;
+}
+
+.wood-btn:active {
+  background: linear-gradient(
+    135deg,
+    #8B4513 0%,
+    #A0522D 25%,
+    #CD853F 50%,
+    #D2691E 75%,
+    #8B4513 100%
+  ) !important;
+  
+  box-shadow: 
+    0 2px 0 #654321,
+    0 4px 6px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(0, 0, 0, 0.1),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.1) !important;
+  
+  transform: translateY(4px) !important;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .error-card {
+    padding: 30px 25px;
+    max-width: 90%;
+    margin: 1rem;
+  }
+  
+  .error-header h1 {
+    font-size: 1.8rem;
+  }
+  
+  .error-header p {
+    font-size: 1.1rem;
+  }
+  
+  .wood-btn {
+    font-size: 16px;
+    padding: 14px 28px;
+    min-width: 160px;
+  }
+}
+
+@media (max-width: 480px) {
+  .error-card {
+    padding: 25px 20px;
+    max-width: 95%;
+  }
+  
+  .error-header h1 {
+    font-size: 1.6rem;
+  }
+  
+  .error-header p {
+    font-size: 1rem;
+  }
+  
+  .wood-btn {
+    font-size: 15px;
+    padding: 12px 24px;
+    min-width: 140px;
+  }
+}

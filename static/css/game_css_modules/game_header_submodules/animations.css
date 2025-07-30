@@ -1,0 +1,288 @@
+/* ===================================
+   GAME HEADER ANIMATIONS SUBMODULE
+   =================================== */
+
+/* Game Header Banner Animation */
+@keyframes fadeInBanner {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 8-bit movement pulse animation */
+@keyframes movementPulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.5);
+  }
+  50% {
+    transform: scale(1.02);
+    box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.7);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.5);
+  }
+}
+
+/* 8-bit blocked action shake animation */
+@keyframes blockedShake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: translateX(-2px);
+  }
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translateX(2px);
+  }
+}
+
+/* 8-bit pearl sparkle animation */
+@keyframes pearlSparkle {
+  0% {
+    background: #ffcc00;
+    transform: scale(1);
+  }
+  25% {
+    background: #ffff00;
+    transform: scale(1.03);
+  }
+  50% {
+    background: #ffcc00;
+    transform: scale(1);
+  }
+  75% {
+    background: #ffaa00;
+    transform: scale(1.03);
+  }
+  100% {
+    background: #ffcc00;
+    transform: scale(1);
+  }
+}
+
+/* 8-bit correct bounce animation */
+@keyframes correctBounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-4px);
+  }
+  60% {
+    transform: translateY(-2px);
+  }
+}
+
+/* 8-bit error glitch animation */
+@keyframes errorGlitch {
+  0%,
+  100% {
+    transform: translateX(0);
+    background: #ff0000;
+  }
+  10% {
+    transform: translateX(-1px);
+    background: #ff3333;
+  }
+  20% {
+    transform: translateX(1px);
+    background: #ff0000;
+  }
+  30% {
+    transform: translateX(-1px);
+    background: #cc0000;
+  }
+  40% {
+    transform: translateX(1px);
+    background: #ff0000;
+  }
+  50% {
+    transform: translateX(0);
+    background: #ff3333;
+  }
+}
+
+/* 8-bit text flicker animation for blocked messages */
+@keyframes textFlicker {
+  0%,
+  100% {
+    opacity: 1;
+    text-shadow:
+      1px 1px 0px #000,
+      -1px -1px 0px #000,
+      1px -1px 0px #000,
+      -1px 1px 0px #000;
+  }
+  50% {
+    opacity: 0.8;
+    text-shadow:
+      2px 2px 0px #000,
+      -2px -2px 0px #000,
+      2px -2px 0px #000,
+      -2px 2px 0px #000;
+  }
+}
+
+/* 8-bit pearl twinkle animation */
+@keyframes pearlTwinkle {
+  0%,
+  100% {
+    color: #000000;
+    text-shadow:
+      1px 1px 0px #ffff00,
+      -1px -1px 0px #ffff00,
+      1px -1px 0px #ffff00,
+      -1px 1px 0px #ffff00;
+  }
+  50% {
+    color: #000000;
+    text-shadow:
+      2px 2px 0px #ffffff,
+      -2px -2px 0px #ffffff,
+      2px -2px 0px #ffffff,
+      -2px 2px 0px #ffffff;
+  }
+}
+
+/* Score penalty animation (red flash) */
+@keyframes scorePenalty {
+  0% {
+    background: linear-gradient(45deg, #9b59b6, #3498db);
+    transform: scale(1);
+  }
+  50% {
+    background: linear-gradient(45deg, #e74c3c, #c0392b);
+    transform: scale(1.1);
+  }
+  100% {
+    background: linear-gradient(45deg, #9b59b6, #3498db);
+    transform: scale(1);
+  }
+}
+
+/* 8-bit pearl collection animation for score */
+@keyframes pearlCollection8bit {
+  0% {
+    background: linear-gradient(45deg, #9b59b6, #3498db);
+    transform: scale(1);
+  }
+  50% {
+    background: #ffcc00;
+    transform: scale(1.1);
+  }
+  100% {
+    background: linear-gradient(45deg, #9b59b6, #3498db);
+    transform: scale(1);
+  }
+}
+
+/* 8-bit pearl collection pixel effect */
+@keyframes pearlPixelEffect {
+  0% {
+    box-shadow:
+      inset 2px 2px 0px #ffff00,
+      inset -2px -2px 0px #cc9900,
+      4px 4px 0px rgba(0, 0, 0, 0.5);
+  }
+  50% {
+    box-shadow:
+      inset 2px 2px 0px #ffffff,
+      inset -2px -2px 0px #996600,
+      6px 6px 0px rgba(0, 0, 0, 0.7);
+  }
+  100% {
+    box-shadow:
+      inset 2px 2px 0px #ffff00,
+      inset -2px -2px 0px #cc9900,
+      4px 4px 0px rgba(0, 0, 0, 0.5);
+  }
+}
+
+/* Character Avatar fade in animation */
+@keyframes fadeInAvatar {
+  0% {
+    opacity: 0;
+    transform: translateX(-10px) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+/* Animation classes for score */
+.score-display strong.score-penalty {
+  animation: scorePenalty 0.6s ease-in-out;
+}
+
+.score-display strong.score-pearl {
+  animation: pearlCollection8bit 0.8s ease-in-out;
+}
+
+/* Banner fade in animation */
+.game-header-banner {
+  opacity: 0;
+  animation: fadeInBanner 1.5s ease-in-out 0.5s forwards;
+}
+
+/* Pearl banner pixel effect animation */
+.header-info.banner-pearl {
+  animation: pearlPixelEffect 0.8s ease-in-out infinite;
+}
+
+/* Gold text 8-bit pulse animation */
+.header-info strong[style*="color: #ffd700"] {
+  animation: movementPulse 0.5s ease-in-out infinite;
+}
+
+/* 8-bit text effects for different banner types */
+.header-info.banner-blocked {
+  animation:
+    blockedShake 0.5s ease-in-out,
+    textFlicker 0.3s ease-in-out infinite;
+}
+
+.header-info.banner-pearl {
+  animation: pearlPixelEffect 0.8s ease-in-out infinite;
+}
+
+.header-info.banner-pearl strong {
+  animation: pearlTwinkle 0.6s ease-in-out infinite;
+}
+
+.header-info.banner-error {
+  animation:
+    errorGlitch 0.4s ease-in-out,
+    textFlicker 0.2s ease-in-out infinite;
+}
+
+/* Avatar fade in animations */
+.avatar-image {
+  opacity: 0;
+  animation: fadeInAvatar 1.5s ease-in-out 0.8s forwards;
+}
+
+.character-text {
+  opacity: 0;
+  animation: fadeInAvatar 1.5s ease-in-out 1s forwards;
+}
+

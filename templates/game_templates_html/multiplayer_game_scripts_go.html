@@ -1,0 +1,13 @@
+{{define "multiplayer_game_scripts"}}
+<!-- Include base scripts for logging and environment -->
+{{template "base_scripts" .}}
+
+<!-- Game music system -->
+<script type="module" src="/static/js/game_js_modules/gameMusic.js"></script>
+
+<!-- Include the regular game.js first to load all modules (but it won't initialize solo game) -->
+<script type="module" src="/static/js/game.js"></script>
+
+<!-- Main multiplayer game script -->
+<script type="module" src="/static/js/multiplayer/multiplayer_game.js"></script>
+{{end}}

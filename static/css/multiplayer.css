@@ -1,0 +1,1061 @@
+/* Multiplayer Game Styles */
+@import url("./index_css_modules/leaderboard_modal.css");
+
+.multiplayer-game-page {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Use same structure as solo game */
+.multiplayer-game-page .game-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: 20px;
+  position: relative;
+  z-index: 2;
+}
+
+/* New Multiplayer VS Header Design */
+.multiplayer-vs-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  border-bottom: 3px solid #f39c12;
+  position: relative;
+  min-height: 70px;
+  gap: 15px;
+}
+
+/* Banner Side */
+.banner-side {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+}
+
+.multiplayer-header-banner {
+  height: clamp(40px, 6vw, 60px);
+  width: auto;
+  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+/* Player Sides */
+.player-side {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  max-width: 280px;
+}
+
+/* Quit Side for balance */
+.quit-side {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.player1-side {
+  justify-content: flex-start;
+}
+
+.player2-side {
+  justify-content: flex-start;
+}
+
+.player2-side .player-info {
+  flex-direction: row;
+}
+
+.player-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 15px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  border: 2px solid rgba(243, 156, 18, 0.3);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.2);
+}
+
+
+.player-avatar {
+  width: 45px;
+  height: 45px;
+  border-radius: 10px;
+  border: 2px solid #f39c12;
+  box-shadow: 
+    inset 2px 2px 4px rgba(255, 255, 255, 0.15),
+    inset -2px -2px 4px rgba(0, 0, 0, 0.4),
+    0 3px 6px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(145deg, #8b4513, #a0522d, #d2691e);
+  padding: 2px;
+}
+
+.player-details {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.player2-side .player-details {
+  align-items: flex-start;
+}
+
+.player-username {
+  color: #ecf0f1;
+  font-size: 14px;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.player-score-display {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.player2-side .player-score-display {
+  flex-direction: row;
+}
+
+.score-label {
+  color: #95a5a6;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.score-value {
+  color: #2ecc71;
+  font-size: 16px;
+  font-weight: bold;
+  min-width: 35px;
+  text-align: center;
+  padding: 3px 6px;
+  background: rgba(46, 204, 113, 0.2);
+  border-radius: 5px;
+  border: 1px solid #2ecc71;
+}
+
+/* Center VERSUS Text */
+.versus-center {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 20px;
+}
+
+.versus-text-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.versus-text-retro {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 20px;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  padding: 10px 16px;
+  background: #E76E55;
+  box-shadow: 
+    inset -3px -3px 0px 0px #8C2022,
+    0 4px 0 #8C2022,
+    0 6px 15px rgba(0, 0, 0, 0.4);
+  border-radius: 6px;
+  position: relative;
+  transition: all 0.1s ease;
+  border: none;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.versus-text-retro:hover {
+  background: #CE372B;
+  box-shadow: 
+    inset -6px -6px 0px 0px #8C2022,
+    0 8px 0 #8C2022,
+    0 10px 25px rgba(0, 0, 0, 0.5);
+  transform: translateY(-2px);
+}
+
+.versus-subtext {
+  color: #f39c12;
+  font-size: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+
+.quit-btn {
+  font-size: 10px !important;
+  padding: 6px 12px !important;
+  min-width: auto !important;
+  background: #95a5a6 !important;
+  box-shadow: inset -2px -2px 0px 0px #7f8c8d !important;
+  width: auto !important;
+  height: auto !important;
+  align-self: center !important;
+  margin: 0 !important;
+}
+
+.quit-btn:hover {
+  background: #7f8c8d !important;
+  box-shadow: inset -4px -4px 0px 0px #6c7b7d !important;
+}
+
+/* Multiplayer Game Board - Use same styling as solo game */
+.multiplayer-game-board {
+  /* Inherits from game.css game-board */
+  position: relative;
+  min-height: 400px;
+}
+
+.game-loading,
+.game-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  color: #ecf0f1;
+}
+
+.loading-icon,
+.error-icon {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+
+.loading-text,
+.error-text {
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.retry-btn {
+  background: #3498db;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.retry-btn:hover {
+  background: #2980b9;
+}
+
+.game-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Multiplayer keyboard map - Use same styling as solo game */
+.multiplayer-game-board .keyboard-map {
+  /* Inherits from game.css keyboard-map */
+}
+
+/* Override the current player key highlighting to use orange instead of green */
+.multiplayer-game-page .multiplayer-game-board .keyboard-map .key[data-map="1"] .key-top,
+.multiplayer-game-page .key[data-map="1"] .key-top,
+#multiplayer-game-map .key[data-map="1"] .key-top,
+.multiplayer-game-page .keyboard-row .key[data-map="1"] .key-top {
+  background: linear-gradient(145deg, #fff4e6, #ffe0b3) !important;
+  border-color: #ff6b35 !important;
+  box-shadow:
+    0 6px 0 #e55100 !important,
+    0 8px 12px rgba(0, 0, 0, 0.3) !important,
+    inset 0 2px 0 rgba(255, 255, 255, 0.9) !important,
+    inset 0 -2px 0 rgba(0, 0, 0, 0.1) !important,
+    0 0 20px rgba(255, 107, 53, 0.4) !important;
+}
+
+.multiplayer-game-page .multiplayer-game-board .keyboard-map .key[data-map="1"]:hover .key-top,
+.multiplayer-game-page .key[data-map="1"]:hover .key-top,
+#multiplayer-game-map .key[data-map="1"]:hover .key-top,
+.multiplayer-game-page .keyboard-row .key[data-map="1"]:hover .key-top {
+  background: linear-gradient(145deg, #fff2e6, #ffd6a6) !important;
+  border-color: #ff7043 !important;
+  box-shadow:
+    0 6px 0 #e55100 !important,
+    0 8px 12px rgba(0, 0, 0, 0.4) !important,
+    inset 0 2px 0 rgba(255, 255, 255, 0.95) !important,
+    inset 0 -2px 0 rgba(0, 0, 0, 0.15) !important,
+    0 0 25px rgba(255, 107, 53, 0.6) !important;
+}
+
+/* Ensure no green styling persists on keyboard rows */
+.multiplayer-game-page .keyboard-row .key[data-map="1"] .key-top,
+.multiplayer-game-page .keyboard-map .keyboard-row .key[data-map="1"] .key-top {
+  background: linear-gradient(145deg, #fff4e6, #ffe0b3) !important;
+  border-color: #ff6b35 !important;
+}
+
+/* Override player styling for space characters in multiplayer */
+.multiplayer-game-page .multiplayer-game-board .keyboard-map .key[data-map="1"][data-space-highlighted="true"] .key-top,
+.multiplayer-game-page .key[data-map="1"][data-space-highlighted="true"] .key-top,
+#multiplayer-game-map .key[data-map="1"][data-space-highlighted="true"] .key-top,
+.multiplayer-game-page .keyboard-row .key[data-map="1"][data-space-highlighted="true"] .key-top {
+  background: linear-gradient(145deg, #868e96, #6c757d) !important;
+  border-color: #ff6b35 !important;
+  box-shadow:
+    0 6px 0 #e55100 !important,
+    0 8px 12px rgba(0, 0, 0, 0.3) !important,
+    inset 0 2px 0 rgba(255, 255, 255, 0.3) !important,
+    inset 0 -2px 0 rgba(0, 0, 0, 0.2) !important,
+    0 0 20px rgba(255, 107, 53, 0.8) !important;
+}
+
+/* Override enemy styling for space characters in multiplayer */
+.multiplayer-game-page .multiplayer-game-board .keyboard-map .key[data-map="2"][data-space-highlighted="true"] .key-top,
+.multiplayer-game-page .key[data-map="2"][data-space-highlighted="true"] .key-top,
+#multiplayer-game-map .key[data-map="2"][data-space-highlighted="true"] .key-top,
+.multiplayer-game-page .keyboard-row .key[data-map="2"][data-space-highlighted="true"] .key-top {
+  background: linear-gradient(145deg, #868e96, #6c757d) !important;
+  border-color: #f44336 !important;
+  box-shadow:
+    0 6px 0 #d32f2f !important,
+    0 8px 12px rgba(0, 0, 0, 0.3) !important,
+    inset 0 2px 0 rgba(255, 255, 255, 0.3) !important,
+    inset 0 -2px 0 rgba(0, 0, 0, 0.2) !important,
+    0 0 20px rgba(244, 67, 54, 0.8) !important;
+}
+
+/* Override pearl styling for space characters in multiplayer */
+.multiplayer-game-page .multiplayer-game-board .keyboard-map .key[data-map="3"][data-space-highlighted="true"] .key-top,
+.multiplayer-game-page .key[data-map="3"][data-space-highlighted="true"] .key-top,
+#multiplayer-game-map .key[data-map="3"][data-space-highlighted="true"] .key-top,
+.multiplayer-game-page .keyboard-row .key[data-map="3"][data-space-highlighted="true"] .key-top {
+  background: linear-gradient(145deg, #868e96, #6c757d) !important;
+  border-color: #2196f3 !important;
+  box-shadow:
+    0 6px 0 #1976d2 !important,
+    0 8px 12px rgba(0, 0, 0, 0.3) !important,
+    inset 0 2px 0 rgba(255, 255, 255, 0.3) !important,
+    inset 0 -2px 0 rgba(0, 0, 0, 0.2) !important,
+    0 0 15px rgba(33, 150, 243, 0.5) !important;
+}
+
+/* Player differentiation for multiplayer */
+.multiplayer-game-board .keyboard-map .player1-character {
+  /* Current Player - Orange glow for better visibility */
+}
+
+.multiplayer-game-board .keyboard-map .player1-character .boba-sprite {
+  filter: drop-shadow(0 0 10px #ff6b35) drop-shadow(0 0 20px #ff6b35);
+}
+
+.multiplayer-game-board .keyboard-map .player2-character {
+  /* Enemy Player - Red glow for better visibility */
+}
+
+.multiplayer-game-board .keyboard-map .player2-character .boba-sprite {
+  filter: drop-shadow(0 0 10px #e74c3c) drop-shadow(0 0 20px #e74c3c);
+}
+
+.multiplayer-players {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.player-indicator {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 15px;
+  border-radius: 8px;
+  font-size: 12px;
+}
+
+.player1-indicator {
+  background: rgba(46, 204, 113, 0.2);
+  border: 2px solid #2ecc71;
+}
+
+.player2-indicator {
+  background: rgba(231, 76, 60, 0.2);
+  border: 2px solid #e74c3c;
+}
+
+.player-name {
+  color: #ecf0f1;
+  font-weight: bold;
+}
+
+.pearl-indicator {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(241, 196, 15, 0.8);
+  border-radius: 50%;
+  padding: 8px;
+  font-size: 16px;
+}
+
+/* Multiplayer Sidebar */
+.multiplayer-game-sidebar {
+  min-width: 250px;
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 15px;
+  padding: 20px;
+  border: 2px solid #f39c12;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.connection-status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+}
+
+.status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.status-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #95a5a6;
+  transition: background-color 0.3s;
+}
+
+.status-dot.connected {
+  background: #2ecc71;
+  box-shadow: 0 0 8px rgba(46, 204, 113, 0.5);
+}
+
+.status-dot.disconnected {
+  background: #e74c3c;
+  box-shadow: 0 0 8px rgba(231, 76, 60, 0.5);
+}
+
+.status-dot.connecting {
+  background: #f39c12;
+  box-shadow: 0 0 8px rgba(243, 156, 18, 0.5);
+  animation: pulse 2s infinite;
+}
+
+.status-text {
+  color: #ecf0f1;
+  font-size: 12px;
+}
+
+.game-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 6px;
+}
+
+.info-label {
+  color: #95a5a6;
+  font-size: 12px;
+}
+
+.info-value {
+  color: #ecf0f1;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.movement-feedback {
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+}
+
+.last-move {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.move-label {
+  color: #95a5a6;
+  font-size: 12px;
+}
+
+.move-value {
+  color: #f39c12;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+/* Debug Info */
+.multiplayer-debug-info {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: rgba(0, 0, 0, 0.9);
+  border-radius: 10px;
+  padding: 20px;
+  border: 2px solid #f39c12;
+  max-width: 300px;
+  z-index: 1000;
+  font-size: 12px;
+  color: #ecf0f1;
+}
+
+.debug-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.debug-header h3 {
+  color: #f39c12;
+  font-size: 14px;
+  margin: 0;
+}
+
+.toggle-btn {
+  background: #3498db;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 10px;
+}
+
+.debug-content {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.debug-section h4 {
+  color: #95a5a6;
+  font-size: 12px;
+  margin: 0 0 8px 0;
+}
+
+.debug-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 10px;
+  margin-bottom: 5px;
+}
+
+.debug-label {
+  color: #95a5a6;
+}
+
+.debug-value {
+  color: #ecf0f1;
+  font-weight: bold;
+}
+
+.debug-messages {
+  max-height: 100px;
+  overflow-y: auto;
+  font-size: 10px;
+}
+
+.debug-message {
+  color: #95a5a6;
+  margin-bottom: 2px;
+  padding: 2px 4px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 3px;
+}
+
+.status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.debug-item .status-indicator {
+  margin-left: 10px;
+}
+
+/* Game Completion Modal - Updated for unified interface */
+.completion-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+}
+
+.completion-content {
+  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+  border-radius: 20px;
+  padding: 40px;
+  border: 3px solid #f39c12;
+  max-width: 500px;
+  text-align: center;
+  color: #ecf0f1;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+}
+
+.completion-content h2 {
+  color: #f39c12;
+  font-size: 28px;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.completion-content p {
+  font-size: 18px;
+  margin-bottom: 30px;
+  line-height: 1.5;
+}
+
+.final-scores {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 30px;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+}
+
+.score-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.score-item span {
+  color: #2ecc71;
+}
+
+/* Completion buttons for multiplayer */
+.eightbit-completion-btn {
+  background: #92CD41; /* Default green */
+  display: inline-block;
+  position: relative;
+  text-align: center;
+  font-size: 16px;
+  padding: 12px 20px;
+  font-family: 'Press Start 2P', cursive;
+  text-decoration: none; 
+  color: white;
+  box-shadow: inset -4px -4px 0px 0px #4AA52E;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.1s ease;
+  font-weight: normal;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  min-width: 200px;
+  box-sizing: border-box;
+  margin: 0.5rem;
+  white-space: nowrap;
+}
+
+.eightbit-completion-btn:hover {
+  background: #76c442;
+  box-shadow: inset -6px -6px 0px 0px #4AA52E;
+  transform: translateY(-2px);
+}
+
+.eightbit-completion-btn:active {
+  box-shadow: inset 4px 4px 0px 0px #4AA52E;
+  transform: translateY(0);
+}
+
+.eightbit-completion-btn.leaderboard {
+  background: #F7D51D;
+  box-shadow: inset -4px -4px 0px 0px #E59400;
+}
+
+.eightbit-completion-btn.leaderboard:hover {
+  background: #F2C409;
+  box-shadow: inset -6px -6px 0px 0px #E59400;
+}
+
+.eightbit-completion-btn.leaderboard:active {
+  box-shadow: inset 4px 4px 0px 0px #E59400;
+}
+
+.eightbit-completion-btn.menu {
+  background: #9b59b6;
+  box-shadow: inset -4px -4px 0px 0px #8e44ad;
+}
+
+.eightbit-completion-btn.menu:hover {
+  background: #8e44ad;
+  box-shadow: inset -6px -6px 0px 0px #7d3c98;
+}
+
+.eightbit-completion-btn.menu:active {
+  box-shadow: inset 4px 4px 0px 0px #7d3c98;
+}
+
+.eightbit-completion-btn.navigation {
+  background: #3498db;
+  box-shadow: inset -4px -4px 0px 0px #2980b9;
+}
+
+.eightbit-completion-btn.navigation:hover {
+  background: #2980b9;
+  box-shadow: inset -6px -6px 0px 0px #21618c;
+}
+
+.eightbit-completion-btn.navigation:active {
+  box-shadow: inset 4px 4px 0px 0px #21618c;
+}
+
+/* Connection status indicators */
+.status-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #95a5a6;
+  transition: background-color 0.3s;
+}
+
+.status-dot.connected {
+  background: #2ecc71;
+  box-shadow: 0 0 8px rgba(46, 204, 113, 0.5);
+}
+
+.status-dot.disconnected {
+  background: #e74c3c;
+  box-shadow: 0 0 8px rgba(231, 76, 60, 0.5);
+}
+
+.status-dot.connecting {
+  background: #f39c12;
+  box-shadow: 0 0 8px rgba(243, 156, 18, 0.5);
+  animation: pulse 2s infinite;
+}
+
+.status-text {
+  color: #ecf0f1;
+  font-size: 12px;
+}
+
+/* Music Button Styling for Multiplayer */
+.multiplayer-game-page .game-music-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  width: 50px;
+  height: 60px;
+  transition: transform 0.2s ease;
+  cursor: pointer;
+}
+
+.multiplayer-game-page .game-music-button:hover {
+  transform: scale(1.1);
+}
+
+.multiplayer-game-page .game-music-button .music-icon {
+  width: 50px;
+  height: 60px;
+  border-radius: 50%;
+  transition: opacity 0.3s ease;
+  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.multiplayer-game-page .game-music-button .stop-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 18px;
+  color: #fff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.multiplayer-game-page .game-music-button.stopped .stop-overlay {
+  opacity: 1;
+}
+
+.multiplayer-game-page .game-music-button.stopped .music-icon {
+  opacity: 0.7;
+  filter: grayscale(100%) drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+/* Hide all manual elements in multiplayer */
+.multiplayer-game-page .instructions-book,
+.multiplayer-game-page #instructionsBook,
+.multiplayer-game-page .vim-manual-modal,
+.multiplayer-game-page #vimManualModal,
+.multiplayer-game-page .book-icon {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* Animations */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes countdownPulse {
+  0% { 
+    transform: translate(-50%, -50%) scale(0.5); 
+    opacity: 0;
+  }
+  50% { 
+    transform: translate(-50%, -50%) scale(1.2); 
+    opacity: 1;
+  }
+  100% { 
+    transform: translate(-50%, -50%) scale(1); 
+    opacity: 1;
+  }
+}
+
+/* Responsive Design - Always keep banner visible with smooth scaling */
+@media (max-width: 1024px) {
+  .multiplayer-vs-header {
+    padding: 10px 15px;
+    min-height: 60px;
+  }
+  
+  .multiplayer-header-banner {
+    height: clamp(30px, 5vw, 50px);
+  }
+  
+  .versus-center {
+    margin: 0 15px;
+  }
+  
+  .versus-text-retro {
+    font-size: 16px;
+    padding: 8px 12px;
+  }
+  
+  .player-avatar {
+    width: 38px;
+    height: 38px;
+  }
+  
+  .player-username {
+    font-size: 12px;
+  }
+  
+  .score-value {
+    font-size: 14px;
+  }
+  
+  .quit-btn {
+    font-size: 9px !important;
+    padding: 4px 8px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .multiplayer-game-container {
+    padding: 10px;
+  }
+  
+  .multiplayer-game-board-container {
+    flex-direction: column;
+  }
+  
+  .multiplayer-game-sidebar {
+    min-width: auto;
+  }
+  
+  /* Keep horizontal layout but make everything smaller */
+  .multiplayer-vs-header {
+    padding: 8px 10px;
+    min-height: 50px;
+    gap: 8px;
+  }
+  
+  .multiplayer-header-banner {
+    height: clamp(25px, 4vw, 40px);
+  }
+  
+  .player-side {
+    max-width: 200px;
+  }
+  
+  .player-info {
+    gap: 8px;
+    padding: 6px 10px;
+  }
+  
+  .versus-center {
+    margin: 0 10px;
+  }
+  
+  .versus-text-retro {
+    font-size: 12px;
+    padding: 6px 10px;
+    letter-spacing: 1px;
+  }
+  
+  .versus-subtext {
+    font-size: 8px;
+  }
+  
+  .player-avatar {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .player-username {
+    font-size: 10px;
+  }
+  
+  .score-value {
+    font-size: 12px;
+    padding: 2px 4px;
+  }
+  
+  .score-label {
+    font-size: 9px;
+  }
+  
+  .player2-container {
+    gap: 6px;
+  }
+  
+  .quit-btn {
+    font-size: 8px !important;
+    padding: 3px 6px !important;
+  }
+  
+  .quit-side {
+    min-width: 60px;
+  }
+  
+  .multiplayer-debug-info {
+    position: relative;
+    top: auto;
+    right: auto;
+    max-width: none;
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .multiplayer-vs-header {
+    padding: 6px 8px;
+    min-height: 40px;
+    gap: 6px;
+  }
+  
+  .multiplayer-header-banner {
+    height: clamp(20px, 3vw, 30px);
+  }
+  
+  .player-side {
+    max-width: 150px;
+  }
+  
+  .player-info {
+    gap: 6px;
+    padding: 4px 8px;
+  }
+  
+  .versus-center {
+    margin: 0 6px;
+  }
+  
+  .versus-text-retro {
+    font-size: 10px;
+    padding: 4px 8px;
+    letter-spacing: 1px;
+  }
+  
+  .versus-subtext {
+    font-size: 7px;
+  }
+  
+  .player-avatar {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .player-username {
+    font-size: 9px;
+  }
+  
+  .score-value {
+    font-size: 10px;
+    padding: 2px 3px;
+    min-width: 25px;
+  }
+  
+  .score-label {
+    font-size: 8px;
+  }
+  
+  .player2-container {
+    gap: 4px;
+  }
+  
+  .quit-btn {
+    font-size: 7px !important;
+    padding: 2px 5px !important;
+  }
+  
+  .quit-side {
+    min-width: 50px;
+  }
+  
+  /* Responsive music button */
+  .multiplayer-game-page .game-music-button {
+    width: 35px;
+    height: 42px;
+    bottom: 15px;
+    right: 15px;
+  }
+  
+  .multiplayer-game-page .game-music-button .music-icon {
+    width: 35px;
+    height: 42px;
+  }
+  
+  .multiplayer-game-page .game-music-button .stop-overlay {
+    font-size: 14px;
+  }
+}

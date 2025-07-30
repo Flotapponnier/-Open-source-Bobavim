@@ -1,0 +1,68 @@
+{{define "user_settings_modal"}}
+<!-- User Settings Modal -->
+<div id="userSettingsModal" class="settings-modal hidden">
+  <div class="settings-modal-content">
+    <div class="settings-header">
+      <h3>User Settings</h3>
+      <button id="closeSettingsModal" class="close-btn">×</button>
+    </div>
+    
+    <div class="settings-body">
+      <!-- User Profile Section -->
+      <div class="settings-section">
+        <h4>Profile</h4>
+        <div class="profile-info">
+          <div class="avatar-display">
+            <img id="userAvatar" src="" alt="User Avatar" class="user-avatar">
+            <div class="character-name" id="characterName"></div>
+          </div>
+          <div class="profile-details">
+            <div class="profile-row">
+              <div class="profile-field">
+                <label>Username</label>
+                <span id="settingsUsername" class="profile-value"></span>
+              </div>
+              <div class="profile-field">
+                <label>Email</label>
+                <span id="settingsEmail" class="profile-value"></span>
+                <div id="emailConfirmationStatus"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Change Password Section -->
+      <div class="settings-section">
+        <h4>Change Password</h4>
+        <form id="changePasswordForm" class="settings-form">
+          <div class="form-group">
+            <label for="currentPassword">Current Password</label>
+            <input type="password" id="currentPassword" name="currentPassword" required>
+          </div>
+          <div class="form-group">
+            <label for="newPassword">New Password</label>
+            <input type="password" id="newPassword" name="newPassword" minlength="8" required>
+          </div>
+          <div class="form-group">
+            <label for="confirmNewPassword">Confirm New Password</label>
+            <input type="password" id="confirmNewPassword" name="confirmNewPassword" minlength="8" required>
+          </div>
+          <button type="submit" class="btn btn-update-password">Update Password</button>
+          <div id="passwordChangeStatus" class="status-message hidden"></div>
+        </form>
+      </div>
+
+      <!-- Delete Account Section -->
+      <div class="settings-section danger-section">
+        <h4>Delete Account</h4>
+        <p class="warning-text">This action cannot be undone. All your data will be permanently deleted.</p>
+        <button id="deleteAccountBtn" class="btn danger">Delete Account</button>
+      </div>
+    </div>
+
+    <div id="settingsError" class="error-message hidden"></div>
+    <div id="settingsSuccess" class="success-message hidden"></div>
+  </div>
+</div>
+{{end}}

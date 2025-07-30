@@ -1,0 +1,35 @@
+{{define "love_letter_modal"}}
+<div id="loveLetterModal" class="love-letter-modal hidden">
+  <div class="love-letter-content">
+    <div class="letter-header">
+      <h2 class="letter-title">💌 HALL OF FAME</h2>
+      <button class="close-btn retro-btn" onclick="closeLoveLetterModal()">×</button>
+    </div>
+    
+    <div class="letter-body">
+      <div class="letter-intro">
+        <div class="intro-text">
+          <p>SPECIAL THANKS TO OUR LEGENDARY SUPPORTERS!</p>
+          <p>These heroes have contributed to make Boba.vim even better!</p>
+        </div>
+      </div>
+      
+      <div class="supporters-section">
+        <div class="supporters-loading">
+          <div class="loading-spinner"></div>
+          <p>LOADING SUPPORTERS...</p>
+        </div>
+        <div class="supporters-list hidden">
+          <!-- Supporters will be loaded here -->
+        </div>
+      </div>
+    </div>
+    
+    <div class="letter-footer">
+      <button class="close-btn retro-btn secondary" onclick="closeLoveLetterModal()">
+        CLOSE
+      </button>
+    </div>
+  </div>
+</div>
+{{end}}

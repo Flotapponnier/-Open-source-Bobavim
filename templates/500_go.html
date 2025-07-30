@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{.title}}</title>
+    <!-- Global CSS -->
+    <link rel="stylesheet" href="/static/css/global.css" />
+    <!-- 500 Error Page specific CSS -->
+    <link rel="stylesheet" href="/static/css/500.css" />
+  </head>
+  <body>
+    <!-- Animated clouds background -->
+    <div class="clouds-container" id="clouds-background"></div>
+
+    <div class="error-container">
+      <div class="error-card">
+        <div class="error-header">
+          <h1>🧋 Something went wrong!</h1>
+          <p>Our boba machine is having issues. Please try again later.</p>
+          <p class="error-details">{{.error}}</p>
+        </div>
+        <div class="error-actions">
+          <button onclick="window.location.href='/'" class="wood-btn">Go Home</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cloud animation system -->
+    <script type="module" src="/static/js/cloud.js"></script>
+  </body>
+</html>

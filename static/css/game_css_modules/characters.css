@@ -1,0 +1,360 @@
+/* ===================================
+   CHARACTERS MODULE
+   🎮 CHARACTER & PEARL SIZE CONTROL
+   ===================================
+   
+   All characters use --sprite-scale CSS variable set in scalingCore.js
+   
+   To adjust individual character types:
+   - .boba-character: Main character (boba)
+   - .pearl: Pearl collectibles  
+   - .enemy: Enemy characters
+   - .pearl-mold: Pearl mold items
+   
+   Each uses transform: scale(calc(var(--sprite-scale, 1) * 1.05))
+   Change the 1.05 multiplier to make specific characters bigger/smaller
+   ===================================== */
+
+/* Root CSS variables with defaults to prevent Safari alignment issues */
+:root {
+  --sprite-scale: 1;
+  --sprite-multiplier: 1.05;
+}
+
+/* Safari-specific fixes for initial positioning */
+@supports (-webkit-appearance: none) {
+  .boba-character,
+  .pearl,
+  .enemy,
+  .pearl-mold {
+    /* Force Safari to recalculate positioning on initial load */
+    will-change: transform;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
+  }
+}
+
+.boba-character {
+  position: absolute;
+  top: -15%;
+  left: 50%;
+  transform: translate(-50%, -50%)
+    scale(calc(var(--sprite-scale, 1) * var(--sprite-multiplier, 1.05)));
+  z-index: 100;
+  pointer-events: none;
+  width: 105%;
+  height: 105%;
+  /* Safari-specific positioning fixes */
+  -webkit-transform: translate(-50%, -50%)
+    scale(calc(var(--sprite-scale, 1) * var(--sprite-multiplier, 1.05)));
+}
+
+.boba-sprite {
+  width: 120%;
+  height: 120%;
+  display: block;
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 102;
+  animation: bobaJump 2s ease-in-out infinite;
+  filter: drop-shadow(
+    0 calc(2px * var(--sprite-scale, 1) * 1.05)
+      calc(4px * var(--sprite-scale, 1) * 1.05) rgba(0, 0, 0, 0.3)
+  );
+}
+
+.boba-shadow {
+  position: absolute;
+  bottom: -50%;
+  left: 50%;
+  transform: translateX(-50%) scale(var(--sprite-scale, 1));
+  width: 60%;
+  height: 16%;
+  background: radial-gradient(ellipse, rgba(0, 0, 0, 0.3) 0%, transparent 70%);
+  border-radius: 50%;
+  z-index: 101;
+  animation: bobaShadow 2s ease-in-out infinite;
+}
+
+.pearl {
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  transform: translate(-50%, -50%)
+    scale(calc(var(--sprite-scale, 1) * var(--sprite-multiplier, 1.05)));
+  z-index: 90;
+  pointer-events: none;
+  width: 100%;
+  height: 100%;
+  /* Safari-specific positioning fixes */
+  -webkit-transform: translate(-50%, -50%)
+    scale(calc(var(--sprite-scale, 1) * var(--sprite-multiplier, 1.05)));
+}
+
+.pearl-sprite {
+  width: 75%;
+  height: 75%;
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 92;
+  animation: pearlJump 2s ease-in-out infinite;
+  filter: drop-shadow(
+    0 calc(1px * var(--sprite-scale, 1) * 1.05)
+      calc(1px * var(--sprite-scale, 1) * 1.05) rgba(0, 0, 0, 0.2)
+  );
+}
+
+.pearl-shadow {
+  position: absolute;
+  bottom: -50%;
+  left: 50%;
+  transform: translateX(-50%) scale(var(--sprite-scale, 1));
+  width: 16%;
+  height: 6%;
+  background: radial-gradient(ellipse, rgba(0, 0, 0, 0.3) 0%, transparent 70%);
+  border-radius: 50%;
+  z-index: 91;
+  animation: pearlShadowJump 2s ease-in-out infinite;
+}
+
+.enemy {
+  position: absolute;
+  top: -15%;
+  left: 50%;
+  transform: translate(-50%, -50%)
+    scale(calc(var(--sprite-scale, 1) * var(--sprite-multiplier, 1.05)));
+  z-index: 95;
+  pointer-events: none;
+  width: 155%;
+  height: 155%;
+}
+
+.enemy-sprite {
+  width: 155%;
+  height: 155%;
+  display: block;
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 97;
+  filter: drop-shadow(
+    0 calc(2px * var(--sprite-scale, 1) * 1.05)
+      calc(4px * var(--sprite-scale, 1) * 1.05) rgba(0, 0, 0, 0.4)
+  );
+}
+
+.enemy-shadow {
+  position: absolute;
+  bottom: -50%;
+  left: 50%;
+  transform: translateX(-50%) scale(var(--sprite-scale, 1));
+  width: 60%;
+  height: 16%;
+  background: radial-gradient(
+    ellipse,
+    rgba(139, 0, 0, 0.4) 0%,
+    transparent 70%
+  );
+  border-radius: 50%;
+  z-index: 96;
+}
+
+.pearl-mold {
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  transform: translate(-50%, -50%)
+    scale(calc(var(--sprite-scale, 1) * var(--sprite-multiplier, 1.05)));
+  z-index: 85;
+  pointer-events: none;
+  width: 125%;
+  height: 125%;
+}
+
+.pearl-mold-sprite {
+  width: 75%;
+  height: 75%;
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 87;
+  animation: pearlMoldJump 2s ease-in-out infinite;
+  filter: drop-shadow(
+    0 calc(1px * var(--sprite-scale, 1) * 1.05)
+      calc(1px * var(--sprite-scale, 1) * 1.05) rgba(0, 0, 0, 0.2)
+  );
+}
+
+.pearl-mold-shadow {
+  position: absolute;
+  bottom: -50%;
+  left: 50%;
+  transform: translateX(-50%) scale(var(--sprite-scale, 1));
+  width: 16%;
+  height: 6%;
+  background: radial-gradient(
+    ellipse,
+    rgba(0, 100, 0, 0.4) 0%,
+    transparent 70%
+  );
+  border-radius: 50%;
+  z-index: 86;
+  animation: pearlMoldShadowJump 2s ease-in-out infinite;
+}
+
+/* ===================================
+   SMALL MAP CHARACTER SIZE OVERRIDES
+   For maps with < 100 cells (like map 1 & 2)
+   =================================== */
+
+/* Small map detection - applied when map complexity < 100 */
+.small-map .boba-character {
+  width: 190%; /* Increased from 105% to make them visible */
+  height: 190%;
+  transform: translate(-50%, -50%)
+    scale(calc(var(--sprite-scale, 1) * var(--sprite-multiplier, 1.05)));
+}
+
+.small-map .pearl {
+  width: 160%; /* Reduced by 15% from 150% */
+  height: 160%;
+  transform: translate(-50%, -50%)
+    scale(calc(var(--sprite-scale, 1) * var(--sprite-multiplier, 1.05)));
+}
+
+/* ===================================
+   MEDIUM MAP CHARACTER SIZE OVERRIDES
+   For maps with 100-500 cells
+   =================================== */
+
+.medium-map .boba-character {
+  width: 95%; /* Slightly smaller than small maps */
+  height: 95%;
+}
+
+.medium-map .pearl {
+  width: 90%; /* Slightly smaller than small maps */
+  height: 90%;
+}
+
+.medium-map .enemy {
+  width: 140%; /* Slightly smaller than small maps */
+  height: 140%;
+}
+
+.medium-map .enemy-sprite {
+  width: 140%; /* Slightly smaller than small maps */
+  height: 140%;
+}
+
+.medium-map .pearl-mold {
+  width: 110%; /* Slightly smaller than small maps */
+  height: 110%;
+}
+
+.medium-map .pearl-mold-sprite {
+  width: 80%; /* Slightly smaller than small maps */
+  height: 80%;
+}
+
+/* ===================================
+   LARGE MAP CHARACTER SIZE OVERRIDES
+   For maps with 500+ cells
+   =================================== */
+
+.large-map .boba-character {
+  width: 130%; /* Even smaller for large maps */
+  height: 130%;
+}
+
+.large-map .pearl {
+  width: 120%; /* Standard size for large maps */
+  height: 120%;
+}
+
+.large-map .enemy {
+  width: 130%; /* Appropriate size for large maps */
+  height: 120%;
+}
+
+.large-map .pearl-mold {
+  width: 110%; /* Standard size for large maps */
+  height: 110%;
+}
+
+/* Character animations */
+@keyframes bobaJump {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) translateY(0px);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateY(-12px);
+  }
+}
+
+@keyframes bobaShadow {
+  0%,
+  100% {
+    transform: translateX(-50%) scale(calc(1 * var(--sprite-scale, 1)));
+    opacity: 0.3;
+  }
+  50% {
+    transform: translateX(-50%) scale(calc(0.8 * var(--sprite-scale, 1)));
+    opacity: 0.2;
+  }
+}
+
+@keyframes pearlJump {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) translateY(0px);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateY(-8px);
+  }
+}
+
+@keyframes pearlShadowJump {
+  0%,
+  100% {
+    transform: translateX(-50%) scale(calc(1 * var(--sprite-scale, 1)));
+    opacity: 0.3;
+  }
+  50% {
+    transform: translateX(-50%) scale(calc(0.8 * var(--sprite-scale, 1)));
+    opacity: 0.2;
+  }
+}
+
+@keyframes pearlMoldJump {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) translateY(0px);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateY(-8px);
+  }
+}
+
+@keyframes pearlMoldShadowJump {
+  0%,
+  100% {
+    transform: translateX(-50%) scale(calc(1 * var(--sprite-scale, 1)));
+    opacity: 0.4;
+  }
+  50% {
+    transform: translateX(-50%) scale(calc(0.8 * var(--sprite-scale, 1)));
+    opacity: 0.3;
+  }
+}
