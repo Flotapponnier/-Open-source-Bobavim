@@ -32,7 +32,7 @@ A multiplayer Vim game built with Go and vanilla JavaScript, teaching Vim comman
 
 4. **Open your browser**
    - Game: http://localhost:8080
-   - Admin Panel: http://localhost:8080/admin (username: `test`, password: `test`)
+   - Admin Panel: http://localhost:8080/dashboard/secure/admin (username: `test`, password: `test`)
 
 ## 🎮 How to Play
 
@@ -133,6 +133,36 @@ The game uses SQLite by default for local development. The database is automatic
 - **Modular Architecture**: Clean separation of concerns
 - **Performance Optimized**: Efficient game state management
 - **Accessibility**: Keyboard-first navigation
+
+## 💡 Ideas to Improve the Game
+
+### Map Creation System
+- **Player Map Editor**: Develop a map creation system using insert mode, allowing players to design custom maps
+- **Community Maps**: Share and download maps created by other players
+- **Map Validation**: Ensure created maps are solvable and follow game mechanics
+
+### Social Features
+- **Friend List System**: Implement a friend list where players can connect and challenge each other
+- **Multiplayer Challenges**: Allow friends to propose fights and competitions
+- **Player Profiles**: Enhanced profile system with statistics and achievements
+
+### Game System Enhancements
+- **New Game Modes**: Develop additional gaming systems and mechanics
+- **Extended Command Set**: Include more advanced Vim commands and movements
+- **Progressive Learning**: Structured learning paths for different skill levels
+- **Achievement System**: Unlock rewards and recognition for mastering commands
+
+### Technical Improvements
+- **Framework Migration**: Migrate from vanilla HTML/JS/CSS to a modern framework (React, Vue, or Svelte)
+- **Enhanced UI/UX**: Improve user interface and user experience components
+- **Mobile Optimization**: Better mobile responsiveness and touch controls
+- **Performance Optimization**: Optimize game performance and loading times
+
+### Additional Features
+- **Themes and Customization**: Multiple visual themes and UI customization options
+- **Sound Design**: Enhanced audio feedback and background music
+- **Accessibility**: Improved accessibility features for diverse user needs
+- **Analytics**: Game analytics to understand player behavior and improve gameplay
 
 ## 🤝 Contributing
 
