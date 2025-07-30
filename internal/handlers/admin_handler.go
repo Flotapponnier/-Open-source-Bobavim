@@ -7,6 +7,7 @@ import (
 
 	"boba-vim/internal/models"
 	"boba-vim/internal/services"
+	"boba-vim/internal/services/email"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
@@ -17,14 +18,16 @@ type AdminHandler struct {
 	playerService     *services.PlayerService
 	surveyService     *services.SurveyService
 	newsletterService *services.NewsletterService
+	emailService      *email.EmailService
 	db                *gorm.DB
 }
 
-func NewAdminHandler(playerService *services.PlayerService, surveyService *services.SurveyService, newsletterService *services.NewsletterService, db *gorm.DB) *AdminHandler {
+func NewAdminHandler(playerService *services.PlayerService, surveyService *services.SurveyService, newsletterService *services.NewsletterService, emailService *email.EmailService, db *gorm.DB) *AdminHandler {
 	return &AdminHandler{
 		playerService:     playerService,
 		surveyService:     surveyService,
 		newsletterService: newsletterService,
+		emailService:      emailService,
 		db:                db,
 	}
 }
@@ -171,7 +174,7 @@ func (ah *AdminHandler) CheckAdminStatus(c *gin.Context) {
 	})
 }
 
-// CreateNewsletter creates a new newsletter post
+// CreateNewsletter creates a new newsletter post and sends emails to confirmed users
 func (ah *AdminHandler) CreateNewsletter(c *gin.Context) {
 	var req struct {
 		Title   string `json:"title" binding:"required"`
@@ -196,9 +199,12 @@ func (ah *AdminHandler) CreateNewsletter(c *gin.Context) {
 		return
 	}
 
+	// Send newsletter emails to all confirmed users
+	go ah.sendNewsletterEmails(newsletter.Title, newsletter.Summary)
+
 	c.JSON(http.StatusCreated, gin.H{
 		"success":    true,
-		"message":    "Newsletter created successfully",
+		"message":    "Newsletter created successfully and emails are being sent",
 		"newsletter": newsletter,
 	})
 }
@@ -305,4 +311,22 @@ func (ah *AdminHandler) DeleteNewsletter(c *gin.Context) {
 		"success": true,
 		"message": "Newsletter deleted successfully",
 	})
+}
+
+// sendNewsletterEmails sends newsletter emails to all confirmed users
+func (ah *AdminHandler) sendNewsletterEmails(title, summary string) {
+	// Get all players with confirmed emails
+	var players []models.Player
+	if err := ah.db.Where("email_confirmed = ?", true).Find(&players).Error; err != nil {
+		// Log error but don't fail the newsletter creation
+		return
+	}
+
+	// Send emails to all confirmed users
+	for _, player := range players {
+		if err := ah.emailService.SendNewsletterEmail(player.Email, title, summary); err != nil {
+			// Log individual email failures but continue sending to others
+			continue
+		}
+	}
 }

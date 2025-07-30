@@ -82,7 +82,7 @@ func main() {
 	authHandler := handlers.NewAuthHandler(db, paymentService)
 	userDataHandler := handlers.NewUserDataHandler(db)
 	surveyHandler := handlers.NewSurveyHandler(db)
-	adminHandler := handlers.NewAdminHandler(playerService, surveyService, newsletterService, db)
+	adminHandler := handlers.NewAdminHandler(playerService, surveyService, newsletterService, emailService, db)
 	newsletterHandler := handlers.NewNewsletterHandler(newsletterService)
 	paymentHandler := handlers.NewPaymentHandler(db, paymentService, emailService)
 	

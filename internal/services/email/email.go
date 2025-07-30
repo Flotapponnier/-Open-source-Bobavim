@@ -287,6 +287,132 @@ func (es *EmailService) SendConfirmationEmail(to, confirmationToken string) erro
 	return es.SendEmail(to, subject, body)
 }
 
+func (es *EmailService) SendNewsletterEmail(to, newsletterTitle, newsletterSummary string) error {
+	if !es.IsConfigured() {
+		log.Printf("Email service not configured - would send newsletter email to %s", to)
+		return nil // Don't fail if email is not configured
+	}
+
+	subject := fmt.Sprintf("Bobavim Newsletter - %s", newsletterTitle)
+	
+	// Use production URL for images in emails (so they work regardless of where the app runs)
+	imageBaseURL := "https://www.bobavim.com"
+	if es.baseURL != "" && es.baseURL != "http://localhost:8080" {
+		imageBaseURL = es.baseURL
+	}
+	
+	// Create 8-bit style email template with boba banner
+	body := fmt.Sprintf(`
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>%s - Bobavim Newsletter</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+        
+        .pixel-font {
+            font-family: 'Press Start 2P', monospace;
+            line-height: 1.6;
+        }
+        
+        .pixel-button {
+            background: linear-gradient(45deg, #8B4513, #D2691E);
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border: 3px solid #654321;
+            display: inline-block;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 12px;
+            text-transform: uppercase;
+            box-shadow: 4px 4px 0px #654321;
+            transition: all 0.1s;
+        }
+        
+        .pixel-button:hover {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px #654321;
+        }
+        
+        .banner-container {
+            text-align: center;
+            background: linear-gradient(45deg, #87CEEB, #4682B4);
+            padding: 20px;
+            border: 4px solid #2F4F4F;
+            margin-bottom: 20px;
+        }
+        
+        .content-box {
+            background: #F5F5DC;
+            border: 3px solid #8B4513;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 4px 4px 0px #654321;
+        }
+    </style>
+</head>
+<body style="margin: 0; padding: 0; background-color: #FFF8DC; font-family: Arial, sans-serif;">
+    <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+        <!-- Banner Section -->
+        <div class="banner-container">
+            <img src="%s/static/sprites/logo/boba_vim_banner.png" alt="Bobavim Banner" style="max-width: 100%%; height: auto; image-rendering: pixelated;">
+        </div>
+        
+        <!-- Title Section -->
+        <div class="content-box">
+            <h1 class="pixel-font" style="color: #8B4513; text-align: center; font-size: 16px; margin: 0 0 20px 0;">
+                NEW NEWSLETTER
+            </h1>
+            
+            <h2 class="pixel-font" style="color: #654321; text-align: center; font-size: 14px; margin: 0 0 20px 0;">
+                %s
+            </h2>
+        </div>
+        
+        <!-- Content Preview -->
+        <div class="content-box">
+            <h3 class="pixel-font" style="color: #8B4513; font-size: 12px; margin: 0 0 15px 0;">
+                PREVIEW:
+            </h3>
+            
+            <p style="color: #333; line-height: 1.6; margin: 0 0 20px 0; font-size: 14px;">
+                %s
+            </p>
+            
+            <div style="text-align: center; margin: 30px 0;">
+                <a href="%s" class="pixel-button">
+                    READ FULL NEWSLETTER
+                </a>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="content-box" style="text-align: center;">
+            <p class="pixel-font" style="color: #8B4513; font-size: 10px; margin: 0 0 10px 0;">
+                BOBAVIM
+            </p>
+            
+            <p style="color: #666; font-size: 12px; margin: 0;">
+                Keep practicing those Vim motions!<br>
+                Master the art of efficient text editing through play.
+            </p>
+        </div>
+        
+        <div style="text-align: center; margin-top: 20px;">
+            <p style="font-size: 11px; color: #888;">
+                You received this email because you confirmed your email with Bobavim.<br>
+                Continue your Vim journey at <a href="%s" style="color: #8B4513;">www.bobavim.com</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>
+`, newsletterTitle, imageBaseURL, newsletterTitle, newsletterSummary, es.baseURL, es.baseURL)
+
+	return es.SendEmail(to, subject, body)
+}
+
 func (es *EmailService) SendEmail(to, subject, body string) error {
 	if es.useSES {
 		return es.sendEmailViaSES(to, subject, body)
