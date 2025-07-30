@@ -121,7 +121,6 @@ The game uses SQLite by default for local development. The database is automatic
 - **Real-time Competition**: Race against other players
 - **WebSocket Communication**: Low-latency multiplayer experience
 - **Live Leaderboards**: See who's the fastest Vim navigator
-- **Spectator Mode**: Watch other players compete
 
 ### Character System
 - **Multiple Characters**: Choose from various boba-themed sprites
@@ -152,17 +151,20 @@ The game uses SQLite by default for local development. The database is automatic
 - **Progressive Learning**: Structured learning paths for different skill levels
 - **Achievement System**: Unlock rewards and recognition for mastering commands
 
-### Technical Improvements
+### Technical Improvements To work on
 - **Framework Migration**: Migrate from vanilla HTML/JS/CSS to a modern framework (React, Vue, or Svelte)
 - **Enhanced UI/UX**: Improve user interface and user experience components
 - **Mobile Optimization**: Better mobile responsiveness and touch controls
 - **Performance Optimization**: Optimize game performance and loading times
+
 
 ### Additional Features
 - **Themes and Customization**: Multiple visual themes and UI customization options
 - **Sound Design**: Enhanced audio feedback and background music
 - **Accessibility**: Improved accessibility features for diverse user needs
 - **Analytics**: Game analytics to understand player behavior and improve gameplay
+- **Spectator Mode**: Watch other players compete
+
 
 ## 🤝 Contributing
 
