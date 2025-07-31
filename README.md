@@ -4,7 +4,7 @@ A multiplayer Vim game built with Go and vanilla JavaScript, teaching Vim comman
 
 ![Boba.vim Banner](static/sprites/logo/boba_vim_banner.png)
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 - Go 1.19 or higher
@@ -34,7 +34,7 @@ A multiplayer Vim game built with Go and vanilla JavaScript, teaching Vim comman
    - Game: http://localhost:8080
    - Admin Panel: http://localhost:8080/dashboard/secure/admin (username: `test`, password: `test`)
 
-## 🎮 How to Play
+## How to Play
 
 1. **Choose your character** - Select from various boba-themed sprites
 2. **Select a map** - Pick from different difficulty levels
@@ -47,7 +47,7 @@ A multiplayer Vim game built with Go and vanilla JavaScript, teaching Vim comman
 - **Multiplayer**: Compete with other players in real-time
 - **Tutorial**: Learn basic Vim movements step-by-step
 
-## 🛠 Development
+## Development
 
 ### Available Commands
 
@@ -79,7 +79,7 @@ make start         # Quick start (setup + dev)
 └── main.go           # Application entry point
 ```
 
-## 🔧 Configuration
+## Configuration
 
 ### Environment Variables
 
@@ -109,7 +109,7 @@ The game uses SQLite by default for local development. The database is automatic
 - Sample maps and game data
 - User progress tracking
 
-## 🎯 Features
+## Features
 
 ### Core Gameplay
 - **Vim Movement Training**: Practice `h`, `j`, `k`, `l`, `w`, `b`, `e`, `0`, `$`, `gg`, `G`, and more
@@ -166,7 +166,7 @@ The game uses SQLite by default for local development. The database is automatic
 - **Spectator Mode**: Watch other players compete
 
 
-## 🤝 Contributing
+## Contributing
 
 We welcome contributions! Here's how to get started:
 
@@ -195,36 +195,30 @@ We welcome contributions! Here's how to get started:
 - Test multiplayer functionality thoroughly
 - Maintain backwards compatibility
 
-## 📖 Game Design
+## Game Design
 
 ### Maps
 Maps are designed around specific Vim concepts:
 - **Beginner**: Basic `h`, `j`, `k`, `l` movement
 - **Word Movement**: `w`, `b`, `e` commands
 - **Line Navigation**: `0`, `$`, `^` commands
-- **Advanced**: `f`, `t`, `/`, `?` search commands
+- **Search motions and repeteaed search**: `f`, `t`, ',' , ';' search commands
 
-### Scoring System
-- **Movement Efficiency**: Fewer keystrokes = higher score
-- **Time Bonus**: Complete maps quickly for bonus points
-- **Combo System**: Chain movements for multiplier bonuses
-
-## 🔗 Links
+##  Links
 
 - **Repository**: https://github.com/Flotapponnier/Open-source-Bobavim
 - **Issues**: https://github.com/Flotapponnier/Open-source-Bobavim/issues
 - **Discussions**: https://github.com/Flotapponnier/Open-source-Bobavim/discussions
 
-## 📄 License
+##  License
 
 This project is open source. Feel free to use, modify, and distribute according to the license terms.
 
-## 🙏 Acknowledgments
+##  Acknowledgments
 
 - Built with ❤️ for the Vim community
 - Inspired by Vim's elegant movement philosophy
-- Thanks to all contributors and players!
 
 ---
 
-**Happy Vimming!** 🧋✨
+**Let's make boba and vim great again!** 🧋
