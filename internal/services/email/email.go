@@ -293,7 +293,7 @@ func (es *EmailService) SendNewsletterEmail(to, newsletterTitle, newsletterSumma
 		return nil // Don't fail if email is not configured
 	}
 
-	subject := fmt.Sprintf("Bobavim Newsletter - %s", newsletterTitle)
+	subject := fmt.Sprintf("🧋Bobavim Newsletter - %s", newsletterTitle)
 	
 	// Use production URL for images in emails (so they work regardless of where the app runs)
 	imageBaseURL := "https://www.bobavim.com"
