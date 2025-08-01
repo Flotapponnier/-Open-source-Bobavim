@@ -25,17 +25,16 @@ export function initializeOnlineButton() {
 }
 
 function setupButtonHoverEffects(button) {
+  // Removed boba emoji hover effects for vim navigation
   button.addEventListener("mouseenter", function () {
-    if (!isWaitingForOpponent) {
-      button.textContent = "🧋";
-    } else {
+    if (isWaitingForOpponent) {
       button.textContent = "❌ Cancel search";
     }
   });
 
   button.addEventListener("mouseleave", function () {
     if (!isWaitingForOpponent) {
-      button.textContent = "🧋 Play online";
+      button.textContent = "Play online";
     } else {
       button.textContent = "Finding opponent...";
     }
@@ -435,7 +434,7 @@ function setButtonState(button, state) {
   switch (state) {
     case "idle":
       button.disabled = false;
-      button.textContent = "🧋 Play online";
+      button.textContent = "Play online";
       break;
     case "connecting":
       button.disabled = true;

@@ -17,13 +17,7 @@ export function initializePlayButton() {
 }
 
 function setupButtonHoverEffects(button) {
-  button.addEventListener("mouseenter", function () {
-    button.textContent = "🧋";
-  });
-
-  button.addEventListener("mouseleave", function () {
-    button.textContent = "🧋 Play";
-  });
+  // Removed boba emoji hover effects for vim navigation
 }
 
 function setupButtonClickHandler(button) {
@@ -46,7 +40,7 @@ function setButtonStartingState(button, isStarting) {
     button.textContent = "🚀 Starting...";
   } else {
     button.disabled = false;
-    button.textContent = "🧋 Play";
+    button.textContent = "Play";
   }
 }
 

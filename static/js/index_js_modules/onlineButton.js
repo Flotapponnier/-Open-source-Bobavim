@@ -20,13 +20,7 @@ export function initializeOnlineButton() {
 }
 
 function setupButtonHoverEffects(button) {
-  button.addEventListener("mouseenter", function () {
-    button.textContent = "🧋";
-  });
-
-  button.addEventListener("mouseleave", function () {
-    button.textContent = "🧋 Play online";
-  });
+  // Removed boba emoji hover effects for vim navigation
 }
 
 function setupButtonClickHandler(button) {
@@ -95,7 +89,7 @@ function setButtonConnectingState(button, isConnecting) {
     button.textContent = "Connecting...";
   } else {
     button.disabled = false;
-    button.textContent = "🧋 Play online";
+    button.textContent = "Play online";
   }
 }
 
@@ -454,7 +448,7 @@ async function cancelWaitingForOpponent(button) {
     logger.error("Error canceling matchmaking:", error);
   }
 
-  button.textContent = "🧋 Play online";
+  button.textContent = "Play online";
   button.classList.remove("waiting");
 }
 
@@ -465,7 +459,7 @@ function stopWaitingWithoutCancel(button) {
     waitingInterval = null;
   }
 
-  button.textContent = "🧋 Play online";
+  button.textContent = "Play online";
   button.classList.remove("waiting");
 }
 

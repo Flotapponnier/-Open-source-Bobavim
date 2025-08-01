@@ -13,6 +13,7 @@ import {
   initializeDisplayTips,
   displayRandomTip,
 } from "./index_js_modules/displayTips.js";
+import { initializeVimNavigation } from "./index_js_modules/vimNavigation.js";
 
 document.addEventListener("DOMContentLoaded", async function () {
   logger.debug("Initializing index page modules...");
@@ -36,6 +37,9 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   // Display random tip
   displayRandomTip();
+
+  // Initialize vim navigation (after all other modules)
+  initializeVimNavigation();
 
   // Check for confirmation messages in URL parameters
   checkForConfirmationMessages();
