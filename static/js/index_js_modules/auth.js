@@ -127,6 +127,16 @@ export function initializeAuth() {
   window.closeAuthModal = () => {
     modal.classList.add("hidden");
     clearAuthError();
+    
+    // Re-enable vim navigation when modal is closed
+    if (window.showCursor) {
+      window.showCursor();
+    }
+    import('./vimNavigation.js').then(module => {
+      module.enableVimNavigation();
+    }).catch(() => {
+      // Ignore if vim navigation is not available
+    });
   };
 
   // Make showAuthModal globally available for other components
@@ -151,6 +161,23 @@ export function showAuthModal(mode = "register") {
   const modal = document.getElementById(AUTH_CONFIG.ELEMENT_IDS.MODAL);
   modal.classList.remove("hidden");
   switchAuthForm(mode);
+  
+  // Disable vim navigation when modal is open
+  if (window.hideCursor) {
+    window.hideCursor();
+    // Also disable the navigation completely for true modals
+    setTimeout(() => {
+      import('./vimNavigation.js').then(module => {
+        module.disableVimNavigation();
+      }).catch(() => {});
+    }, 0);
+  } else {
+    import('./vimNavigation.js').then(module => {
+      module.disableVimNavigation();
+    }).catch(() => {
+      // Ignore if vim navigation is not available
+    });
+  }
 }
 
 function switchAuthForm(mode) {
@@ -468,4 +495,14 @@ function closeAuthModal() {
   const modal = document.getElementById(AUTH_CONFIG.ELEMENT_IDS.MODAL);
   modal.classList.add("hidden");
   clearAuthError();
+  
+  // Re-enable vim navigation when modal is closed
+  if (window.showCursor) {
+    window.showCursor();
+  }
+  import('./vimNavigation.js').then(module => {
+    module.enableVimNavigation();
+  }).catch(() => {
+    // Ignore if vim navigation is not available
+  });
 }

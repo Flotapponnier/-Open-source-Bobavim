@@ -517,6 +517,25 @@ function showMatchFoundModal(matchData, button) {
 
   document.body.insertAdjacentHTML("beforeend", modalHTML);
   addMatchModalStyles();
+  
+  // Disable vim navigation when match found modal is open
+  if (window.hideCursor) {
+    window.hideCursor();
+    // Also disable the navigation completely for true modals
+    setTimeout(() => {
+      try {
+        import('./vimNavigation.js').then(module => {
+          module.disableVimNavigation();
+        }).catch(() => {});
+      } catch (e) {}
+    }, 0);
+  } else {
+    try {
+      import('./vimNavigation.js').then(module => {
+        module.disableVimNavigation();
+      }).catch(() => {});
+    } catch (e) {}
+  }
 
   // Start countdown timer
   let timeLeft = Math.floor(matchData.accept_timeout_ms / 1000);
@@ -640,6 +659,16 @@ function closeMatchFoundModal() {
   const modal = document.getElementById("matchFoundModal");
   if (modal) {
     modal.remove();
+    
+    // Re-enable vim navigation when match found modal is closed
+    if (window.showCursor) {
+      window.showCursor();
+    }
+    try {
+      import('./vimNavigation.js').then(module => {
+        module.enableVimNavigation();
+      }).catch(() => {});
+    } catch (e) {}
   }
 }
 
@@ -677,6 +706,25 @@ function showRegistrationRequiredMessage(message) {
 
   document.body.insertAdjacentHTML("beforeend", modalHTML);
   addGuestModalStyles();
+  
+  // Disable vim navigation when guest registration modal is open
+  if (window.hideCursor) {
+    window.hideCursor();
+    // Also disable the navigation completely for true modals
+    setTimeout(() => {
+      try {
+        import('./vimNavigation.js').then(module => {
+          module.disableVimNavigation();
+        }).catch(() => {});
+      } catch (e) {}
+    }, 0);
+  } else {
+    try {
+      import('./vimNavigation.js').then(module => {
+        module.disableVimNavigation();
+      }).catch(() => {});
+    } catch (e) {}
+  }
 
   // Close modal when clicking close or overlay
   document
@@ -714,6 +762,16 @@ function closeRegistrationModal() {
   const modal = document.getElementById("registrationModal");
   if (modal) {
     modal.remove();
+    
+    // Re-enable vim navigation when guest registration modal is closed
+    if (window.showCursor) {
+      window.showCursor();
+    }
+    try {
+      import('./vimNavigation.js').then(module => {
+        module.enableVimNavigation();
+      }).catch(() => {});
+    } catch (e) {}
   }
   
   // Clean up styles

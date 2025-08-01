@@ -27,6 +27,11 @@ export function showNewsletterPanel() {
   // Update button state
   button.classList.add('active');
   
+  // Hide vim cursor when newsletter panel is open
+  if (window.hideCursor) {
+    window.hideCursor();
+  }
+  
   isNewsletterOpen = true;
 }
 
@@ -42,6 +47,11 @@ export function hideNewsletterPanel() {
   
   // Update button state
   button.classList.remove('active');
+  
+  // Show vim cursor when newsletter panel is closed
+  if (window.showCursor) {
+    window.showCursor();
+  }
   
   isNewsletterOpen = false;
 }

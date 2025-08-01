@@ -17,6 +17,16 @@ function openModal(modal, bookContent, bookCover) {
   logger.debug("Opening retro vim manual book");
   modal.classList.remove("hidden");
   
+  // Disable vim navigation when manual is open (only if we're on index page)
+  const isIndexPage = !!(window.hideCursor && window.disableVimNavigation);
+  if (isIndexPage) {
+    window.hideCursor();
+    window.disableVimNavigation();
+    logger.debug("Vim navigation disabled for manual");
+  } else {
+    logger.debug("Manual opened in game mode - no vim navigation to disable");
+  }
+  
   // Animate book opening
   setTimeout(() => {
     if (bookContent) {
@@ -32,6 +42,16 @@ function closeModal(modal, bookContent) {
   // Close book animation
   if (bookContent) {
     bookContent.classList.remove("open");
+  }
+  
+  // Re-enable vim navigation when manual is closed (only if we're on index page)
+  const isIndexPage = !!(window.showCursor && window.enableVimNavigation);
+  if (isIndexPage) {
+    window.showCursor();
+    window.enableVimNavigation();
+    logger.debug("Vim navigation re-enabled for manual");
+  } else {
+    logger.debug("Manual closed in game mode - no vim navigation to re-enable");
   }
   
   // Hide modal after animation
@@ -200,7 +220,10 @@ export function initializeVimManual() {
     return;
   }
 
-  logger.debug("Initializing retro vim manual book...");
+  // Skip vim navigation features if not on index page (game pages)
+  const isIndexPage = !!(window.hideCursor && window.disableVimNavigation);
+  
+  logger.debug("Initializing retro vim manual book...", { isIndexPage });
 
   const { bookIcon, modal, closeBtn, helpText, bookContent, bookCover } = getVimManualElements();
 

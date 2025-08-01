@@ -24,7 +24,9 @@ const NAVIGATION_ELEMENTS = [
   // RIGHT COLUMN
   { selector: '#loginButton', column: 2, row: 0, type: 'button' },
   { selector: '#registerButton', column: 2, row: 0, type: 'button' }, // Same row as login (h/l)
-  { selector: '.social-icons', column: 2, row: 1, type: 'social' },
+  { selector: '.social-icons .linkedin-icon', column: 2, row: 1, type: 'social-icon' },
+  { selector: '.social-icons .github-icon', column: 2, row: 1, type: 'social-icon' }, // Same row as linkedin (h/l)
+  { selector: '.social-icons .portfolio-icon', column: 2, row: 1, type: 'social-icon' }, // Same row as linkedin (h/l)
   { selector: '.terms-link', column: 2, row: 2, type: 'button' }
 ];
 
@@ -40,6 +42,13 @@ const PLAY_BUTTON_INDEX = NAVIGATION_ELEMENTS.findIndex(el => el.selector === '#
 
 export function initializeVimNavigation() {
   logger.debug("Initializing simple vim navigation...");
+  
+  // CRITICAL: Prevent initialization on game pages
+  const isGamePage = document.body && document.body.classList.contains('game-page');
+  if (isGamePage) {
+    logger.debug("Blocked vim navigation initialization - on game page");
+    return;
+  }
   
   // Set initial position to Play button
   currentElementIndex = PLAY_BUTTON_INDEX >= 0 ? PLAY_BUTTON_INDEX : 5; // Default to Play button
@@ -141,7 +150,7 @@ function moveLeft() {
   const currentNav = NAVIGATION_ELEMENTS[currentElementIndex];
   if (!currentNav) return;
   
-  // Handle same-row elements (Survey/Newsletter, Login/Register)
+  // Handle same-row elements (Survey/Newsletter, Login/Register, Social Icons)
   if (currentNav.selector === '#newsletterButton') {
     // Newsletter -> Survey
     const surveyIndex = NAVIGATION_ELEMENTS.findIndex(el => el.selector === '#surveyButton');
@@ -155,6 +164,22 @@ function moveLeft() {
     const loginIndex = NAVIGATION_ELEMENTS.findIndex(el => el.selector === '#loginButton');
     if (loginIndex >= 0) {
       currentElementIndex = loginIndex;
+      updateCursor();
+      return;
+    }
+  } else if (currentNav.selector === '.social-icons .github-icon') {
+    // GitHub -> LinkedIn
+    const linkedinIndex = NAVIGATION_ELEMENTS.findIndex(el => el.selector === '.social-icons .linkedin-icon');
+    if (linkedinIndex >= 0) {
+      currentElementIndex = linkedinIndex;
+      updateCursor();
+      return;
+    }
+  } else if (currentNav.selector === '.social-icons .portfolio-icon') {
+    // Portfolio -> GitHub
+    const githubIndex = NAVIGATION_ELEMENTS.findIndex(el => el.selector === '.social-icons .github-icon');
+    if (githubIndex >= 0) {
+      currentElementIndex = githubIndex;
       updateCursor();
       return;
     }
@@ -213,7 +238,7 @@ function moveRight() {
   const currentNav = NAVIGATION_ELEMENTS[currentElementIndex];
   if (!currentNav) return;
   
-  // Handle same-row elements (Survey/Newsletter, Login/Register)
+  // Handle same-row elements (Survey/Newsletter, Login/Register, Social Icons)
   if (currentNav.selector === '#surveyButton') {
     // Survey -> Newsletter
     const newsletterIndex = NAVIGATION_ELEMENTS.findIndex(el => el.selector === '#newsletterButton');
@@ -227,6 +252,22 @@ function moveRight() {
     const registerIndex = NAVIGATION_ELEMENTS.findIndex(el => el.selector === '#registerButton');
     if (registerIndex >= 0) {
       currentElementIndex = registerIndex;
+      updateCursor();
+      return;
+    }
+  } else if (currentNav.selector === '.social-icons .linkedin-icon') {
+    // LinkedIn -> GitHub
+    const githubIndex = NAVIGATION_ELEMENTS.findIndex(el => el.selector === '.social-icons .github-icon');
+    if (githubIndex >= 0) {
+      currentElementIndex = githubIndex;
+      updateCursor();
+      return;
+    }
+  } else if (currentNav.selector === '.social-icons .github-icon') {
+    // GitHub -> Portfolio
+    const portfolioIndex = NAVIGATION_ELEMENTS.findIndex(el => el.selector === '.social-icons .portfolio-icon');
+    if (portfolioIndex >= 0) {
+      currentElementIndex = portfolioIndex;
       updateCursor();
       return;
     }
@@ -366,6 +407,12 @@ function moveDown() {
 function handleKeyPress(event) {
   if (!isVimNavigationActive) return;
   
+  // CRITICAL: Block all key handling on game pages
+  const isGamePage = document.body && document.body.classList.contains('game-page');
+  if (isGamePage) {
+    return;
+  }
+  
   // Don't interfere with input fields
   if (event.target.tagName === 'INPUT' || 
       event.target.tagName === 'TEXTAREA' || 
@@ -497,14 +544,14 @@ function addCursorInsideElement(element) {
     updateCursor(); // Recursive call to show cursor on first character
     return;
     
-  } else if (element.tagName === 'BUTTON' && element.id !== 'surveyButton' && element.id !== 'newsletterButton') {
-    // For buttons (except survey/newsletter), prepend boba emoji (don't replace first letter)
+  } else if (element.tagName === 'BUTTON' && element.id !== 'surveyButton' && element.id !== 'newsletterButton' && !element.classList.contains('terms-link')) {
+    // For buttons (except survey/newsletter/terms), prepend boba emoji (don't replace first letter)
     const originalText = element.textContent;
     element.setAttribute('data-original-text', originalText);
     element.textContent = '🧋 ' + originalText;
     
   } else if (element.tagName === 'IMG' || element.classList.contains('love-letter-image') || 
-             element.id === 'surveyButton' || element.id === 'newsletterButton') {
+             element.id === 'surveyButton' || element.id === 'newsletterButton' || element.classList.contains('terms-link')) {
     // For images and survey/newsletter buttons, use fixed positioning like credentials to avoid interference
     const cursor = document.createElement('div');
     cursor.className = 'vim-cursor';
@@ -674,6 +721,13 @@ function closeActiveModals() {
 
 // Export functions for external use
 export function enableVimNavigation() {
+  // Prevent enabling vim navigation on game pages
+  const isGamePage = document.body && document.body.classList.contains('game-page');
+  if (isGamePage) {
+    console.warn('Blocked enableVimNavigation - on game page');
+    return;
+  }
+  
   isVimNavigationActive = true;
   updateCursor();
 }
@@ -685,4 +739,23 @@ export function disableVimNavigation() {
 
 export function refreshNavigableElements() {
   updateCursor();
+}
+
+// Function to disable cursor when modals are open
+export function hideCursor() {
+  removeAllCursors();
+}
+
+// Function to show cursor when modals are closed
+export function showCursor() {
+  // Prevent showing cursor on game pages
+  const isGamePage = document.body && document.body.classList.contains('game-page');
+  if (isGamePage) {
+    console.warn('Blocked showCursor - on game page');
+    return;
+  }
+  
+  if (isVimNavigationActive) {
+    updateCursor();
+  }
 }

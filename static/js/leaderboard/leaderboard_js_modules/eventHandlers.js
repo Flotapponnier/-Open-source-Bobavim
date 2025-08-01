@@ -121,6 +121,26 @@ export class EventHandlers {
   close() {
     if (this.modal) {
       this.modal.style.animation = "fadeOut 0.3s ease";
+      
+      // Re-enable vim navigation when leaderboard modal is closed
+      if (window.showCursor) {
+        window.showCursor();
+      }
+      if (window.enableVimNavigation) {
+        window.enableVimNavigation();
+      } else {
+        // Fallback: try to import and call directly
+        try {
+          import('../../index_js_modules/vimNavigation.js').then(module => {
+            module.enableVimNavigation();
+          }).catch(() => {
+            // Ignore if vim navigation is not available
+          });
+        } catch (e) {
+          // Ignore
+        }
+      }
+      
       setTimeout(() => {
         if (this.modal && this.modal.parentNode) {
           this.modal.parentNode.removeChild(this.modal);

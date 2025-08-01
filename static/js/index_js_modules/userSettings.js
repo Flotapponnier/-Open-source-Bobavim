@@ -123,6 +123,17 @@ async function openSettingsModal() {
       // Show modal
       document.getElementById("userSettingsModal").classList.remove("hidden");
       
+      // Disable vim navigation when settings modal is open
+      if (window.hideCursor) {
+        window.hideCursor();
+        // Also disable the navigation completely for true modals
+        setTimeout(() => {
+          if (window.disableVimNavigation) {
+            window.disableVimNavigation();
+          }
+        }, 0);
+      }
+      
       // Clear any previous error/success messages
       clearMessages();
     }
@@ -134,6 +145,15 @@ async function openSettingsModal() {
 
 function closeSettings() {
   document.getElementById("userSettingsModal").classList.add("hidden");
+  
+  // Re-enable vim navigation when settings modal is closed
+  if (window.showCursor) {
+    window.showCursor();
+  }
+  if (window.enableVimNavigation) {
+    window.enableVimNavigation();
+  }
+  
   clearMessages();
   clearPasswordForm();
 }

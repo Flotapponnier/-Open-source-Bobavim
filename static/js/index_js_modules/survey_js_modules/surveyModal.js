@@ -40,6 +40,11 @@ export async function showSurveyPanel() {
   // Update button state
   button.classList.add('active');
   
+  // Hide vim cursor when survey panel is open
+  if (window.hideCursor) {
+    window.hideCursor();
+  }
+  
   isOpen = true;
 }
 
@@ -55,6 +60,11 @@ export function hideSurveyPanel() {
   
   // Update button state
   button.classList.remove('active');
+  
+  // Show vim cursor when survey panel is closed
+  if (window.showCursor) {
+    window.showCursor();
+  }
   
   isOpen = false;
 }

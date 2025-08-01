@@ -40,6 +40,16 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   // Initialize vim navigation (after all other modules)
   initializeVimNavigation();
+  
+  // Make vim navigation functions globally available for modals
+  import('./index_js_modules/vimNavigation.js').then(module => {
+    window.hideCursor = module.hideCursor;
+    window.showCursor = module.showCursor;
+    window.disableVimNavigation = module.disableVimNavigation;
+    window.enableVimNavigation = module.enableVimNavigation;
+  }).catch(() => {
+    // Ignore if vim navigation is not available
+  });
 
   // Check for confirmation messages in URL parameters
   checkForConfirmationMessages();
@@ -53,6 +63,17 @@ window.openLoveLetterModal = function() {
   if (modal) {
     modal.classList.remove('hidden');
     loadSupporters();
+    
+    // Disable vim navigation when modal is open
+    if (window.hideCursor) {
+      window.hideCursor();
+      // Also disable the navigation completely for true modals
+      setTimeout(() => {
+        if (window.disableVimNavigation) {
+          window.disableVimNavigation();
+        }
+      }, 0);
+    }
   }
 };
 
@@ -60,6 +81,14 @@ window.closeLoveLetterModal = function() {
   const modal = document.getElementById('loveLetterModal');
   if (modal) {
     modal.classList.add('hidden');
+    
+    // Re-enable vim navigation when modal is closed
+    if (window.showCursor) {
+      window.showCursor();
+    }
+    if (window.enableVimNavigation) {
+      window.enableVimNavigation();
+    }
   }
 };
 

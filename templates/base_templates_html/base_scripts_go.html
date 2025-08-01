@@ -38,25 +38,53 @@
 <script type="module">
   import { initializeVimManual } from "/static/js/vimManual.js?v={{.cache_buster}}";
   document.addEventListener("DOMContentLoaded", function () {
-    initializeVimManual();
+    // Only initialize vim manual features if we're not in a game page
+    const isGamePage = document.body.classList.contains('game-page');
+    if (!isGamePage) {
+      initializeVimManual();
+    } else {
+      console.log('Skipping vim manual initialization - on game page');
+    }
   });
 </script>
 
 <!-- Terms and Conditions Modal Functions -->
 <script>
   function openTermsModal() {
+    console.log('Terms modal opening...');
     const modal = document.getElementById('termsModal');
     if (modal) {
       modal.style.display = 'flex';
       document.body.style.overflow = 'hidden';
+      
+      // Only try to disable vim navigation if we're NOT on a game page
+      const isGamePage = document.body.classList.contains('game-page');
+      if (!isGamePage && window.hideCursor && window.disableVimNavigation) {
+        window.hideCursor();
+        window.disableVimNavigation();
+        console.log('Terms: Vim navigation disabled');
+      } else {
+        console.log('Terms: Skipping vim navigation disable (game page or functions not available)');
+      }
     }
   }
   
   function closeTermsModal() {
+    console.log('Terms modal closing...');
     const modal = document.getElementById('termsModal');
     if (modal) {
       modal.style.display = 'none';
       document.body.style.overflow = 'auto';
+      
+      // Only try to re-enable vim navigation if we're NOT on a game page
+      const isGamePage = document.body.classList.contains('game-page');
+      if (!isGamePage && window.showCursor && window.enableVimNavigation) {
+        window.showCursor();
+        window.enableVimNavigation();
+        console.log('Terms: Vim navigation re-enabled');
+      } else {
+        console.log('Terms: Skipping vim navigation re-enable (game page or functions not available)');
+      }
     }
   }
   
