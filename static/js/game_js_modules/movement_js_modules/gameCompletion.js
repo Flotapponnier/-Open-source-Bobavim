@@ -4,6 +4,7 @@ import { COMPLETION_CONFIG } from "../constants_js_modules/gameCompletion.js";
 import { LeaderboardModal } from "../../leaderboard/leaderboard.js";
 import { markMapCompleted, requiresAccountConfirmation, isUserAuthenticated, isUserEmailConfirmed, getMapLockReason, isMapUnlocked } from "../../index_js_modules/mapSelection_submodule/mapProgressionManager.js";
 import { createAvatarHTML, getCharacterDisplayName, getCharacterTextColor, getAvatarSpritePath } from "../../shared/character_sprites.js";
+import { initializeGameCompletionVim, disableGameCompletionVim } from "../gameCompletionVimNavigation.js";
 
 export function formatTime(timeValue) {
   if (timeValue === null || timeValue === undefined) return "N/A";
@@ -201,6 +202,11 @@ export async function showFailureModal(result) {
 
   document.body.insertAdjacentHTML("beforeend", modalHTML);
 
+  // Initialize game completion vim navigation for failure modal
+  setTimeout(() => {
+    initializeGameCompletionVim();
+  }, 100);
+
   const hoverButtons = [
     {
       id: COMPLETION_CONFIG.ELEMENT_IDS.PLAY_SAME_MAP,
@@ -335,6 +341,11 @@ export async function showCompletionModal(result) {
 
   document.body.insertAdjacentHTML("beforeend", modalHTML);
 
+  // Initialize game completion vim navigation for success modal
+  setTimeout(() => {
+    initializeGameCompletionVim();
+  }, 100);
+
   const hoverButtons = [
     {
       id: COMPLETION_CONFIG.ELEMENT_IDS.VIEW_LEADERBOARD,
@@ -424,9 +435,21 @@ function getButtonClass(id) {
   return ''; // Default green style for playSameMap
 }
 
+function getDataActionAttribute(id) {
+  const actionMap = {
+    'viewLeaderboard': 'data-action="leaderboard"',
+    'playSameMap': 'data-action="play-same-map"',
+    'previousMap': 'data-action="previous-map"',
+    'nextMap': 'data-action="next-map"',
+    'backToMenu': 'data-action="back-to-menu"'
+  };
+  return actionMap[id] || '';
+}
+
 function createButton(id, label, gradient) {
   const buttonClass = getButtonClass(id);
-  return `<button id="${id}" class="eightbit-completion-btn ${buttonClass}">${label}</button>`;
+  const dataAction = getDataActionAttribute(id);
+  return `<button id="${id}" class="eightbit-completion-btn ${buttonClass}" ${dataAction}>${label}</button>`;
 }
 
 function getSmallButtonStyle(gradient) {
@@ -436,13 +459,15 @@ function getSmallButtonStyle(gradient) {
 
 function createSmallButton(id, label, gradient) {
   const buttonClass = getButtonClass(id);
-  return `<button id="${id}" class="eightbit-completion-btn ${buttonClass}">${label}</button>`;
+  const dataAction = getDataActionAttribute(id);
+  return `<button id="${id}" class="eightbit-completion-btn ${buttonClass}" ${dataAction}>${label}</button>`;
 }
 
 function createDisabledButton(id, label, lockReason) {
+  const dataAction = getDataActionAttribute(id);
   return `
     <div style="display: flex; flex-direction: column; align-items: center; gap: 5px;">
-      <button id="${id}" disabled class="eightbit-completion-btn navigation" style="
+      <button id="${id}" disabled class="eightbit-completion-btn navigation" ${dataAction} style="
         background: #6c757d !important;
         color: #adb5bd !important;
         cursor: not-allowed !important;
@@ -675,6 +700,9 @@ function updateFavoriteStarAppearance(starBtn, mapId) {
 async function showLeaderboard(currentMapInfo) {
   logger.debug("showLeaderboard called for map:", currentMapInfo);
 
+  // Disable game completion vim navigation
+  disableGameCompletionVim();
+
   // Hide the completion modal temporarily
   const completionModal = document.getElementById('completionModal');
   if (completionModal) {
@@ -692,6 +720,10 @@ async function showLeaderboard(currentMapInfo) {
       const completionModal = document.getElementById('completionModal');
       if (completionModal) {
         completionModal.style.display = 'flex';
+        // Re-initialize game completion vim navigation
+        setTimeout(() => {
+          initializeGameCompletionVim();
+        }, 100);
       }
     }
   });

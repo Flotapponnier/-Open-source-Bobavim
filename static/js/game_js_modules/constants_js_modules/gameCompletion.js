@@ -38,10 +38,10 @@ export const COMPLETION_CONFIG = {
   },
   BUTTONS: {
     LEADERBOARD: "🏆 Leaderboard",
-    PLAY_SAME_MAP: "🧋 Play Same Map",
+    PLAY_SAME_MAP: "Play Same Map",
     PREVIOUS_MAP: "⬅️ Previous Map",
     NEXT_MAP: "➡️ Next Map",
-    BACK_MENU: "🧋 Back to Menu", 
+    BACK_MENU: "Back to Menu", 
     HOVER_ICON: "🧋",
   },
   ELEMENT_IDS: {
