@@ -51,7 +51,7 @@
 <!-- Terms and Conditions Modal Functions -->
 <script>
   function openTermsModal() {
-    console.log('Terms modal opening...');
+    logger.debug('Terms modal opening...');
     const modal = document.getElementById('termsModal');
     if (modal) {
       modal.style.display = 'flex';
@@ -62,17 +62,34 @@
       if (!isGamePage && window.hideCursor && window.disableVimNavigation) {
         window.hideCursor();
         window.disableVimNavigation();
-        console.log('Terms: Vim navigation disabled');
+        logger.debug('Terms: Main vim navigation disabled');
+        
+        // Initialize vim navigation for terms modal
+        setTimeout(() => {
+          import('/static/js/index_js_modules/modalVimNavigation.js').then(module => {
+            console.log('Terms: About to initialize modal vim');
+            module.initializeModalVim('terms');
+          }).catch(() => {
+            logger.debug('Terms: Modal vim navigation not available');
+          });
+        }, 100); // Reduced delay for faster cursor appearance
       } else {
-        console.log('Terms: Skipping vim navigation disable (game page or functions not available)');
+        logger.debug('Terms: Skipping vim navigation disable (game page or functions not available)');
       }
     }
   }
   
   function closeTermsModal() {
-    console.log('Terms modal closing...');
+    logger.debug('Terms modal closing...');
     const modal = document.getElementById('termsModal');
     if (modal) {
+      // Disable terms modal vim navigation first
+      import('/static/js/index_js_modules/modalVimNavigation.js').then(module => {
+        module.disableModalVim();
+      }).catch(() => {
+        logger.debug('Terms: Modal vim navigation not available');
+      });
+      
       modal.style.display = 'none';
       document.body.style.overflow = 'auto';
       
@@ -81,9 +98,9 @@
       if (!isGamePage && window.showCursor && window.enableVimNavigation) {
         window.showCursor();
         window.enableVimNavigation();
-        console.log('Terms: Vim navigation re-enabled');
+        logger.debug('Terms: Main vim navigation re-enabled');
       } else {
-        console.log('Terms: Skipping vim navigation re-enable (game page or functions not available)');
+        logger.debug('Terms: Skipping vim navigation re-enable (game page or functions not available)');
       }
     }
   }

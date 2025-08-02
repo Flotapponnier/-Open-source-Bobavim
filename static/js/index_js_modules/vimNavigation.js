@@ -21,9 +21,11 @@ const NAVIGATION_ELEMENTS = [
   { selector: '#playOnline', column: 1, row: 3, type: 'button' },
   { selector: '#leaderboardButton', column: 1, row: 4, type: 'button' },
   
-  // RIGHT COLUMN
+  // RIGHT COLUMN - handles both logged in and logged out states
   { selector: '#loginButton', column: 2, row: 0, type: 'button' },
   { selector: '#registerButton', column: 2, row: 0, type: 'button' }, // Same row as login (h/l)
+  { selector: '#logoutButton', column: 2, row: 0, type: 'button' }, // Same row as login (h/l) - logged in state
+  { selector: '#settingsButton', column: 2, row: 0, type: 'button' }, // Same row as login (h/l) - logged in state
   { selector: '.social-icons .linkedin-icon', column: 2, row: 1, type: 'social-icon' },
   { selector: '.social-icons .github-icon', column: 2, row: 1, type: 'social-icon' }, // Same row as linkedin (h/l)
   { selector: '.social-icons .portfolio-icon', column: 2, row: 1, type: 'social-icon' }, // Same row as linkedin (h/l)
@@ -167,6 +169,14 @@ function moveLeft() {
       updateCursor();
       return;
     }
+  } else if (currentNav.selector === '#settingsButton') {
+    // Settings -> Logout (logged in state)
+    const logoutIndex = NAVIGATION_ELEMENTS.findIndex(el => el.selector === '#logoutButton');
+    if (logoutIndex >= 0) {
+      currentElementIndex = logoutIndex;
+      updateCursor();
+      return;
+    }
   } else if (currentNav.selector === '.social-icons .github-icon') {
     // GitHub -> LinkedIn
     const linkedinIndex = NAVIGATION_ELEMENTS.findIndex(el => el.selector === '.social-icons .linkedin-icon');
@@ -252,6 +262,14 @@ function moveRight() {
     const registerIndex = NAVIGATION_ELEMENTS.findIndex(el => el.selector === '#registerButton');
     if (registerIndex >= 0) {
       currentElementIndex = registerIndex;
+      updateCursor();
+      return;
+    }
+  } else if (currentNav.selector === '#logoutButton') {
+    // Logout -> Settings (logged in state)
+    const settingsIndex = NAVIGATION_ELEMENTS.findIndex(el => el.selector === '#settingsButton');
+    if (settingsIndex >= 0) {
+      currentElementIndex = settingsIndex;
       updateCursor();
       return;
     }

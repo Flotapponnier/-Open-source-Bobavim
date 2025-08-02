@@ -64,7 +64,7 @@ window.openLoveLetterModal = function() {
     modal.classList.remove('hidden');
     loadSupporters();
     
-    // Disable vim navigation when modal is open
+    // Disable main vim navigation when modal is open
     if (window.hideCursor) {
       window.hideCursor();
       // Also disable the navigation completely for true modals
@@ -74,15 +74,31 @@ window.openLoveLetterModal = function() {
         }
       }, 0);
     }
+    
+    // Initialize vim navigation for love letter modal
+    setTimeout(() => {
+      import('./index_js_modules/modalVimNavigation.js').then(module => {
+        module.initializeModalVim('loveLetter');
+      }).catch(() => {
+        console.log('Love Letter: Modal vim navigation not available');
+      });
+    }, 100); // Reduced delay for faster cursor appearance
   }
 };
 
 window.closeLoveLetterModal = function() {
   const modal = document.getElementById('loveLetterModal');
   if (modal) {
+    // Disable love letter modal vim navigation first
+    import('./index_js_modules/modalVimNavigation.js').then(module => {
+      module.disableModalVim();
+    }).catch(() => {
+      console.log('Love Letter: Modal vim navigation not available');
+    });
+    
     modal.classList.add('hidden');
     
-    // Re-enable vim navigation when modal is closed
+    // Re-enable main vim navigation when modal is closed
     if (window.showCursor) {
       window.showCursor();
     }

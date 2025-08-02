@@ -2,6 +2,8 @@
 // RETRO VIM MANUAL BOOK MODULE
 // ================================
 
+import { initializeModalVim, disableModalVim, updateModalVimForPage, refreshCursorPosition } from './index_js_modules/modalVimNavigation.js';
+
 function getVimManualElements() {
   return {
     bookIcon: document.getElementById("instructionsBook"),
@@ -17,12 +19,12 @@ function openModal(modal, bookContent, bookCover) {
   logger.debug("Opening retro vim manual book");
   modal.classList.remove("hidden");
   
-  // Disable vim navigation when manual is open (only if we're on index page)
+  // Disable main vim navigation when manual is open (only if we're on index page)
   const isIndexPage = !!(window.hideCursor && window.disableVimNavigation);
   if (isIndexPage) {
     window.hideCursor();
     window.disableVimNavigation();
-    logger.debug("Vim navigation disabled for manual");
+    logger.debug("Main vim navigation disabled for manual");
   } else {
     logger.debug("Manual opened in game mode - no vim navigation to disable");
   }
@@ -33,23 +35,35 @@ function openModal(modal, bookContent, bookCover) {
       bookContent.classList.add("open");
     }
     showPage('page-1');
+    
+    // Initialize vim navigation for manual after opening animation
+    setTimeout(() => {
+      initializeModalVim('manual', 'page-1');
+      // Refresh cursor position after all animations complete
+      setTimeout(() => {
+        refreshCursorPosition();
+      }, 300); // Extra delay to ensure all CSS animations finish
+    }, 200);
   }, 300);
 }
 
 function closeModal(modal, bookContent) {
   logger.debug("Closing retro vim manual book");
   
+  // Disable manual vim navigation
+  disableModalVim();
+  
   // Close book animation
   if (bookContent) {
     bookContent.classList.remove("open");
   }
   
-  // Re-enable vim navigation when manual is closed (only if we're on index page)
+  // Re-enable main vim navigation when manual is closed (only if we're on index page)
   const isIndexPage = !!(window.showCursor && window.enableVimNavigation);
   if (isIndexPage) {
     window.showCursor();
     window.enableVimNavigation();
-    logger.debug("Vim navigation re-enabled for manual");
+    logger.debug("Main vim navigation re-enabled for manual");
   } else {
     logger.debug("Manual closed in game mode - no vim navigation to re-enable");
   }
@@ -78,6 +92,9 @@ function showPage(pageClass) {
     setTimeout(() => {
       targetPage.classList.remove('hidden');
       targetPage.classList.add('active');
+      
+      // Update vim navigation for new page
+      updateModalVimForPage(pageClass);
     }, 200);
   }
 }

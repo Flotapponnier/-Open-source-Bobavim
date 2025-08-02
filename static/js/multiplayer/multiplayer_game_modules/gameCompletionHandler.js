@@ -1,6 +1,7 @@
 import { COMPLETION_CONFIG } from "../../game_js_modules/constants_js_modules/gameCompletion.js";
 import { LeaderboardModal } from "../../leaderboard/leaderboard.js";
 import { gameSoundEffectsManager } from "../../game_js_modules/gameSoundEffects.js";
+import { initializeMultiplayerCompletionVim, disableMultiplayerCompletionVim } from "./multiplayerCompletionVimNavigation.js";
 
 export class GameCompletionHandler {
   constructor(game) {
@@ -85,6 +86,11 @@ export class GameCompletionHandler {
     
     // Setup event handlers
     this.setupMultiplayerCompletionHandlers(data);
+    
+    // Initialize vim navigation for multiplayer completion
+    setTimeout(() => {
+      initializeMultiplayerCompletionVim();
+    }, 200);
   }
 
   getCompletionInfo(data) {
@@ -258,6 +264,9 @@ export class GameCompletionHandler {
   async showMultiplayerLeaderboard() {
     logger.debug("showMultiplayerLeaderboard called");
 
+    // Disable multiplayer completion vim navigation before opening leaderboard
+    disableMultiplayerCompletionVim();
+
     // Hide the completion modal temporarily
     const completionModal = document.getElementById('completionModal');
     if (completionModal) {
@@ -276,6 +285,10 @@ export class GameCompletionHandler {
         const completionModal = document.getElementById('completionModal');
         if (completionModal) {
           completionModal.style.display = 'flex';
+          // Re-initialize vim navigation when coming back to completion
+          setTimeout(() => {
+            initializeMultiplayerCompletionVim();
+          }, 100);
         }
       }
     });
