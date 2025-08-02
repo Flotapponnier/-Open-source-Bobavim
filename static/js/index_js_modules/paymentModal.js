@@ -3,6 +3,15 @@ import { CHARACTER_CONFIG } from "./index_constants/characters.js";
 import { loadPlayerCharacters } from "./characterSelection.js";
 import { isLoggedIn, getCurrentUser, verifyAuthenticationStatus } from "./auth.js";
 
+// Import payment vim navigation module directly
+let paymentVimModule = null;
+import('./paymentVimNavigation.js').then(module => {
+  paymentVimModule = module;
+  logger.debug('Payment: paymentVimNavigation module loaded at startup');
+}).catch(error => {
+  logger.error('Payment: Failed to load paymentVimNavigation module:', error);
+});
+
 let paymentModal = null;
 let stripe = null;
 let elements = null;
@@ -181,6 +190,17 @@ export function showPaymentModal(characterName) {
   paymentModal.classList.remove('hidden');
   document.body.classList.add('modal-open');
   
+  // Disable main vim navigation when payment modal is open
+  if (window.hideCursor) {
+    window.hideCursor();
+    // Also disable the navigation completely for true modals
+    setTimeout(() => {
+      if (window.disableVimNavigation) {
+        window.disableVimNavigation();
+      }
+    }, 0);
+  }
+  
   // Initialize Stripe elements if not already done
   if (stripe && !elements) {
     initializeStripeElements();
@@ -188,11 +208,123 @@ export function showPaymentModal(characterName) {
   
   // Reset form
   resetPaymentForm();
+  
+  // Initialize payment vim navigation with longer delay for animations and Stripe setup
+  setTimeout(() => {
+    logger.debug('Payment: About to initialize payment vim, module available:', !!paymentVimModule);
+    if (paymentVimModule) {
+      try {
+        logger.debug('Payment: Calling initializePaymentVim');
+        paymentVimModule.initializePaymentVim();
+        logger.debug('Payment: initializePaymentVim called successfully');
+        // Refresh cursor position after a bit more delay to account for CSS animations
+        setTimeout(() => {
+          logger.debug('Payment: About to refresh cursor');
+          paymentVimModule.refreshPaymentCursor();
+        }, 200);
+      } catch (error) {
+        logger.error('Payment: Error initializing payment vim:', error);
+      }
+    } else {
+      logger.warn('Payment: paymentVimModule not loaded yet, trying dynamic import');
+      import('./paymentVimNavigation.js').then(module => {
+        logger.debug('Payment: Module imported successfully, calling initializePaymentVim');
+        try {
+          module.initializePaymentVim();
+          logger.debug('Payment: initializePaymentVim called successfully');
+          setTimeout(() => {
+            module.refreshPaymentCursor();
+          }, 200);
+        } catch (error) {
+          logger.error('Payment: Error initializing payment vim:', error);
+        }
+      }).catch((error) => {
+        logger.error('Payment: Failed to import payment vim navigation:', error);
+      });
+    }
+  }, 300); // Longer delay for Stripe Elements to load
 }
 
 export function hidePaymentModal() {
+  logger.debug("Payment: hidePaymentModal called");
+  
+  const wasClosedViaCancel = window.paymentModalClosingViaCancel;
+  window.paymentModalClosingViaCancel = false; // Reset flag immediately
+  
+  // Disable payment vim navigation first
+  if (paymentVimModule) {
+    logger.debug("Payment: Calling disablePaymentVim on preloaded module");
+    paymentVimModule.disablePaymentVim();
+  } else {
+    logger.debug("Payment: paymentVimModule not available, trying dynamic import for disable");
+    import('./paymentVimNavigation.js').then(module => {
+      logger.debug("Payment: Calling disablePaymentVim");
+      module.disablePaymentVim();
+    }).catch(() => {
+      // Ignore if payment vim navigation is not available
+    });
+  }
+  
   paymentModal.classList.add('hidden');
   document.body.classList.remove('modal-open');
+  
+  // Only do extensive cleanup if closed via cancel
+  if (wasClosedViaCancel) {
+    setTimeout(() => {
+      // Clear all text selections
+      if (window.getSelection) {
+        const selection = window.getSelection();
+        selection.removeAllRanges();
+        selection.empty && selection.empty();
+      }
+      
+      // Force focus back to body
+      document.body.focus();
+      
+      logger.debug("Payment: Cleared selections and focus for cancel close");
+    }, 50);
+  }
+  
+  // Re-enable main vim navigation when payment modal is closed
+  setTimeout(() => {
+    logger.debug("Payment: Re-enabling main vim navigation after modal close");
+    
+    import('./vimNavigation.js').then(module => {
+      if (wasClosedViaCancel) {
+        logger.debug("Payment: Was closed via cancel - doing full reset");
+        // Full reset only if closed via cancel button
+        module.disableVimNavigation();
+        module.hideCursor();
+        
+        // Force remove any lingering cursors
+        document.querySelectorAll('.vim-cursor, .payment-vim-cursor').forEach(cursor => cursor.remove());
+        
+        // Clear any vim text modifications
+        document.querySelectorAll('[data-original-text], [data-original-payment-text]').forEach(el => {
+          const originalText = el.getAttribute('data-original-text') || el.getAttribute('data-original-payment-text');
+          if (originalText) {
+            el.textContent = originalText;
+            el.removeAttribute('data-original-text');
+            el.removeAttribute('data-original-payment-text');
+          }
+        });
+        
+        // Then re-enable with a fresh state
+        setTimeout(() => {
+          module.enableVimNavigation();
+          module.showCursor();
+          logger.debug("Payment: Main vim navigation fully reset and re-enabled");
+        }, 50);
+      } else {
+        logger.debug("Payment: Normal close - simple re-enable");
+        // Normal re-enable for other close methods
+        module.enableVimNavigation();
+        module.showCursor();
+      }
+    }).catch(() => {
+      // Ignore if vim navigation is not available
+    });
+  }, 100); // Small delay to ensure payment vim is fully disabled first
   
   // Reset form state
   resetPaymentForm();
