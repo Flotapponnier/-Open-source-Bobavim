@@ -1,5 +1,14 @@
 import { AUTH_CONFIG } from "./index_constants/auth.js";
 
+// Import settings vim navigation module directly
+let settingsVimModule = null;
+import('./settingsVimNavigation.js').then(module => {
+  settingsVimModule = module;
+  logger.debug('Settings: settingsVimNavigation module loaded at startup');
+}).catch(error => {
+  console.error('Settings: Failed to load settingsVimNavigation module:', error);
+});
+
 export function initializeUserSettings() {
   logger.debug("Initializing user settings...");
 
@@ -123,7 +132,7 @@ async function openSettingsModal() {
       // Show modal
       document.getElementById("userSettingsModal").classList.remove("hidden");
       
-      // Disable vim navigation when settings modal is open
+      // Disable main vim navigation when settings modal is open
       if (window.hideCursor) {
         window.hideCursor();
         // Also disable the navigation completely for true modals
@@ -133,6 +142,41 @@ async function openSettingsModal() {
           }
         }, 0);
       }
+      
+      // Initialize settings vim navigation with longer delay for animations
+      setTimeout(() => {
+        logger.debug('Settings: About to initialize settings vim, module available:', !!settingsVimModule);
+        if (settingsVimModule) {
+          try {
+            logger.debug('Settings: Calling initializeSettingsVim with mode: main');
+            settingsVimModule.initializeSettingsVim('main');
+            logger.debug('Settings: initializeSettingsVim called successfully');
+            // Refresh cursor position after a bit more delay to account for CSS animations
+            setTimeout(() => {
+              logger.debug('Settings: About to refresh cursor');
+              settingsVimModule.refreshSettingsCursor();
+            }, 200);
+          } catch (error) {
+            console.error('Settings: Error initializing settings vim:', error);
+          }
+        } else {
+          logger.warn('Settings: settingsVimModule not loaded yet, trying dynamic import');
+          import('./settingsVimNavigation.js').then(module => {
+            logger.debug('Settings: Module imported successfully, calling initializeSettingsVim');
+            try {
+              module.initializeSettingsVim('main');
+              logger.debug('Settings: initializeSettingsVim called successfully');
+              setTimeout(() => {
+                module.refreshSettingsCursor();
+              }, 200);
+            } catch (error) {
+              console.error('Settings: Error initializing settings vim:', error);
+            }
+          }).catch((error) => {
+            console.error('Settings: Failed to import settings vim navigation:', error);
+          });
+        }
+      }, 150); // Increased delay for better alignment
       
       // Clear any previous error/success messages
       clearMessages();
@@ -144,30 +188,152 @@ async function openSettingsModal() {
 }
 
 function closeSettings() {
-  document.getElementById("userSettingsModal").classList.add("hidden");
+  logger.debug("Settings: closeSettings called");
   
-  // Re-enable vim navigation when settings modal is closed
-  if (window.showCursor) {
-    window.showCursor();
+  const modal = document.getElementById("userSettingsModal");
+  const wasClosedViaCancel = window.settingsModalClosingViaCancel;
+  window.settingsModalClosingViaCancel = false; // Reset flag immediately
+  
+  // Disable settings vim navigation first
+  if (settingsVimModule) {
+    logger.debug("Settings: Calling disableSettingsVim on preloaded module");
+    settingsVimModule.disableSettingsVim();
+  } else {
+    logger.debug("Settings: settingsVimModule not available, trying dynamic import for disable");
+    import('./settingsVimNavigation.js').then(module => {
+      logger.debug("Settings: Calling disableSettingsVim");
+      module.disableSettingsVim();
+    }).catch(() => {
+      // Ignore if settings vim navigation is not available
+    });
   }
-  if (window.enableVimNavigation) {
-    window.enableVimNavigation();
+  
+  modal.classList.add("hidden");
+  
+  // Only do extensive cleanup if closed via cancel
+  if (wasClosedViaCancel) {
+    setTimeout(() => {
+      // Clear all text selections
+      if (window.getSelection) {
+        const selection = window.getSelection();
+        selection.removeAllRanges();
+        selection.empty && selection.empty();
+      }
+      
+      // Force focus back to body
+      document.body.focus();
+      
+      logger.debug("Settings: Cleared selections and focus for cancel close");
+    }, 50);
   }
+  
+  // Re-enable main vim navigation when settings modal is closed
+  setTimeout(() => {
+    logger.debug("Settings: Re-enabling main vim navigation after modal close");
+    
+    import('./vimNavigation.js').then(module => {
+      if (wasClosedViaCancel) {
+        logger.debug("Settings: Was closed via cancel - doing full reset");
+        // Full reset only if closed via cancel button
+        module.disableVimNavigation();
+        module.hideCursor();
+        
+        // Force remove any lingering cursors
+        document.querySelectorAll('.vim-cursor, .settings-vim-cursor').forEach(cursor => cursor.remove());
+        
+        // Clear any vim text modifications
+        document.querySelectorAll('[data-original-text], [data-original-settings-text]').forEach(el => {
+          const originalText = el.getAttribute('data-original-text') || el.getAttribute('data-original-settings-text');
+          if (originalText) {
+            el.textContent = originalText;
+            el.removeAttribute('data-original-text');
+            el.removeAttribute('data-original-settings-text');
+          }
+        });
+        
+        // Then re-enable with a fresh state
+        setTimeout(() => {
+          module.enableVimNavigation();
+          module.showCursor();
+          logger.debug("Settings: Main vim navigation fully reset and re-enabled");
+        }, 50);
+      } else {
+        logger.debug("Settings: Normal close - simple re-enable");
+        // Normal re-enable for other close methods
+        module.enableVimNavigation();
+        module.showCursor();
+      }
+    }).catch(() => {
+      // Ignore if vim navigation is not available
+    });
+  }, 100); // Small delay to ensure settings vim is fully disabled first
   
   clearMessages();
   clearPasswordForm();
 }
 
 function openDeleteConfirm() {
+  logger.debug("Settings: Opening delete confirmation modal");
   document.getElementById("deleteConfirmModal").classList.remove("hidden");
   document.getElementById("deleteConfirmation").value = "";
   document.getElementById("confirmDeleteBtn").disabled = true;
+  
+  // Switch to delete confirmation vim navigation
+  setTimeout(() => {
+    logger.debug('Settings: About to initialize delete confirm vim navigation');
+    if (settingsVimModule) {
+      try {
+        logger.debug('Settings: Calling updateSettingsVimForMode with deleteConfirm');
+        settingsVimModule.updateSettingsVimForMode('deleteConfirm');
+        logger.debug('Settings: Delete confirm vim navigation updated successfully');
+        // Refresh cursor position after delay
+        setTimeout(() => {
+          settingsVimModule.refreshSettingsCursor();
+        }, 100);
+      } catch (error) {
+        console.error('Settings: Error updating to delete confirm vim:', error);
+      }
+    } else {
+      logger.warn('Settings: settingsVimModule not available for delete confirm');
+      import('./settingsVimNavigation.js').then(module => {
+        try {
+          module.initializeSettingsVim('deleteConfirm');
+          setTimeout(() => {
+            module.refreshSettingsCursor();
+          }, 100);
+        } catch (error) {
+          console.error('Settings: Error initializing delete confirm vim:', error);
+        }
+      }).catch((error) => {
+        console.error('Settings: Failed to import settings vim navigation for delete confirm:', error);
+      });
+    }
+  }, 100);
 }
 
 function closeDeleteConfirm() {
+  logger.debug("Settings: Closing delete confirmation modal");
   document.getElementById("deleteConfirmModal").classList.add("hidden");
   document.getElementById("deleteConfirmation").value = "";
   document.getElementById("confirmDeleteBtn").disabled = true;
+  
+  // Return to main settings vim navigation
+  setTimeout(() => {
+    logger.debug('Settings: About to return to main settings vim navigation');
+    if (settingsVimModule) {
+      try {
+        logger.debug('Settings: Calling updateSettingsVimForMode with main');
+        settingsVimModule.updateSettingsVimForMode('main');
+        logger.debug('Settings: Main settings vim navigation restored successfully');
+        // Refresh cursor position after delay
+        setTimeout(() => {
+          settingsVimModule.refreshSettingsCursor();
+        }, 100);
+      } catch (error) {
+        console.error('Settings: Error returning to main settings vim:', error);
+      }
+    }
+  }, 100);
 }
 
 function validateDeleteConfirmation() {
