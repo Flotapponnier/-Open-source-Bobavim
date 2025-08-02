@@ -124,7 +124,6 @@ The game uses SQLite by default for local development. The database is automatic
 
 ### Character System
 - **Multiple Characters**: Choose from various boba-themed sprites
-- **Character Progression**: Unlock new characters by completing maps
 - **Avatar System**: Profile pictures and customization
 
 ### Technical Features
