@@ -7,7 +7,7 @@ import('./authVimNavigation.js').then(module => {
   authVimModule = module;
   logger.debug('Auth: authVimNavigation module loaded at startup');
 }).catch(error => {
-  console.error('Auth: Failed to load authVimNavigation module:', error);
+  logger.error('Auth: Failed to load authVimNavigation module:', error);
 });
 
 let currentUser = null;
@@ -203,7 +203,7 @@ export function showAuthModal(mode = "register") {
           authVimModule.refreshAuthCursor();
         }, 200);
       } catch (error) {
-        console.error('Auth: Error initializing auth vim:', error);
+        logger.error('Auth: Error initializing auth vim:', error);
       }
     } else {
       logger.warn('Auth: authVimModule not loaded yet, trying dynamic import');
@@ -216,10 +216,10 @@ export function showAuthModal(mode = "register") {
             module.refreshAuthCursor();
           }, 200);
         } catch (error) {
-          console.error('Auth: Error initializing auth vim:', error);
+          logger.error('Auth: Error initializing auth vim:', error);
         }
       }).catch((error) => {
-        console.error('Auth: Failed to import auth vim navigation:', error);
+        logger.error('Auth: Failed to import auth vim navigation:', error);
       });
     }
   }, 150); // Increased delay for better alignment

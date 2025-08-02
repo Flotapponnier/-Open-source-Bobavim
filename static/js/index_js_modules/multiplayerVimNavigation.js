@@ -20,11 +20,11 @@ const MULTIPLAYER_NAVIGATION_ELEMENTS = {
 };
 
 export function initializeMultiplayerVim(modalType) {
-  console.log("Initializing multiplayer vim navigation for:", modalType);
+  logger.debug("Initializing multiplayer vim navigation for:", modalType);
   
   const modal = getModalElement(modalType);
   if (!modal) {
-    console.warn("No modal found for multiplayer vim navigation");
+    logger.warn("No modal found for multiplayer vim navigation");
     return;
   }
   
@@ -37,7 +37,7 @@ export function initializeMultiplayerVim(modalType) {
   currentElementIndex = findCloseButtonIndex();
   isVimNavigationActive = true;
   
-  console.log(`Multiplayer vim starting at element index: ${currentElementIndex}`);
+  logger.debug(`Multiplayer vim starting at element index: ${currentElementIndex}`);
   
   // Set initial cursor position
   updateCursor();
@@ -50,7 +50,7 @@ export function initializeMultiplayerVim(modalType) {
     setupButtonVisibilityObserver();
   }
   
-  console.log("Multiplayer vim navigation initialized");
+  logger.debug("Multiplayer vim navigation initialized");
 }
 
 function setupButtonVisibilityObserver() {
@@ -62,7 +62,7 @@ function setupButtonVisibilityObserver() {
         if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
           const target = mutation.target;
           if (target.style.display === 'none' && isVimNavigationActive) {
-            console.log("Match actions hidden, disabling vim navigation");
+            logger.debug("Match actions hidden, disabling vim navigation");
             hideMultiplayerVimImmediately();
           }
         }
@@ -92,14 +92,14 @@ export function disableMultiplayerVim() {
     window.multiplayerObserver = null;
   }
   
-  console.log("Multiplayer vim navigation disabled");
+  logger.debug("Multiplayer vim navigation disabled");
 }
 
 export function hideMultiplayerVimImmediately() {
   // Immediately hide cursor without full cleanup for when buttons disappear
   removeAllCursors();
   isVimNavigationActive = false;
-  console.log("Multiplayer vim cursor hidden immediately");
+  logger.debug("Multiplayer vim cursor hidden immediately");
 }
 
 function getModalElement(modalType) {
@@ -117,7 +117,7 @@ function updateAvailableElements(modalType) {
   availableElements = [];
   
   if (!MULTIPLAYER_NAVIGATION_ELEMENTS[modalType]) {
-    console.warn("Unknown modal type:", modalType);
+    logger.warn("Unknown modal type:", modalType);
     return;
   }
   
@@ -129,7 +129,7 @@ function updateAvailableElements(modalType) {
     }
   });
   
-  console.log("Available multiplayer elements:", availableElements.length);
+  logger.debug("Available multiplayer elements:", availableElements.length);
 }
 
 function findCloseButtonIndex() {
@@ -255,7 +255,7 @@ function clickCloseButton() {
 }
 
 function updateCursor() {
-  console.log("Multiplayer updateCursor called");
+  logger.debug("Multiplayer updateCursor called");
   
   // Remove previous cursor
   removeAllCursors();
@@ -268,17 +268,17 @@ function updateCursor() {
   
   if (visibleElements.length === 0) {
     // No visible elements, hide vim navigation
-    console.log("No visible elements, hiding multiplayer vim");
+    logger.debug("No visible elements, hiding multiplayer vim");
     hideMultiplayerVimImmediately();
     return;
   }
   
   // Get current element
   const element = getCurrentElement();
-  console.log("Multiplayer current element for cursor:", element);
+  logger.debug("Multiplayer current element for cursor:", element);
   
   if (!element) {
-    console.log("No element found for multiplayer cursor");
+    logger.debug("No element found for multiplayer cursor");
     return;
   }
   
@@ -354,17 +354,17 @@ function addCursorToElement(element) {
 
 function activateCurrentElement() {
   const element = getCurrentElement();
-  console.log("Multiplayer activating element:", element);
+  logger.debug("Multiplayer activating element:", element);
   
   if (!element) {
-    console.log("No element to activate in multiplayer");
+    logger.debug("No element to activate in multiplayer");
     return;
   }
   
   try {
     element.click();
   } catch (e) {
-    console.log("Error clicking multiplayer element:", e);
+    logger.debug("Error clicking multiplayer element:", e);
   }
 }
 

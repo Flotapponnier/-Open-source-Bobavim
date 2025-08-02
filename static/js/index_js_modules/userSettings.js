@@ -6,7 +6,7 @@ import('./settingsVimNavigation.js').then(module => {
   settingsVimModule = module;
   logger.debug('Settings: settingsVimNavigation module loaded at startup');
 }).catch(error => {
-  console.error('Settings: Failed to load settingsVimNavigation module:', error);
+  logger.error('Settings: Failed to load settingsVimNavigation module:', error);
 });
 
 export function initializeUserSettings() {
@@ -157,7 +157,7 @@ async function openSettingsModal() {
               settingsVimModule.refreshSettingsCursor();
             }, 200);
           } catch (error) {
-            console.error('Settings: Error initializing settings vim:', error);
+            logger.error('Settings: Error initializing settings vim:', error);
           }
         } else {
           logger.warn('Settings: settingsVimModule not loaded yet, trying dynamic import');
@@ -170,10 +170,10 @@ async function openSettingsModal() {
                 module.refreshSettingsCursor();
               }, 200);
             } catch (error) {
-              console.error('Settings: Error initializing settings vim:', error);
+              logger.error('Settings: Error initializing settings vim:', error);
             }
           }).catch((error) => {
-            console.error('Settings: Failed to import settings vim navigation:', error);
+            logger.error('Settings: Failed to import settings vim navigation:', error);
           });
         }
       }, 150); // Increased delay for better alignment
@@ -291,7 +291,7 @@ function openDeleteConfirm() {
           settingsVimModule.refreshSettingsCursor();
         }, 100);
       } catch (error) {
-        console.error('Settings: Error updating to delete confirm vim:', error);
+        logger.error('Settings: Error updating to delete confirm vim:', error);
       }
     } else {
       logger.warn('Settings: settingsVimModule not available for delete confirm');
@@ -302,10 +302,10 @@ function openDeleteConfirm() {
             module.refreshSettingsCursor();
           }, 100);
         } catch (error) {
-          console.error('Settings: Error initializing delete confirm vim:', error);
+          logger.error('Settings: Error initializing delete confirm vim:', error);
         }
       }).catch((error) => {
-        console.error('Settings: Failed to import settings vim navigation for delete confirm:', error);
+        logger.error('Settings: Failed to import settings vim navigation for delete confirm:', error);
       });
     }
   }, 100);
@@ -330,7 +330,7 @@ function closeDeleteConfirm() {
           settingsVimModule.refreshSettingsCursor();
         }, 100);
       } catch (error) {
-        console.error('Settings: Error returning to main settings vim:', error);
+        logger.error('Settings: Error returning to main settings vim:', error);
       }
     }
   }, 100);

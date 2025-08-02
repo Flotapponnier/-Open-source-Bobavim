@@ -202,7 +202,7 @@ function updateAvailableElements(settingsMode) {
   
   const elements = SETTINGS_NAVIGATION_ELEMENTS[settingsMode];
   if (!elements) {
-    console.warn("Unknown settings mode:", settingsMode);
+    logger.warn("Unknown settings mode:", settingsMode);
     return;
   }
   

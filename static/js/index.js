@@ -80,7 +80,7 @@ window.openLoveLetterModal = function() {
       import('./index_js_modules/modalVimNavigation.js').then(module => {
         module.initializeModalVim('loveLetter');
       }).catch(() => {
-        console.log('Love Letter: Modal vim navigation not available');
+        logger.debug('Love Letter: Modal vim navigation not available');
       });
     }, 100); // Reduced delay for faster cursor appearance
   }
@@ -93,7 +93,7 @@ window.closeLoveLetterModal = function() {
     import('./index_js_modules/modalVimNavigation.js').then(module => {
       module.disableModalVim();
     }).catch(() => {
-      console.log('Love Letter: Modal vim navigation not available');
+      logger.debug('Love Letter: Modal vim navigation not available');
     });
     
     modal.classList.add('hidden');

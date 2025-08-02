@@ -10,7 +10,7 @@ export function formatTime(timeValue) {
   if (timeValue === null || timeValue === undefined) return "N/A";
   
   // Debug logging to see what values we're getting
-  console.log("formatTime received:", timeValue, "type:", typeof timeValue);
+  logger.debug("formatTime received:", timeValue, "type:", typeof timeValue);
   
   // Convert to number if it's a string
   const numValue = Number(timeValue);
@@ -22,7 +22,7 @@ export function formatTime(timeValue) {
   // Convert to seconds with 2 decimal places
   const totalSecondsFloat = totalMilliseconds / 1000.0;
   
-  console.log("Converted to seconds:", totalSecondsFloat);
+  logger.debug("Converted to seconds:", totalSecondsFloat);
   
   // If less than 60 seconds, show as "6.55"
   if (totalSecondsFloat < 60.0) {

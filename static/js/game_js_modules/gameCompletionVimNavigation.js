@@ -23,7 +23,7 @@ const COMPLETION_NAVIGATION_ELEMENTS = [
 const PLAY_SAME_MAP_INDEX = COMPLETION_NAVIGATION_ELEMENTS.findIndex(el => el.selector === '[data-action="play-same-map"]');
 
 export function initializeGameCompletionVim() {
-  console.log("Initializing game completion vim navigation...");
+  logger.debug("Initializing game completion vim navigation...");
   
   // Find all available elements in the modal
   updateAvailableElements();
@@ -32,7 +32,7 @@ export function initializeGameCompletionVim() {
   currentElementIndex = findStartPosition();
   isVimNavigationActive = true;
   
-  console.log(`Game completion vim starting at element index: ${currentElementIndex}`);
+  logger.debug(`Game completion vim starting at element index: ${currentElementIndex}`);
   
   // Set initial cursor position
   updateCursor();
@@ -40,14 +40,14 @@ export function initializeGameCompletionVim() {
   // Add keyboard event listeners
   document.addEventListener('keydown', handleKeyPress);
   
-  console.log("Game completion vim navigation initialized");
+  logger.debug("Game completion vim navigation initialized");
 }
 
 export function disableGameCompletionVim() {
   isVimNavigationActive = false;
   removeAllCursors();
   document.removeEventListener('keydown', handleKeyPress);
-  console.log("Game completion vim navigation disabled");
+  logger.debug("Game completion vim navigation disabled");
 }
 
 function updateAvailableElements() {
@@ -55,7 +55,7 @@ function updateAvailableElements() {
     const element = document.querySelector(nav.selector);
     return element && isElementVisible(element);
   });
-  console.log("Available completion elements:", availableElements.length);
+  logger.debug("Available completion elements:", availableElements.length);
 }
 
 function findStartPosition() {
@@ -373,17 +373,17 @@ function moveDown() {
 }
 
 function updateCursor() {
-  console.log("Game completion updateCursor called");
+  logger.debug("Game completion updateCursor called");
   
   // Remove previous cursor
   removeAllCursors();
   
   // Get current element
   const element = getCurrentElement();
-  console.log("Game completion current element for cursor:", element);
+  logger.debug("Game completion current element for cursor:", element);
   
   if (!element) {
-    console.log("No element found for game completion cursor");
+    logger.debug("No element found for game completion cursor");
     return;
   }
   
@@ -459,17 +459,17 @@ function addCursorToElement(element) {
 
 function activateCurrentElement() {
   const element = getCurrentElement();
-  console.log("Game completion activating element:", element);
+  logger.debug("Game completion activating element:", element);
   
   if (!element) {
-    console.log("No element to activate in game completion");
+    logger.debug("No element to activate in game completion");
     return;
   }
   
   try {
     element.click();
   } catch (e) {
-    console.log("Error clicking game completion element:", e);
+    logger.debug("Error clicking game completion element:", e);
   }
 }
 

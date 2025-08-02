@@ -742,7 +742,7 @@ export function enableVimNavigation() {
   // Prevent enabling vim navigation on game pages
   const isGamePage = document.body && document.body.classList.contains('game-page');
   if (isGamePage) {
-    console.warn('Blocked enableVimNavigation - on game page');
+    logger.warn('Blocked enableVimNavigation - on game page');
     return;
   }
   
@@ -776,7 +776,7 @@ export function showCursor() {
   // Prevent showing cursor on game pages
   const isGamePage = document.body && document.body.classList.contains('game-page');
   if (isGamePage) {
-    console.warn('Blocked showCursor - on game page');
+    logger.warn('Blocked showCursor - on game page');
     return;
   }
   

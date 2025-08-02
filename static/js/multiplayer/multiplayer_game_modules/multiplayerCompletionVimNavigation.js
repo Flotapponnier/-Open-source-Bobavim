@@ -13,7 +13,7 @@ const MULTIPLAYER_COMPLETION_NAVIGATION_ELEMENTS = [
 ];
 
 export function initializeMultiplayerCompletionVim() {
-  console.log("Initializing multiplayer completion vim navigation...");
+  logger.debug("Initializing multiplayer completion vim navigation...");
   
   // Find all available elements in the modal
   updateAvailableElements();
@@ -22,7 +22,7 @@ export function initializeMultiplayerCompletionVim() {
   currentElementIndex = findBackToMenuIndex();
   isVimNavigationActive = true;
   
-  console.log(`Multiplayer completion vim starting at element index: ${currentElementIndex}`);
+  logger.debug(`Multiplayer completion vim starting at element index: ${currentElementIndex}`);
   
   // Set initial cursor position
   updateCursor();
@@ -30,14 +30,14 @@ export function initializeMultiplayerCompletionVim() {
   // Add keyboard event listeners
   document.addEventListener('keydown', handleKeyPress);
   
-  console.log("Multiplayer completion vim navigation initialized");
+  logger.debug("Multiplayer completion vim navigation initialized");
 }
 
 export function disableMultiplayerCompletionVim() {
   isVimNavigationActive = false;
   removeAllCursors();
   document.removeEventListener('keydown', handleKeyPress);
-  console.log("Multiplayer completion vim navigation disabled");
+  logger.debug("Multiplayer completion vim navigation disabled");
 }
 
 function updateAvailableElements() {
@@ -51,7 +51,7 @@ function updateAvailableElements() {
     }
   });
   
-  console.log("Available multiplayer completion elements:", availableElements.length);
+  logger.debug("Available multiplayer completion elements:", availableElements.length);
 }
 
 function findBackToMenuIndex() {
@@ -196,17 +196,17 @@ function clickBackToMenuButton() {
 }
 
 function updateCursor() {
-  console.log("Multiplayer completion updateCursor called");
+  logger.debug("Multiplayer completion updateCursor called");
   
   // Remove previous cursor
   removeAllCursors();
   
   // Get current element
   const element = getCurrentElement();
-  console.log("Multiplayer completion current element for cursor:", element);
+  logger.debug("Multiplayer completion current element for cursor:", element);
   
   if (!element) {
-    console.log("No element found for multiplayer completion cursor");
+    logger.debug("No element found for multiplayer completion cursor");
     return;
   }
   
@@ -282,17 +282,17 @@ function addCursorToElement(element) {
 
 function activateCurrentElement() {
   const element = getCurrentElement();
-  console.log("Multiplayer completion activating element:", element);
+  logger.debug("Multiplayer completion activating element:", element);
   
   if (!element) {
-    console.log("No element to activate in multiplayer completion");
+    logger.debug("No element to activate in multiplayer completion");
     return;
   }
   
   try {
     element.click();
   } catch (e) {
-    console.log("Error clicking multiplayer completion element:", e);
+    logger.debug("Error clicking multiplayer completion element:", e);
   }
 }
 

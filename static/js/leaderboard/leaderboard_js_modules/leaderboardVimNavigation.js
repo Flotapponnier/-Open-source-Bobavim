@@ -17,10 +17,10 @@ const LEADERBOARD_NAVIGATION_ELEMENTS = [
 let mapButtons = []; // Will store map button selectors dynamically
 
 export function initializeLeaderboardVim(modal) {
-  console.log("Initializing leaderboard vim navigation...");
+  logger.debug("Initializing leaderboard vim navigation...");
   
   if (!modal) {
-    console.warn("No modal provided for leaderboard vim navigation");
+    logger.warn("No modal provided for leaderboard vim navigation");
     return;
   }
   
@@ -31,7 +31,7 @@ export function initializeLeaderboardVim(modal) {
   currentElementIndex = findCloseButtonIndex();
   isVimNavigationActive = true;
   
-  console.log(`Leaderboard vim starting at element index: ${currentElementIndex}`);
+  logger.debug(`Leaderboard vim starting at element index: ${currentElementIndex}`);
   
   // Set initial cursor position
   updateCursor(modal);
@@ -39,14 +39,14 @@ export function initializeLeaderboardVim(modal) {
   // Add keyboard event listeners
   document.addEventListener('keydown', handleKeyPress);
   
-  console.log("Leaderboard vim navigation initialized");
+  logger.debug("Leaderboard vim navigation initialized");
 }
 
 export function disableLeaderboardVim() {
   isVimNavigationActive = false;
   removeAllCursors();
   document.removeEventListener('keydown', handleKeyPress);
-  console.log("Leaderboard vim navigation disabled");
+  logger.debug("Leaderboard vim navigation disabled");
 }
 
 function updateAvailableElements(modal) {
@@ -81,7 +81,7 @@ function updateAvailableElements(modal) {
     return a.column - b.column;
   });
   
-  console.log("Available leaderboard elements:", availableElements.length);
+  logger.debug("Available leaderboard elements:", availableElements.length);
 }
 
 function findCloseButtonIndex() {
@@ -367,17 +367,17 @@ function getMapButtonRows() {
 }
 
 function updateCursor(modal) {
-  console.log("Leaderboard updateCursor called");
+  logger.debug("Leaderboard updateCursor called");
   
   // Remove previous cursor
   removeAllCursors();
   
   // Get current element
   const element = getCurrentElement(modal);
-  console.log("Leaderboard current element for cursor:", element);
+  logger.debug("Leaderboard current element for cursor:", element);
   
   if (!element) {
-    console.log("No element found for leaderboard cursor");
+    logger.debug("No element found for leaderboard cursor");
     return;
   }
   
@@ -453,17 +453,17 @@ function addCursorToElement(element) {
 
 function activateCurrentElement(modal) {
   const element = getCurrentElement(modal);
-  console.log("Leaderboard activating element:", element);
+  logger.debug("Leaderboard activating element:", element);
   
   if (!element) {
-    console.log("No element to activate in leaderboard");
+    logger.debug("No element to activate in leaderboard");
     return;
   }
   
   try {
     element.click();
   } catch (e) {
-    console.log("Error clicking leaderboard element:", e);
+    logger.debug("Error clicking leaderboard element:", e);
   }
 }
 

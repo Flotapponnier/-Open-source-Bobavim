@@ -72,7 +72,7 @@ export class DataFetcher {
 
       return leaderboardData;
     } catch (error) {
-      console.error("Error fetching leaderboard:", error);
+      logger.error("Error fetching leaderboard:", error);
       throw error;
     }
   }
@@ -86,7 +86,7 @@ export class DataFetcher {
       }
       return [];
     } catch (error) {
-      console.error("Error fetching maps:", error);
+      logger.error("Error fetching maps:", error);
       return [];
     }
   }
@@ -116,7 +116,7 @@ export class DataFetcher {
         this.updateButtonState(button, "Failed to send", "#e74c3c", originalText);
       }
     } catch (error) {
-      console.error("Error resending confirmation:", error);
+      logger.error("Error resending confirmation:", error);
       this.updateButtonState(button, "Network error", "#e74c3c", originalText);
     }
   }

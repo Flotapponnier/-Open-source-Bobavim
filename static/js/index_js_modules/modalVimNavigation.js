@@ -41,29 +41,29 @@ const MODAL_NAVIGATION_ELEMENTS = {
 };
 
 export function initializeModalVim(modalType, page = null) {
-  console.log("=== INITIALIZING MODAL VIM ==="); // Force console.log for debugging
-  console.log("Modal type:", modalType, page ? `page: ${page}` : '');
+  logger.debug("=== INITIALIZING MODAL VIM ==="); // Force debugging
+  logger.debug("Modal type:", modalType, page ? `page: ${page}` : '');
   
   const modal = getModalElement(modalType);
-  console.log("Modal element:", modal);
+  logger.debug("Modal element:", modal);
   if (!modal) {
-    console.warn("No modal found for modal vim navigation");
+    logger.warn("No modal found for modal vim navigation");
     return;
   }
   
   // Check modal visibility
   const modalStyle = window.getComputedStyle(modal);
-  console.log("Modal display:", modalStyle.display);
-  console.log("Modal visibility:", modalStyle.visibility);
+  logger.debug("Modal display:", modalStyle.display);
+  logger.debug("Modal visibility:", modalStyle.visibility);
   
   // Special debugging for T&C modal
   if (modalType === 'terms') {
-    console.log("=== T&C MODAL SPECIAL DEBUG ===");
+    logger.debug("=== T&C MODAL SPECIAL DEBUG ===");
     const closeButton = document.querySelector('.close-button');
     const closeButtonInModal = modal.querySelector('.close-button');
-    console.log("Global .close-button search:", closeButton);
-    console.log("Modal .close-button search:", closeButtonInModal);
-    console.log("Modal innerHTML preview:", modal.innerHTML.substring(0, 500));
+    logger.debug("Global .close-button search:", closeButton);
+    logger.debug("Modal .close-button search:", closeButtonInModal);
+    logger.debug("Modal innerHTML preview:", modal.innerHTML.substring(0, 500));
   }
   
   currentModal = modalType;
@@ -163,11 +163,11 @@ function updateAvailableElements(modalType, page = null) {
       logger.debug(`Modal: Element onclick:`, element.onclick);
       logger.debug(`Modal: Element parent:`, element.parentElement);
     } else {
-      console.log(`Modal: Element NOT FOUND with selector: ${nav.selector}`);
+      logger.debug(`Modal: Element NOT FOUND with selector: ${nav.selector}`);
       // Try alternative selectors for debugging  
       if (modalType === 'terms') {
         const allButtons = document.querySelectorAll('button');
-        console.log(`T&C: All buttons in document:`, Array.from(allButtons).map(btn => ({
+        logger.debug(`T&C: All buttons in document:`, Array.from(allButtons).map(btn => ({
           className: btn.className,
           content: btn.textContent,
           onclick: btn.onclick ? 'has onclick' : 'no onclick',
@@ -175,7 +175,7 @@ function updateAvailableElements(modalType, page = null) {
         })));
         
         const allCloseClasses = document.querySelectorAll('[class*="close"]');
-        console.log(`T&C: All elements with 'close' in class:`, Array.from(allCloseClasses).map(el => ({
+        logger.debug(`T&C: All elements with 'close' in class:`, Array.from(allCloseClasses).map(el => ({
           tagName: el.tagName,
           className: el.className,
           content: el.textContent,

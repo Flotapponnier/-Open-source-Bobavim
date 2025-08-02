@@ -246,7 +246,7 @@ function updateAvailableElements(authMode) {
   
   const elements = AUTH_NAVIGATION_ELEMENTS[authMode];
   if (!elements) {
-    console.warn("Unknown auth mode:", authMode);
+    logger.warn("Unknown auth mode:", authMode);
     return;
   }
   
