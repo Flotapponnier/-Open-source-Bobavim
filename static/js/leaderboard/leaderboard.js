@@ -4,6 +4,7 @@ import { DataFetcher } from './leaderboard_js_modules/dataFetcher.js';
 import { HtmlGenerators } from './leaderboard_js_modules/htmlGenerators.js';
 import { EventHandlers } from './leaderboard_js_modules/eventHandlers.js';
 import { AuthHandlers } from './leaderboard_js_modules/authHandlers.js';
+import { refreshLeaderboardNavigation, disableLeaderboardVim } from './leaderboard_js_modules/leaderboardVimNavigation.js';
 
 export class LeaderboardModal {
   constructor() {
@@ -172,6 +173,11 @@ export class LeaderboardModal {
           // Show discrete message for both index and game completion
           this.addDiscreteAuthMessage("Create an account to get in leaderboard");
         }
+        
+        // Refresh vim navigation after content update
+        setTimeout(() => {
+          refreshLeaderboardNavigation(this.modal);
+        }, 100);
       } else {
         content.innerHTML = this.htmlGenerator.createErrorHTML(leaderboardData.message || "Unknown error occurred");
       }
@@ -256,6 +262,10 @@ export class LeaderboardModal {
   close() {
     if (this.modal) {
       this.modal.style.animation = "fadeOut 0.3s ease";
+      
+      // Disable leaderboard vim navigation
+      disableLeaderboardVim();
+      
       setTimeout(() => {
         if (this.modal && this.modal.parentNode) {
           this.modal.parentNode.removeChild(this.modal);

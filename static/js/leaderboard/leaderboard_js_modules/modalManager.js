@@ -1,4 +1,6 @@
 // Modal creation and management for leaderboard
+import { initializeLeaderboardVim, disableLeaderboardVim } from './leaderboardVimNavigation.js';
+
 export class ModalManager {
   constructor() {
     this.modal = null;
@@ -28,7 +30,7 @@ export class ModalManager {
       animation: fadeIn 0.3s ease;
     `;
     
-    // Disable vim navigation when leaderboard modal is opened
+    // Disable main vim navigation when leaderboard modal is opened
     if (window.hideCursor) {
       window.hideCursor();
       // Also disable the navigation completely for true modals
@@ -51,6 +53,11 @@ export class ModalManager {
         // Ignore
       }
     }
+    
+    // Initialize leaderboard-specific vim navigation
+    setTimeout(() => {
+      initializeLeaderboardVim(overlay);
+    }, 100);
     
     return overlay;
   }
@@ -137,7 +144,10 @@ export class ModalManager {
     if (this.modal) {
       this.modal.style.animation = "fadeOut 0.3s ease";
       
-      // Re-enable vim navigation when leaderboard modal is closed
+      // Disable leaderboard vim navigation
+      disableLeaderboardVim();
+      
+      // Re-enable main vim navigation when leaderboard modal is closed
       if (window.showCursor) {
         window.showCursor();
       }

@@ -1,4 +1,6 @@
 // Event handling logic for leaderboard modal
+import { refreshLeaderboardNavigation, disableLeaderboardVim } from './leaderboardVimNavigation.js';
+
 export class EventHandlers {
   constructor(modal, options = {}) {
     this.modal = modal;
@@ -60,6 +62,10 @@ export class EventHandlers {
         const mapId = parseInt(e.target.dataset.map);
         if (mapId) {
           this.loadLeaderboard(mapId);
+          // Refresh vim navigation after map change
+          setTimeout(() => {
+            refreshLeaderboardNavigation(this.modal.closest('.leaderboard-modal-overlay'));
+          }, 100);
         }
       }
     });
@@ -106,6 +112,11 @@ export class EventHandlers {
       // Reload leaderboard with current map
       const mapId = this.getCurrentMapId();
       this.loadLeaderboard(mapId);
+      
+      // Refresh vim navigation to account for visibility changes
+      setTimeout(() => {
+        refreshLeaderboardNavigation(this.modal.closest('.leaderboard-modal-overlay'));
+      }, 100);
     });
   }
 
@@ -122,7 +133,10 @@ export class EventHandlers {
     if (this.modal) {
       this.modal.style.animation = "fadeOut 0.3s ease";
       
-      // Re-enable vim navigation when leaderboard modal is closed
+      // Disable leaderboard vim navigation
+      disableLeaderboardVim();
+      
+      // Re-enable main vim navigation when leaderboard modal is closed
       if (window.showCursor) {
         window.showCursor();
       }
