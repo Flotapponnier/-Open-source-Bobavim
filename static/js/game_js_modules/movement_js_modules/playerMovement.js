@@ -113,6 +113,11 @@ export async function movePlayer(direction, count = 1, hasExplicitCount = false)
     return;
   }
 
+  // Notify real-time updates system about movement activity
+  if (window.realTimeUpdatesModule && window.realTimeUpdatesModule.notifyMovementActivity) {
+    window.realTimeUpdatesModule.notifyMovementActivity();
+  }
+
   // Disable responsive scaling after first move to prevent jumps during gameplay
   if (window.responsiveScaling && window.responsiveScaling.disableScaling) {
     window.responsiveScaling.disableScaling();
