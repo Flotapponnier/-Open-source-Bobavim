@@ -1,6 +1,7 @@
 // WebSocket-based online button module
 import { getSelectedCharacter } from "./characterSelection.js";
 import { getCharacterSpritePath } from "../shared/character_sprites.js";
+import { initializeMultiplayerVim, disableMultiplayerVim } from "./multiplayerVimNavigation.js";
 
 let matchmakingSocket = null;
 let isConnected = false;
@@ -518,7 +519,7 @@ function showMatchFoundModal(matchData, button) {
   document.body.insertAdjacentHTML("beforeend", modalHTML);
   addMatchModalStyles();
   
-  // Disable vim navigation when match found modal is open
+  // Disable main vim navigation when match found modal is open
   if (window.hideCursor) {
     window.hideCursor();
     // Also disable the navigation completely for true modals
@@ -536,6 +537,11 @@ function showMatchFoundModal(matchData, button) {
       }).catch(() => {});
     } catch (e) {}
   }
+
+  // Initialize vim navigation for match modal
+  setTimeout(() => {
+    initializeMultiplayerVim('match');
+  }, 100);
 
   // Start countdown timer
   let timeLeft = Math.floor(matchData.accept_timeout_ms / 1000);
@@ -556,6 +562,8 @@ function showMatchFoundModal(matchData, button) {
   // Set up button handlers
   document.getElementById("acceptMatch").addEventListener("click", function() {
     clearInterval(countdownTimer);
+    // Hide cursor immediately since buttons will disappear
+    disableMultiplayerVim();
     // Update UI to show we accepted and hide actions
     updatePlayerStatus("accepted");
     hideMatchActions();
@@ -564,6 +572,8 @@ function showMatchFoundModal(matchData, button) {
 
   document.getElementById("rejectMatch").addEventListener("click", function() {
     clearInterval(countdownTimer);
+    // Hide cursor immediately since buttons will disappear
+    disableMultiplayerVim();
     // Update UI to show we rejected and hide actions
     updatePlayerStatus("rejected");
     hideMatchActions();
@@ -656,11 +666,14 @@ function startMatchCountdown(matchData) {
 
 
 function closeMatchFoundModal() {
+  // Disable multiplayer vim navigation
+  disableMultiplayerVim();
+  
   const modal = document.getElementById("matchFoundModal");
   if (modal) {
     modal.remove();
     
-    // Re-enable vim navigation when match found modal is closed
+    // Re-enable main vim navigation when match found modal is closed
     if (window.showCursor) {
       window.showCursor();
     }
@@ -707,7 +720,7 @@ function showRegistrationRequiredMessage(message) {
   document.body.insertAdjacentHTML("beforeend", modalHTML);
   addGuestModalStyles();
   
-  // Disable vim navigation when guest registration modal is open
+  // Disable main vim navigation when guest registration modal is open
   if (window.hideCursor) {
     window.hideCursor();
     // Also disable the navigation completely for true modals
@@ -725,6 +738,11 @@ function showRegistrationRequiredMessage(message) {
       }).catch(() => {});
     } catch (e) {}
   }
+
+  // Initialize vim navigation for guest modal
+  setTimeout(() => {
+    initializeMultiplayerVim('guest');
+  }, 100);
 
   // Close modal when clicking close or overlay
   document
@@ -759,11 +777,14 @@ function showRegistrationRequiredMessage(message) {
 }
 
 function closeRegistrationModal() {
+  // Disable multiplayer vim navigation
+  disableMultiplayerVim();
+  
   const modal = document.getElementById("registrationModal");
   if (modal) {
     modal.remove();
     
-    // Re-enable vim navigation when guest registration modal is closed
+    // Re-enable main vim navigation when guest registration modal is closed
     if (window.showCursor) {
       window.showCursor();
     }

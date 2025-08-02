@@ -1,6 +1,7 @@
 // Online button module - refactored into smaller functions
 import { getSelectedCharacter } from "./characterSelection.js";
 import { getCharacterSpritePath } from "../shared/character_sprites.js";
+import { initializeMultiplayerVim, disableMultiplayerVim } from "./multiplayerVimNavigation.js";
 
 let isWaitingForOpponent = false;
 let waitingInterval = null;
@@ -166,6 +167,11 @@ function showRegistrationRequiredMessage(message) {
   document.body.insertAdjacentHTML("beforeend", modalHTML);
   addGuestModalStyles();
 
+  // Initialize vim navigation for guest modal
+  setTimeout(() => {
+    initializeMultiplayerVim('guest');
+  }, 100);
+
   // Close modal when clicking close or overlay
   document
     .getElementById("closeRegistrationModal")
@@ -199,6 +205,9 @@ function showRegistrationRequiredMessage(message) {
 }
 
 function closeRegistrationModal() {
+  // Disable multiplayer vim navigation
+  disableMultiplayerVim();
+  
   const modal = document.getElementById("registrationModal");
   if (modal) {
     modal.remove();
@@ -209,6 +218,16 @@ function closeRegistrationModal() {
   if (styles) {
     styles.remove();
   }
+  
+  // Re-enable main vim navigation
+  if (window.showCursor) {
+    window.showCursor();
+  }
+  try {
+    import('./vimNavigation.js').then(module => {
+      module.enableVimNavigation();
+    }).catch(() => {});
+  } catch (e) {}
 }
 
 function addGuestModalStyles() {
