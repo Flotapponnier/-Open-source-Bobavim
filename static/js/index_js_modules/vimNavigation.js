@@ -746,13 +746,20 @@ export function enableVimNavigation() {
     return;
   }
   
+  logger.debug('Main vim navigation enabled, isVimNavigationActive:', true);
   isVimNavigationActive = true;
   updateCursor();
 }
 
 export function disableVimNavigation() {
+  logger.debug('Main vim navigation disabled');
   isVimNavigationActive = false;
   removeAllCursors();
+  
+  // Force clear any lingering visual state
+  document.querySelectorAll('.vim-cursor, .auth-vim-cursor, .modal-vim-cursor').forEach(cursor => {
+    cursor.remove();
+  });
 }
 
 export function refreshNavigableElements() {
@@ -773,6 +780,7 @@ export function showCursor() {
     return;
   }
   
+  logger.debug('Main vim showCursor called, isVimNavigationActive:', isVimNavigationActive);
   if (isVimNavigationActive) {
     updateCursor();
   }
