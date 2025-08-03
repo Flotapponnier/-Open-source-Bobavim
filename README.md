@@ -124,10 +124,9 @@ The game uses SQLite by default for local development. The database is automatic
 
 ### Character System
 - **Multiple Characters**: Choose from various boba-themed sprites
-- **Avatar System**: Profile pictures and customization
 
 ### Technical Features
-- **Responsive Design**: Works on desktop and mobile
+- **Responsive Design**: Works on desktop  (is mobile have an interest ?)
 - **Modular Architecture**: Clean separation of concerns
 - **Performance Optimized**: Efficient game state management
 - **Accessibility**: Keyboard-first navigation
