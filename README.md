@@ -14,8 +14,8 @@ A multiplayer Vim game built with Go and vanilla JavaScript, teaching Vim comman
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/Flotapponnier/Open-source-Bobavim.git
-   cd Open-source-Bobavim
+   git clone https://github.com/Flotapponnier/Bobavim.git
+   cd Bobavim
    ```
 
 2. **Set up environment**
