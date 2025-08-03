@@ -233,7 +233,7 @@ func sendCountdownToGame(multiplayerGame *game.MultiplayerGameService, gameID st
 		}
 		
 		sendMessageToGamePlayersAsync(gameID, message)
-		log.Printf("✅ Sent countdown %d for game %s", countdown, gameID)
+		utils.Debug("Sent countdown %d for game %s", countdown, gameID)
 		
 		if countdown > 1 {
 			<-ticker.C // Wait for next tick
@@ -257,14 +257,14 @@ func sendCountdownToGame(multiplayerGame *game.MultiplayerGameService, gameID st
 	// Unblock movement after countdown finishes
 	multiplayerGame.SetCountdownState(gameID, true, false)
 	
-	log.Printf("🏁 Countdown finished for game %s - game is now active and movement unlocked", gameID)
+	utils.Info("Countdown finished for game %s - game is now active and movement unlocked", gameID)
 }
 
 // sendMessageToGamePlayersAsync sends a message to all players in a game asynchronously
 func sendMessageToGamePlayersAsync(gameID string, message interface{}) {
 	gameConns, exists := gameConnectionManager.games.Load(gameID)
 	if !exists {
-		log.Printf("❌ No connections found for game %s", gameID)
+		utils.Error("No connections found for game %s", gameID)
 		return
 	}
 	
@@ -290,9 +290,9 @@ func sendMessageToGamePlayersAsync(gameID string, message interface{}) {
 			
 			err := c.WriteJSON(message)
 			if err != nil {
-				log.Printf("❌ Failed to send message to player %d in game %s: %v", pID, gameID, err)
+				utils.Error("Failed to send message to player %d in game %s: %v", pID, gameID, err)
 			} else {
-				log.Printf("📤 Sent message to player %d in game %s", pID, gameID)
+				utils.Debug("Sent message to player %d in game %s", pID, gameID)
 			}
 		}(playerID, conn)
 	}
@@ -308,7 +308,7 @@ func sendMessageToGamePlayersAsync(gameID string, message interface{}) {
 	case <-done:
 		// All messages sent
 	case <-time.After(5 * time.Second):
-		log.Printf("⚠️ Timeout sending messages to game %s", gameID)
+		utils.Warn("Timeout sending messages to game %s", gameID)
 	}
 }
 
@@ -319,12 +319,12 @@ func sendMessageToGamePlayers(gameID string, message interface{}) {
 
 // HandleMultiplayerGameWebSocket handles WebSocket connections for multiplayer games
 func HandleMultiplayerGameWebSocket(multiplayerGame *game.MultiplayerGameService, c *gin.Context) {
-	log.Printf("🔌 WebSocket connection attempt for game %s", c.Param("gameID"))
+	utils.Debug("WebSocket connection attempt for game %s", c.Param("gameID"))
 	
 	// Get game ID from URL parameter
 	gameID := c.Param("gameID")
 	if gameID == "" {
-		log.Printf("❌ Missing game ID in WebSocket request")
+		utils.Error("Missing game ID in WebSocket request")
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Game ID is required"})
 		return
 	}
@@ -332,27 +332,27 @@ func HandleMultiplayerGameWebSocket(multiplayerGame *game.MultiplayerGameService
 	// Get player info from session
 	playerID, _, err := matchmaking.ValidatePlayerSession(c)
 	if err != nil {
-		log.Printf("❌ WebSocket session validation failed: %v", err)
+		utils.Error("WebSocket session validation failed: %v", err)
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized"})
 		return
 	}
 	
-	log.Printf("✅ WebSocket session validated for player %d", playerID)
+	utils.Debug("WebSocket session validated for player %d", playerID)
 
 	// Upgrade connection to WebSocket
-	log.Printf("🔄 Attempting WebSocket upgrade for game %s", gameID)
+	utils.Debug("Attempting WebSocket upgrade for game %s", gameID)
 	conn, err := wsUpgrader.Upgrade(c.Writer, c.Request, nil)
 	if err != nil {
-		log.Printf("❌ Failed to upgrade to WebSocket: %v", err)
+		utils.Error("Failed to upgrade to WebSocket: %v", err)
 		return
 	}
-	log.Printf("✅ WebSocket upgrade successful for game %s", gameID)
+	utils.Debug("WebSocket upgrade successful for game %s", gameID)
 	
 	// Register connection with the WebSocket manager for game updates
 	multiplayerGame.RegisterWebSocketConnection(playerID, conn)
 	// Also register with our game-specific connection manager
 	addGameConnection(gameID, playerID, conn)
-	log.Printf("🔗 WebSocket connection registered for player %d in game %s", playerID, gameID)
+	utils.Debug("WebSocket connection registered for player %d in game %s", playerID, gameID)
 	
 	defer func() {
 		conn.Close()
@@ -362,10 +362,10 @@ func HandleMultiplayerGameWebSocket(multiplayerGame *game.MultiplayerGameService
 		removeGameConnection(gameID, playerID)
 		// Handle player disconnect when WebSocket closes
 		multiplayerGame.HandlePlayerDisconnect(playerID)
-		log.Printf("Player %d disconnected from multiplayer game %s", playerID, gameID)
+		utils.Info("Player %d disconnected from multiplayer game %s", playerID, gameID)
 	}()
 
-	log.Printf("Player %d connected to multiplayer game %s via WebSocket", playerID, gameID)
+	utils.Info("Player %d connected to multiplayer game %s via WebSocket", playerID, gameID)
 
 	// Set up ping/pong handlers to keep connection alive
 	conn.SetPongHandler(func(string) error {
@@ -392,7 +392,7 @@ func HandleMultiplayerGameWebSocket(multiplayerGame *game.MultiplayerGameService
 			messageType, message, err := conn.ReadMessage()
 			if err != nil {
 				if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway, websocket.CloseAbnormalClosure) {
-					log.Printf("WebSocket read error: %v", err)
+					utils.Error("WebSocket read error: %v", err)
 				}
 				break
 			}
@@ -408,24 +408,24 @@ func HandleMultiplayerGameWebSocket(multiplayerGame *game.MultiplayerGameService
 				if err := json.Unmarshal(message, &msg); err == nil {
 					if msgType, ok := msg["type"].(string); ok {
 						if msgType == "request_countdown_status" {
-							log.Printf("🎯 Player %d requested countdown status for game %s", playerID, gameID)
+							utils.Debug("Player %d requested countdown status for game %s", playerID, gameID)
 							
 							// Check if both players are connected to this game
 							if areBothPlayersConnectedToGame(multiplayerGame, gameID) {
-								log.Printf("🔥 Both players connected, starting countdown for game %s", gameID)
+								utils.Info("Both players connected, starting countdown for game %s", gameID)
 								go sendCountdownToGame(multiplayerGame, gameID)
 							} else {
-								log.Printf("⏸️ Waiting for both players to connect to game %s", gameID)
+								utils.Debug("Waiting for both players to connect to game %s", gameID)
 							}
 						}
 					}
 				}
-				log.Printf("Received text message from player %d: %s", playerID, string(message))
+				utils.Debug("Received text message from player %d: %s", playerID, string(message))
 			case websocket.BinaryMessage:
 				// Handle binary messages if needed
-				log.Printf("Received binary message from player %d", playerID)
+				utils.Debug("Received binary message from player %d", playerID)
 			case websocket.CloseMessage:
-				log.Printf("WebSocket connection closed by client")
+				utils.Debug("WebSocket connection closed by client")
 				return
 			case websocket.PingMessage:
 				// Respond to ping with pong
@@ -444,7 +444,7 @@ func HandleMultiplayerGameWebSocket(multiplayerGame *game.MultiplayerGameService
 			// Send ping to keep connection alive
 			conn.SetWriteDeadline(time.Now().Add(10 * time.Second))
 			if err := conn.WriteMessage(websocket.PingMessage, nil); err != nil {
-				log.Printf("Failed to send ping to player %d: %v", playerID, err)
+				utils.Error("Failed to send ping to player %d: %v", playerID, err)
 				return
 			}
 		}

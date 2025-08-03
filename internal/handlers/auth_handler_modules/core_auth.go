@@ -2,12 +2,12 @@ package auth_handler_modules
 
 import (
 	"golang.org/x/crypto/bcrypt"
-	"log"
 	"net/http"
 
 	"boba-vim/internal/models"
 	"boba-vim/internal/services"
 	"boba-vim/internal/services/email"
+	"boba-vim/internal/utils"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -70,16 +70,16 @@ func Register(db *gorm.DB, emailService *email.EmailService, paymentService *ser
 	if err := emailService.SendConfirmationEmail(player.Email, confirmationToken); err != nil {
 		// Log error but don't fail registration
 		// User can still use the account, just won't be confirmed
-		log.Printf("Failed to send confirmation email to %s: %v", player.Email, err)
+		utils.Info("Failed to send confirmation email to %s: %v", player.Email, err)
 	}
 
 	// Seed default and registration characters for the new user
 	if err := paymentService.SeedDefaultCharacters(player.ID); err != nil {
-		log.Printf("Failed to seed default characters for user %d: %v", player.ID, err)
+		utils.Info("Failed to seed default characters for user %d: %v", player.ID, err)
 	}
 	
 	if err := paymentService.SeedRegistrationCharacters(player.ID); err != nil {
-		log.Printf("Failed to seed registration characters for user %d: %v", player.ID, err)
+		utils.Info("Failed to seed registration characters for user %d: %v", player.ID, err)
 	}
 
 	// Log the user in immediately after registration
@@ -312,7 +312,7 @@ func ResendConfirmationEmail(db *gorm.DB, emailService *email.EmailService, c *g
 
 	// Send confirmation email
 	if err := emailService.SendConfirmationEmail(player.Email, confirmationToken); err != nil {
-		log.Printf("Failed to send confirmation email to %s: %v", player.Email, err)
+		utils.Info("Failed to send confirmation email to %s: %v", player.Email, err)
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"success": false,
 			"error":   "Failed to send confirmation email",

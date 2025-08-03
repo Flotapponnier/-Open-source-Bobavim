@@ -3,12 +3,12 @@ package game
 import (
 	"errors"
 	"fmt"
-	"log"
 	"math"
 	"time"
 
 	"boba-vim/internal/cache"
 	"boba-vim/internal/models"
+	"boba-vim/internal/utils"
 	"gorm.io/gorm"
 )
 
@@ -128,7 +128,7 @@ func (mls *MultiplayerLeaderboardService) GetMultiplayerLeaderboard(limit int, i
 	if mls.cache != nil && mls.cache.IsAvailable() {
 		var cachedEntries []LeaderboardEntry
 		if err := mls.cache.Get(cacheKey, &cachedEntries); err == nil {
-			log.Printf("Returning cached leaderboard with %d entries", len(cachedEntries))
+			utils.Info("Returning cached leaderboard with %d entries", len(cachedEntries))
 			return cachedEntries, nil
 		}
 	}
@@ -192,9 +192,9 @@ func (mls *MultiplayerLeaderboardService) GetMultiplayerLeaderboard(limit int, i
 	// Cache the result for 5 minutes
 	if mls.cache != nil && mls.cache.IsAvailable() {
 		if err := mls.cache.Set(cacheKey, entries, 5*time.Minute); err != nil {
-			log.Printf("Failed to cache leaderboard: %v", err)
+			utils.Info("Failed to cache leaderboard: %v", err)
 		} else {
-			log.Printf("Cached leaderboard with %d entries for 5 minutes", len(entries))
+			utils.Info("Cached leaderboard with %d entries for 5 minutes", len(entries))
 		}
 	}
 

@@ -8,6 +8,7 @@ import (
 	"boba-vim/internal/cache"
 	"boba-vim/internal/config"
 	"boba-vim/internal/models"
+	"boba-vim/internal/utils"
 
 	"gorm.io/gorm"
 )
@@ -83,7 +84,7 @@ func (ls *LeaderboardService) GetLeaderboardByMap(boardType string, limit int, m
 	// Cache the result for 3 minutes
 	if ls.cache != nil && ls.cache.IsAvailable() {
 		if err := ls.cache.Set(cacheKey, result, 3*time.Minute); err != nil {
-			fmt.Printf("Failed to cache leaderboard: %v\n", err)
+			utils.Error("Failed to cache leaderboard: %v", err)
 		}
 	}
 

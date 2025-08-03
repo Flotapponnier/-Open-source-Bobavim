@@ -4,10 +4,10 @@ import (
 	"boba-vim/internal/models"
 	"boba-vim/internal/services"
 	"boba-vim/internal/services/email"
+	"boba-vim/internal/utils"
 	"encoding/json"
 	"fmt"
 	"io"
-	"log"
 	"net/http"
 	"os"
 	"strconv"
@@ -199,13 +199,13 @@ func (h *PaymentHandler) GetPlayerCharacters(c *gin.Context) {
 			playerID = sessionUserID
 		} else {
 			// Debug: log session contents
-			log.Printf("DEBUG: Session user_id not found. Session: %+v", session)
+			utils.Info("DEBUG: Session user_id not found. Session: %+v", session)
 			c.JSON(http.StatusUnauthorized, gin.H{"error": "Must be logged in"})
 			return
 		}
 	}
 	
-	log.Printf("DEBUG: Player ID: %v", playerID)
+	utils.Info("DEBUG: Player ID: %v", playerID)
 
 	var ownerships []models.PlayerCharacterOwnership
 	err := h.db.Where("player_id = ?", playerID).Preload("Payment").Find(&ownerships).Error
@@ -314,7 +314,7 @@ func (h *PaymentHandler) HandleStripeWebhook(c *gin.Context) {
 	
 	payload, err := io.ReadAll(c.Request.Body)
 	if err != nil {
-		log.Printf("Error reading webhook body: %v", err)
+		utils.Info("Error reading webhook body: %v", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid payload"})
 		return
 	}
@@ -322,7 +322,7 @@ func (h *PaymentHandler) HandleStripeWebhook(c *gin.Context) {
 	// Verify webhook signature
 	endpointSecret := os.Getenv("STRIPE_WEBHOOK_SECRET")
 	if endpointSecret == "" {
-		log.Printf("Stripe webhook secret not configured")
+		utils.Info("Stripe webhook secret not configured")
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Webhook not configured"})
 		return
 	}
@@ -330,7 +330,7 @@ func (h *PaymentHandler) HandleStripeWebhook(c *gin.Context) {
 	signatureHeader := c.GetHeader("Stripe-Signature")
 	event, err := webhook.ConstructEvent(payload, signatureHeader, endpointSecret)
 	if err != nil {
-		log.Printf("Webhook signature verification failed: %v", err)
+		utils.Info("Webhook signature verification failed: %v", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid signature"})
 		return
 	}
@@ -341,21 +341,21 @@ func (h *PaymentHandler) HandleStripeWebhook(c *gin.Context) {
 		var paymentIntent stripe.PaymentIntent
 		err := json.Unmarshal(event.Data.Raw, &paymentIntent)
 		if err != nil {
-			log.Printf("Error parsing webhook JSON: %v", err)
+			utils.Info("Error parsing webhook JSON: %v", err)
 			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid JSON"})
 			return
 		}
 
 		// Process the successful payment
 		if err := h.processSuccessfulPayment(&paymentIntent); err != nil {
-			log.Printf("Error processing successful payment: %v", err)
+			utils.Info("Error processing successful payment: %v", err)
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Processing failed"})
 			return
 		}
 
-		log.Printf("Payment succeeded webhook processed: %s", paymentIntent.ID)
+		utils.Info("Payment succeeded webhook processed: %s", paymentIntent.ID)
 	default:
-		log.Printf("Unhandled webhook event type: %s", event.Type)
+		utils.Info("Unhandled webhook event type: %s", event.Type)
 	}
 
 	c.JSON(http.StatusOK, gin.H{"received": true})
@@ -372,7 +372,7 @@ func (h *PaymentHandler) processSuccessfulPayment(paymentIntent *stripe.PaymentI
 
 	// Skip if already processed
 	if payment.PaymentStatus == "completed" {
-		log.Printf("Payment %s already processed", paymentIntent.ID)
+		utils.Info("Payment %s already processed", paymentIntent.ID)
 		return nil
 	}
 
@@ -432,7 +432,7 @@ func (h *PaymentHandler) processSuccessfulPayment(paymentIntent *stripe.PaymentI
 
 	// Send thank you email
 	if err := h.sendPaymentSuccessEmail(&payment, &ownership); err != nil {
-		log.Printf("Failed to send payment success email: %v", err)
+		utils.Info("Failed to send payment success email: %v", err)
 		// Don't fail the webhook processing if email fails
 	}
 
@@ -442,7 +442,7 @@ func (h *PaymentHandler) processSuccessfulPayment(paymentIntent *stripe.PaymentI
 // sendPaymentSuccessEmail sends a thank you email with invoice details
 func (h *PaymentHandler) sendPaymentSuccessEmail(payment *models.CharacterPayment, ownership *models.PlayerCharacterOwnership) error {
 	if h.emailService == nil || !h.emailService.IsConfigured() {
-		log.Printf("Email service not configured - would send payment success email")
+		utils.Info("Email service not configured - would send payment success email")
 		return nil
 	}
 

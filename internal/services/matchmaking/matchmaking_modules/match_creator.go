@@ -1,10 +1,10 @@
 package matchmaking_modules
 
 import (
-	"log"
 	"time"
 
 	"boba-vim/internal/models/model_modules"
+	"boba-vim/internal/utils"
 	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
@@ -36,7 +36,7 @@ func (mc *MatchCreator) TryCreateMatches(players []*QueuePlayer, activeMatches A
 	for i := 0; i < len(playersCopy)-1; i += 2 {
 		// Double-check bounds to prevent index out of range panic
 		if i+1 >= len(playersCopy) {
-			log.Printf("Bounds check failed: trying to access index %d in slice of length %d", i+1, len(playersCopy))
+			utils.Info("Bounds check failed: trying to access index %d in slice of length %d", i+1, len(playersCopy))
 			break
 		}
 		
@@ -45,13 +45,13 @@ func (mc *MatchCreator) TryCreateMatches(players []*QueuePlayer, activeMatches A
 		
 		// Validate that both players still exist and are valid
 		if player1 == nil || player2 == nil {
-			log.Printf("Null player encountered at indices %d or %d, skipping match creation", i, i+1)
+			utils.Info("Null player encountered at indices %d or %d, skipping match creation", i, i+1)
 			continue
 		}
 		
 		// Create match
 		if err := mc.createMatch(player1, player2, activeMatches, wsManager, statusManager, queueManager); err != nil {
-			log.Printf("Failed to create match between %d and %d: %v", 
+			utils.Info("Failed to create match between %d and %d: %v", 
 				player1.PlayerID, player2.PlayerID, err)
 		}
 	}
@@ -94,7 +94,7 @@ func (mc *MatchCreator) createMatch(player1, player2 *QueuePlayer, activeMatches
 	}
 	
 	if err := mc.db.Create(dbMatch).Error; err != nil {
-		log.Printf("Failed to create database match record: %v", err)
+		utils.Info("Failed to create database match record: %v", err)
 	}
 	
 	// Send match found messages to both players
@@ -130,6 +130,6 @@ func (mc *MatchCreator) createMatch(player1, player2 *QueuePlayer, activeMatches
 		Timestamp: time.Now(),
 	})
 	
-	log.Printf("Match %s created between %s and %s", matchID, player1.Username, player2.Username)
+	utils.Info("Match %s created between %s and %s", matchID, player1.Username, player2.Username)
 	return nil
 }

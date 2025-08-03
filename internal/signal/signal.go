@@ -2,12 +2,13 @@ package signal
 
 import (
 	"context"
-	"log"
 	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
+
+	"boba-vim/internal/utils"
 )
 
 // WaitForShutdown sets up signal handling and gracefully shuts down the server
@@ -21,7 +22,7 @@ func WaitForShutdown(srv *http.Server) {
 		syscall.SIGQUIT, // Ctrl+\
 	)
 	<-quit
-	log.Println("Shutting down server...")
+	utils.Info("Shutting down server...")
 
 	// The context is used to inform the server it has 5 seconds to finish
 	// the request it is currently handling
@@ -29,8 +30,8 @@ func WaitForShutdown(srv *http.Server) {
 	defer cancel()
 
 	if err := srv.Shutdown(ctx); err != nil {
-		log.Fatal("Server forced to shutdown:", err)
+		utils.Fatal("Server forced to shutdown: %v", err)
 	}
 
-	log.Println("Server exited")
+	utils.Info("Server exited")
 }

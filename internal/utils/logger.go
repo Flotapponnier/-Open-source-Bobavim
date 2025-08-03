@@ -6,81 +6,68 @@ import (
 	"strings"
 )
 
-// Logger configuration variables
-var (
-	isProd   bool
-	logLevel string
-)
-
-// Log level constants
+// Compile-time log level constants for zero-cost logging
 const (
-	LogLevelDebug = "debug"
-	LogLevelInfo  = "info"
-	LogLevelWarn  = "warn"
-	LogLevelError = "error"
-	LogLevelSilent = "silent"
+	LogLevelDebug  = 0
+	LogLevelInfo   = 1
+	LogLevelWarn   = 2
+	LogLevelError  = 3
+	LogLevelSilent = 4
 )
 
-// Initialize logger configuration
+// Logger configuration variables - set at init time
+var (
+	isProd       bool
+	currentLevel int
+)
+
+// Initialize logger configuration once at startup
 func init() {
 	isProd = os.Getenv("ENV") == "production"
-	logLevel = strings.ToLower(os.Getenv("LOG_LEVEL"))
-	if logLevel == "" {
+	logLevel := strings.ToLower(os.Getenv("LOG_LEVEL"))
+	
+	// Set compile-time optimized log level
+	switch logLevel {
+	case "debug":
+		currentLevel = LogLevelDebug
+	case "info":
+		currentLevel = LogLevelInfo
+	case "warn":
+		currentLevel = LogLevelWarn
+	case "error":
+		currentLevel = LogLevelError
+	case "silent":
+		currentLevel = LogLevelSilent
+	default:
 		if isProd {
-			logLevel = LogLevelError
+			currentLevel = LogLevelError
 		} else {
-			logLevel = LogLevelDebug
+			currentLevel = LogLevelDebug
 		}
 	}
 }
 
-// shouldLog determines if a message should be logged based on the current log level
-func shouldLog(level string) bool {
-	levels := map[string]int{
-		LogLevelDebug:  0,
-		LogLevelInfo:   1,
-		LogLevelWarn:   2,
-		LogLevelError:  3,
-		LogLevelSilent: 4,
-	}
-	
-	currentLevel, exists := levels[logLevel]
-	if !exists {
-		currentLevel = levels[LogLevelDebug]
-	}
-	
-	targetLevel, exists := levels[level]
-	if !exists {
-		targetLevel = levels[LogLevelDebug]
-	}
-	
-	return targetLevel >= currentLevel
-}
-
-// Debug logs a debug message
+// Optimized logging functions with compile-time constant checks
 func Debug(msg string, args ...interface{}) {
-	if shouldLog(LogLevelDebug) {
+	if currentLevel <= LogLevelDebug {
 		log.Printf("[DEBUG] "+msg, args...)
 	}
 }
 
-// Info logs an info message
 func Info(msg string, args ...interface{}) {
-	if shouldLog(LogLevelInfo) {
+	if currentLevel <= LogLevelInfo {
 		log.Printf("[INFO] "+msg, args...)
 	}
 }
 
-// Warn logs a warning message
 func Warn(msg string, args ...interface{}) {
-	if shouldLog(LogLevelWarn) {
+	if currentLevel <= LogLevelWarn {
 		log.Printf("[WARN] "+msg, args...)
 	}
 }
 
-// Error logs an error message
 func Error(msg string, args ...interface{}) {
-	if shouldLog(LogLevelError) {
+	if currentLevel <= LogLevelError {
 		log.Printf("[ERROR] "+msg, args...)
 	}
 }
@@ -90,12 +77,11 @@ func Fatal(msg string, args ...interface{}) {
 	log.Fatalf("[FATAL] "+msg, args...)
 }
 
-// IsProd returns true if running in production mode
+// Utility functions
 func IsProd() bool {
 	return isProd
 }
 
-// GetLogLevel returns the current log level
-func GetLogLevel() string {
-	return logLevel
+func GetLogLevel() int {
+	return currentLevel
 }

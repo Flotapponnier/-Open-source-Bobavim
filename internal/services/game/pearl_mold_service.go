@@ -1,7 +1,6 @@
 package game
 
 import (
-	"log"
 	"sync"
 	"time"
 
@@ -9,6 +8,7 @@ import (
 	"boba-vim/internal/constant"
 	"boba-vim/internal/game"
 	"boba-vim/internal/models"
+	"boba-vim/internal/utils"
 
 	"gorm.io/gorm"
 )
@@ -43,13 +43,13 @@ func (pms *PearlMoldService) StartPeriodicMovement() {
 		}
 	}()
 	
-	log.Println("Started pearl mold movement service (every 2 seconds with cleanup)")
+	utils.Info("Started pearl mold movement service (every 2 seconds with cleanup)")
 }
 
 func (pms *PearlMoldService) MoveAllPearlMolds() {
 	var activeSessions []models.GameSession
 	if err := pms.db.Where("is_active = ? AND is_multiplayer = ?", true, false).Find(&activeSessions).Error; err != nil {
-		log.Printf("Error finding active sessions for pearl mold movement: %v", err)
+		utils.Info("Error finding active sessions for pearl mold movement: %v", err)
 		return
 	}
 	
@@ -69,10 +69,10 @@ func (pms *PearlMoldService) MoveAllPearlMolds() {
 			
 			session.SetGameMap(gameMap)
 			if err := pms.db.Save(&session).Error; err != nil {
-				log.Printf("Error saving session after pearl mold movement: %v", err)
+				utils.Info("Error saving session after pearl mold movement: %v", err)
 			}
 			
-			log.Printf("Pearl mold moved for session %s", session.SessionToken)
+			utils.Info("Pearl mold moved for session %s", session.SessionToken)
 		}
 	}
 }

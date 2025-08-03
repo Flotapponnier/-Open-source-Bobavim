@@ -1,10 +1,10 @@
 package auth_handler_modules
 
 import (
-	"log"
 	"net/http"
 
 	"boba-vim/internal/models"
+	"boba-vim/internal/utils"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -43,7 +43,7 @@ func DeleteAccount(db *gorm.DB, c *gin.Context) {
 	session.Clear()
 	if err := session.Save(); err != nil {
 		// Don't fail the delete operation if session clear fails
-		log.Printf("Failed to clear session after account deletion: %v", err)
+		utils.Info("Failed to clear session after account deletion: %v", err)
 	}
 
 	c.JSON(http.StatusOK, gin.H{

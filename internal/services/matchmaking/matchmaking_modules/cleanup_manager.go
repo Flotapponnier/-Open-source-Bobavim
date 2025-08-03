@@ -2,10 +2,10 @@ package matchmaking_modules
 
 import (
 	"context"
-	"log"
 	"time"
 
 	"boba-vim/internal/models/model_modules"
+	"boba-vim/internal/utils"
 	"gorm.io/gorm"
 )
 
@@ -79,7 +79,7 @@ func (cm *CleanupManager) processExpiredMatches(activeMatches ActiveMatchesInter
 			Timestamp: time.Now(),
 		})
 		
-		log.Printf("Match %s expired", match.ID)
+		utils.Info("Match %s expired", match.ID)
 	}
 }
 
@@ -87,5 +87,5 @@ func (cm *CleanupManager) processExpiredMatches(activeMatches ActiveMatchesInter
 func (cm *CleanupManager) Cleanup() {
 	cm.cancel()
 	cm.cleanupTicker.Stop()
-	log.Println("Cleanup manager shut down")
+	utils.Info("Cleanup manager shut down")
 }

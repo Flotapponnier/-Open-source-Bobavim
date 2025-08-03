@@ -11,6 +11,7 @@ import (
 	"boba-vim/internal/constant"
 	"boba-vim/internal/game"
 	"boba-vim/internal/models"
+	"boba-vim/internal/utils"
 
 	"gorm.io/gorm"
 )
@@ -53,7 +54,7 @@ func (ms *MovementService) dbWriteWorker() {
 		func() {
 			defer func() {
 				if r := recover(); r != nil {
-					fmt.Printf("Database write worker panic recovered: %v\n", r)
+					utils.Error("Database write worker panic recovered: %v", r)
 				}
 			}()
 			dbOperation()

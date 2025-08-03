@@ -1,12 +1,12 @@
 package matchmaking
 
 import (
-	"log"
 	"net/http"
 	"sync"
 
 	"boba-vim/internal/cache"
 	"boba-vim/internal/models"
+	"boba-vim/internal/utils"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
@@ -53,7 +53,7 @@ func (ms *MatchmakingService) StartMultiplayerGame(matchID string, player1ID uin
 		_, err := ms.multiplayerGame.StartMultiplayerGame(matchID, player1ID, player1Username, player1Character, player2ID, player2Username, player2Character)
 		return err
 	}
-	log.Printf("No multiplayer game service available")
+	utils.Error("No multiplayer game service available")
 	return nil
 }
 
@@ -192,12 +192,12 @@ func (ms *MatchmakingService) GetQueueStatus(c *gin.Context) {
 
 // Cleanup shuts down the matchmaking service
 func (ms *MatchmakingService) Cleanup() {
-	log.Println("Shutting down matchmaking service...")
+	utils.Info("Shutting down matchmaking service...")
 	
 	ms.manager.Cleanup()
 	ms.wsManager.Cleanup()
 	
-	log.Println("Matchmaking service shut down complete")
+	utils.Info("Matchmaking service shut down complete")
 }
 
 // Helper functions for session management

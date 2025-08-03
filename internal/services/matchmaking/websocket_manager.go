@@ -2,10 +2,11 @@ package matchmaking
 
 import (
 	"encoding/json"
-	"log"
 	"net/http"
 	"sync"
 	"time"
+
+	"boba-vim/internal/utils"
 
 	"github.com/gorilla/websocket"
 )
@@ -49,7 +50,7 @@ func (wsm *WebSocketManager) AddConnection(playerID uint, conn *websocket.Conn) 
 		conn:    conn,
 		writeMu: sync.Mutex{},
 	}
-	log.Printf("WebSocket connection added for player %d", playerID)
+	utils.Debug("WebSocket connection added for player %d", playerID)
 }
 
 // RemoveConnection removes a WebSocket connection
@@ -60,7 +61,7 @@ func (wsm *WebSocketManager) RemoveConnection(playerID uint) {
 	if wsConn, exists := wsm.connections[playerID]; exists {
 		wsConn.conn.Close()
 		delete(wsm.connections, playerID)
-		log.Printf("WebSocket connection removed for player %d", playerID)
+		utils.Debug("WebSocket connection removed for player %d", playerID)
 	}
 }
 
@@ -115,7 +116,7 @@ func (wsm *WebSocketManager) BroadcastToPlayers(playerIDs []uint, message interf
 			
 			conn.conn.SetWriteDeadline(time.Now().Add(1 * time.Second)) // Reduced from 3s
 			if err := conn.conn.WriteJSON(message); err != nil {
-				log.Printf("Failed to send message to player %d: %v", pID, err)
+				utils.Error("Failed to send message to player %d: %v", pID, err)
 			}
 		}(wsConn, playerID)
 	}
@@ -131,7 +132,7 @@ func (wsm *WebSocketManager) BroadcastToPlayers(playerIDs []uint, message interf
 	case <-done:
 		// All messages sent successfully
 	case <-time.After(2 * time.Second): // Reduced timeout
-		log.Printf("Timeout broadcasting to %d players", len(playerIDs))
+		utils.Warn("Timeout broadcasting to %d players", len(playerIDs))
 	}
 }
 
@@ -160,7 +161,7 @@ func (wsm *WebSocketManager) GetConnectedPlayers() []uint {
 func (wsm *WebSocketManager) HandleConnection(w http.ResponseWriter, r *http.Request, playerID uint) {
 	conn, err := wsm.upgrader.Upgrade(w, r, nil)
 	if err != nil {
-		log.Printf("Failed to upgrade WebSocket connection: %v", err)
+		utils.Error("Failed to upgrade WebSocket connection: %v", err)
 		return
 	}
 	
@@ -218,14 +219,14 @@ func (wsm *WebSocketManager) handleConnectionMessages(playerID uint, conn *webso
 		var rawMsg json.RawMessage
 		if err := conn.ReadJSON(&rawMsg); err != nil {
 			if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway, websocket.CloseAbnormalClosure) {
-				log.Printf("WebSocket error for player %d: %v", playerID, err)
+				utils.Error("WebSocket error for player %d: %v", playerID, err)
 			}
 			break
 		}
 		
 		// For now, we'll just log incoming messages
 		// The actual matchmaking logic is handled via HTTP endpoints
-		log.Printf("Received message from player %d: %s", playerID, string(rawMsg))
+		utils.Debug("Received message from player %d: %s", playerID, string(rawMsg))
 	}
 }
 
@@ -236,7 +237,7 @@ func (wsm *WebSocketManager) Cleanup() {
 	
 	for playerID, wsConn := range wsm.connections {
 		wsConn.conn.Close()
-		log.Printf("Closed WebSocket connection for player %d", playerID)
+		utils.Debug("Closed WebSocket connection for player %d", playerID)
 	}
 	
 	wsm.connections = make(map[uint]*WebSocketConnection)

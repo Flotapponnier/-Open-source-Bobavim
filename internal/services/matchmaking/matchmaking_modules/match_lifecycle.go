@@ -1,10 +1,10 @@
 package matchmaking_modules
 
 import (
-	"log"
 	"time"
 
 	"boba-vim/internal/models/model_modules"
+	"boba-vim/internal/utils"
 	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
@@ -146,7 +146,7 @@ func (mlm *MatchLifecycleManager) cancelMatch(match *ActiveMatch, rejectingPlaye
 		})
 	}
 	
-	log.Printf("Match %s cancelled by player %d", match.ID, rejectingPlayerID)
+	utils.Info("Match %s cancelled by player %d", match.ID, rejectingPlayerID)
 	return nil
 }
 
@@ -172,7 +172,7 @@ func (mlm *MatchLifecycleManager) startMatch(match *ActiveMatch, activeMatches A
 		)
 		
 		if err != nil {
-			log.Printf("Failed to start multiplayer game: %v", err)
+			utils.Info("Failed to start multiplayer game: %v", err)
 			
 			// Send error messages to both players
 			errorMessage := WebSocketMessage{
@@ -214,6 +214,6 @@ func (mlm *MatchLifecycleManager) startMatch(match *ActiveMatch, activeMatches A
 		Timestamp: time.Now(),
 	})
 	
-	log.Printf("Match %s started between %s and %s", match.ID, match.Player1Username, match.Player2Username)
+	utils.Info("Match %s started between %s and %s", match.ID, match.Player1Username, match.Player2Username)
 	return nil
 }

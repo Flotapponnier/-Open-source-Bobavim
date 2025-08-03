@@ -2,7 +2,7 @@ package game
 
 import (
 	"boba-vim/internal/game/multiplayer"
-	"log"
+	"boba-vim/internal/utils"
 )
 
 // Re-export types from multiplayer package
@@ -44,6 +44,6 @@ func (gmc *gameMovementCalculator) CalculateNewPositionWithCount(direction strin
 
 // Initialize the movement calculator
 func init() {
-	log.Printf("🔧 Initializing multiplayer movement calculator")
+	utils.Info("Initializing multiplayer movement calculator")
 	multiplayer.SetMovementCalculator(&gameMovementCalculator{})
 }

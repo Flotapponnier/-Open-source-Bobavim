@@ -1,10 +1,10 @@
 package middleware_modules
 
 import (
-	"log"
 	"net/http"
 	"runtime/debug"
 
+	"boba-vim/internal/utils"
 	"github.com/gin-gonic/gin"
 )
 
@@ -13,8 +13,8 @@ func ErrorHandler() gin.HandlerFunc {
 		defer func() {
 			if err := recover(); err != nil {
 				// Log the panic with stack trace
-				log.Printf("Panic recovered: %v", err)
-				log.Printf("Stack trace:\n%s", debug.Stack())
+				utils.Info("Panic recovered: %v", err)
+				utils.Info("Stack trace:\n%s", debug.Stack())
 
 				// Check if response has already been written
 				if !c.Writer.Written() {

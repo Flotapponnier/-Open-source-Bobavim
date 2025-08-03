@@ -2,7 +2,6 @@ package game
 
 import (
 	"errors"
-	"fmt"
 	"time"
 
 	"boba-vim/internal/cache"
@@ -10,6 +9,7 @@ import (
 	"boba-vim/internal/constant"
 	"boba-vim/internal/game"
 	"boba-vim/internal/models"
+	"boba-vim/internal/utils"
 
 	"gorm.io/gorm"
 )
@@ -65,7 +65,7 @@ func (ss *SessionService) GetGameState(sessionToken string) (map[string]interfac
 	if ss.cache != nil && ss.cache.IsAvailable() {
 		if err := ss.cache.Set(cacheKey, gameSession, 5*time.Minute); err != nil {
 			// Log error but don't fail the request
-			fmt.Printf("Failed to cache game session: %v\n", err)
+			utils.Error("Failed to cache game session: %v", err)
 		}
 	}
 

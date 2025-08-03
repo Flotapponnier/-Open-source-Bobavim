@@ -6,10 +6,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"log"
 	"net/http"
 	"os"
 	"strconv"
+
+	"boba-vim/internal/utils"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
@@ -76,7 +77,7 @@ func NewEmailService(config EmailConfig) *EmailService {
 			Region: aws.String(es.sesRegion),
 		})
 		if err != nil {
-			log.Printf("Failed to create AWS session: %v", err)
+			utils.Error("Failed to create AWS session: %v", err)
 		} else {
 			es.sesClient = ses.New(sess)
 		}
@@ -119,7 +120,7 @@ func NewEmailServiceFromEnv() *EmailService {
 			Region: aws.String(sesRegion),
 		})
 		if err != nil {
-			log.Printf("Failed to create AWS session: %v", err)
+			utils.Error("Failed to create AWS session: %v", err)
 		} else {
 			es.sesClient = ses.New(sess)
 		}
@@ -167,7 +168,7 @@ func NewEmailServiceFromEnv() *EmailService {
 
 func (es *EmailService) SendPasswordResetEmail(to, resetToken string) error {
 	if !es.IsConfigured() {
-		log.Printf("Email service not configured - would send reset email to %s with token %s", to, resetToken)
+		utils.Debug("Email service not configured - would send reset email to %s with token %s", to, resetToken)
 		return nil // Don't fail if email is not configured
 	}
 
@@ -226,7 +227,7 @@ func (es *EmailService) SendPasswordResetEmail(to, resetToken string) error {
 
 func (es *EmailService) SendConfirmationEmail(to, confirmationToken string) error {
 	if !es.IsConfigured() {
-		log.Printf("Email service not configured - would send confirmation email to %s with token %s", to, confirmationToken)
+		utils.Debug("Email service not configured - would send confirmation email to %s with token %s", to, confirmationToken)
 		return nil // Don't fail if email is not configured
 	}
 
@@ -289,7 +290,7 @@ func (es *EmailService) SendConfirmationEmail(to, confirmationToken string) erro
 
 func (es *EmailService) SendNewsletterEmail(to, newsletterTitle, newsletterSummary string) error {
 	if !es.IsConfigured() {
-		log.Printf("Email service not configured - would send newsletter email to %s", to)
+		utils.Debug("Email service not configured - would send newsletter email to %s", to)
 		return nil // Don't fail if email is not configured
 	}
 
@@ -434,11 +435,11 @@ func (es *EmailService) sendEmailViaSMTP(to, subject, body string) error {
 	d.TLSConfig = &tls.Config{InsecureSkipVerify: true}
 
 	if err := d.DialAndSend(m); err != nil {
-		log.Printf("Failed to send email to %s: %v", to, err)
+		utils.Error("Failed to send email to %s: %v", to, err)
 		return fmt.Errorf("failed to send email: %w", err)
 	}
 
-	log.Printf("Email sent successfully via SMTP to %s", to)
+	utils.Info("Email sent successfully via SMTP to %s", to)
 	return nil
 }
 
@@ -483,11 +484,11 @@ func (es *EmailService) sendEmailViaResend(to, subject, body string) error {
 
 	if resp.StatusCode != http.StatusOK {
 		body, _ := io.ReadAll(resp.Body)
-		log.Printf("Resend API error - Status: %d, Body: %s", resp.StatusCode, string(body))
+		utils.Error("Resend API error - Status: %d, Body: %s", resp.StatusCode, string(body))
 		return fmt.Errorf("resend API returned status %d: %s", resp.StatusCode, string(body))
 	}
 
-	log.Printf("Email sent successfully via Resend to %s", to)
+	utils.Info("Email sent successfully via Resend to %s", to)
 	return nil
 }
 
@@ -518,10 +519,10 @@ func (es *EmailService) sendEmailViaSES(to, subject, body string) error {
 
 	result, err := es.sesClient.SendEmail(input)
 	if err != nil {
-		log.Printf("Failed to send email via SES to %s: %v", to, err)
+		utils.Error("Failed to send email via SES to %s: %v", to, err)
 		return fmt.Errorf("failed to send email via SES: %w", err)
 	}
 
-	log.Printf("Email sent successfully via SES to %s (MessageId: %s)", to, *result.MessageId)
+	utils.Info("Email sent successfully via SES to %s (MessageId: %s)", to, *result.MessageId)
 	return nil
 }

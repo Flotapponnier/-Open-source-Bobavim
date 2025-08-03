@@ -2,11 +2,11 @@ package matchmaking_modules
 
 import (
 	"fmt"
-	"log"
 	"sync"
 	"time"
 
 	"boba-vim/internal/models/model_modules"
+	"boba-vim/internal/utils"
 	"gorm.io/gorm"
 )
 
@@ -75,7 +75,7 @@ func (qm *QueueManager) JoinQueue(playerID uint, username, selectedCharacter str
 		Timestamp: time.Now(),
 	})
 	
-	log.Printf("Player %d (%s) joined matchmaking queue", playerID, username)
+	utils.Info("Player %d (%s) joined matchmaking queue", playerID, username)
 	return nil
 }
 
@@ -102,7 +102,7 @@ func (qm *QueueManager) LeaveQueue(playerID uint, wsManager WebSocketManager) er
 		Timestamp: time.Now(),
 	})
 	
-	log.Printf("Player %d left matchmaking queue", playerID)
+	utils.Info("Player %d left matchmaking queue", playerID)
 	return nil
 }
 
@@ -158,7 +158,7 @@ func (qm *QueueManager) CheckQueueTimeouts(wsManager WebSocketManager) {
 				Timestamp: time.Now(),
 			})
 			
-			log.Printf("Player %d timed out in queue", playerID)
+			utils.Debug("Player %d timed out in queue", playerID)
 		}
 	}
 }
