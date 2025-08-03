@@ -94,13 +94,30 @@ export function initializeSettingsVim(settingsMode = 'main') {
     logger.debug("Settings: Event listener already exists");
   }
   
-  // Add targeted click interceptor for close/cancel buttons
+  // Add targeted click interceptor for close/cancel buttons AND input fields
   document.addEventListener('click', function(e) {
     const isSettingsModalOpen = modal && !modal.classList.contains('hidden');
-    if (!isSettingsModalOpen) return;
+    if (!isSettingsModalOpen || !isVimNavigationActive) return;
     
     const target = e.target;
-    // Only target actual close/cancel buttons
+    
+    // Handle input field clicks - auto-enter insert mode
+    if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA') {
+      // Find the element in our navigation structure and enter insert mode
+      const elementIndex = availableElements.findIndex(nav => {
+        const element = document.querySelector(nav.selector);
+        return element === target;
+      });
+      
+      if (elementIndex !== -1) {
+        currentElementIndex = elementIndex;
+        enterInsertMode();
+        logger.debug("Settings: Auto-entered insert mode via click on input");
+      }
+      return;
+    }
+    
+    // Handle close/cancel button clicks
     const isCloseButton = target.closest(`#${modal.id}`) && (
       (target.classList.contains('close-btn')) ||
       (target.classList.contains('secondary') && target.textContent.toLowerCase().includes('cancel')) ||
@@ -396,6 +413,7 @@ function moveUp() {
   if (bestIndex >= 0) {
     currentElementIndex = bestIndex;
     updateCursor();
+    ensureElementVisible();
     logger.debug(`Settings: Moved up to index ${bestIndex}`);
   }
 }
@@ -433,6 +451,7 @@ function moveDown() {
   if (bestIndex >= 0) {
     currentElementIndex = bestIndex;
     updateCursor();
+    ensureElementVisible();
     logger.debug(`Settings: Moved down to index ${bestIndex}`);
   }
 }
@@ -470,6 +489,7 @@ function moveLeft() {
   if (bestIndex >= 0 && bestIndex !== currentElementIndex) {
     currentElementIndex = bestIndex;
     updateCursor();
+    ensureElementVisible();
     logger.debug(`Settings: Moved left to index ${bestIndex}`);
   }
 }
@@ -507,6 +527,7 @@ function moveRight() {
   if (bestIndex >= 0 && bestIndex !== currentElementIndex) {
     currentElementIndex = bestIndex;
     updateCursor();
+    ensureElementVisible();
     logger.debug(`Settings: Moved right to index ${bestIndex}`);
   }
 }
@@ -717,6 +738,33 @@ function addCursorToElement(element) {
       }
     `;
     document.head.appendChild(style);
+  }
+}
+
+// Auto-scroll functionality to ensure element is visible
+function ensureElementVisible() {
+  const element = getCurrentElement();
+  if (!element) return;
+  
+  const rect = element.getBoundingClientRect();
+  const windowHeight = window.innerHeight;
+  const windowWidth = window.innerWidth;
+  
+  // Check if element is out of view
+  const isOutOfView = (
+    rect.top < 0 || 
+    rect.bottom > windowHeight || 
+    rect.left < 0 || 
+    rect.right > windowWidth
+  );
+  
+  if (isOutOfView) {
+    logger.debug("Settings: Element is out of view, scrolling into view");
+    element.scrollIntoView({ 
+      behavior: 'smooth', 
+      block: 'center',  // Center the element vertically
+      inline: 'center'  // Center the element horizontally
+    });
   }
 }
 

@@ -95,13 +95,30 @@ export function initializePaymentVim() {
     logger.debug("Payment: Event listener already exists");
   }
   
-  // Add targeted click interceptor for close buttons
+  // Add targeted click interceptor for close buttons AND input fields
   document.addEventListener('click', function(e) {
     const isPaymentModalOpen = modal && !modal.classList.contains('hidden');
-    if (!isPaymentModalOpen) return;
+    if (!isPaymentModalOpen || !isVimNavigationActive) return;
     
     const target = e.target;
-    // Only target actual close buttons
+    
+    // Handle input field clicks - auto-enter insert mode
+    if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA') {
+      // Find the element in our navigation structure and enter insert mode
+      const elementIndex = availableElements.findIndex(nav => {
+        const element = document.querySelector(nav.selector);
+        return element === target;
+      });
+      
+      if (elementIndex !== -1) {
+        currentElementIndex = elementIndex;
+        enterInsertMode();
+        logger.debug("Payment: Auto-entered insert mode via click on input");
+      }
+      return;
+    }
+    
+    // Handle close button clicks
     const isCloseButton = target.closest('#payment-modal') && (
       (target.classList.contains('close-payment-modal')) ||
       (target.textContent && target.textContent.includes('×'))

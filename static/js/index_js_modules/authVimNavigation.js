@@ -118,22 +118,49 @@ export function initializeAuthVim(authMode = 'login') {
     logger.debug("Auth: Event listener already exists");
   }
   
-  // Add targeted click interceptor ONLY for cancel buttons
+  // Add targeted click interceptor for cancel buttons AND input fields
   document.addEventListener('click', function(e) {
     const isAuthModalOpen = modal && !modal.classList.contains('hidden');
-    if (!isAuthModalOpen) return;
+    if (!isAuthModalOpen || !isVimNavigationActive) return;
     
     const target = e.target;
-    // Only target actual cancel buttons, not all secondary buttons
-    const isCancelButton = target.closest('#authModal') && (
+    
+    // Handle input field clicks - auto-enter insert mode
+    if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA') {
+      // Find the element in our navigation structure and enter insert mode
+      const elementIndex = availableElements.findIndex(nav => {
+        const element = document.querySelector(nav.selector);
+        return element === target;
+      });
+      
+      if (elementIndex !== -1) {
+        currentElementIndex = elementIndex;
+        enterInsertMode();
+        logger.debug("Auth: Auto-entered insert mode via click on input");
+      }
+      return;
+    }
+    
+    // Handle close/cancel button clicks (including X button)
+    const isCloseButton = target.closest('#authModal') && (
       (target.classList.contains('secondary') && target.textContent.toLowerCase().includes('cancel')) ||
-      (target.onclick && target.onclick.toString().includes('closeAuthModal'))
+      (target.onclick && target.onclick.toString().includes('closeAuthModal')) ||
+      (target.textContent && target.textContent.includes('×')) ||
+      (target.classList.contains('close-btn')) ||
+      (target.id && target.id.includes('close'))
     );
     
-    if (isCancelButton) {
-      logger.debug("Auth: Detected cancel button click - marking for cleanup");
-      // Only mark for cleanup, don't do aggressive cleanup here
+    if (isCloseButton) {
+      logger.debug("Auth: Detected close/cancel button click - immediate cleanup");
+      // Mark for cleanup AND do immediate cleanup
       window.authModalClosingViaCancel = true;
+      
+      // Immediate aggressive cleanup to prevent visual artifacts
+      removeAllCursors();
+      removeInsertModeIndicators();
+      
+      
+      logger.debug("Auth: Immediate cleanup completed on cancel button click");
     }
   }, true);
   
@@ -202,9 +229,14 @@ export function disableAuthVim() {
     }
   });
   
-  // Only remove main vim cursors, keep auth modal cursors during normal operation
-  document.querySelectorAll('.vim-cursor').forEach(cursor => {
+  // AGGRESSIVE CLEANUP: Remove ALL vim cursors and insert indicators from entire page
+  document.querySelectorAll('.vim-cursor, .auth-vim-cursor, [class*="vim-cursor"]').forEach(cursor => {
     cursor.remove();
+  });
+  
+  // Remove ALL insert mode indicators from entire page
+  document.querySelectorAll('.insert-indicator, .auth-insert-indicator, [class*="insert-indicator"]').forEach(indicator => {
+    indicator.remove();
   });
   
   // Clear main vim cursor styling but preserve auth modal styling
@@ -438,6 +470,7 @@ function moveUp() {
   if (bestIndex >= 0) {
     currentElementIndex = bestIndex;
     updateCursor();
+    ensureElementVisible();
     logger.debug(`Auth: Moved up to index ${bestIndex}`);
   }
 }
@@ -475,6 +508,7 @@ function moveDown() {
   if (bestIndex >= 0) {
     currentElementIndex = bestIndex;
     updateCursor();
+    ensureElementVisible();
     logger.debug(`Auth: Moved down to index ${bestIndex}`);
   }
 }
@@ -512,6 +546,7 @@ function moveLeft() {
   if (bestIndex >= 0 && bestIndex !== currentElementIndex) {
     currentElementIndex = bestIndex;
     updateCursor();
+    ensureElementVisible();
     logger.debug(`Auth: Moved left to index ${bestIndex}`);
   }
 }
@@ -549,6 +584,7 @@ function moveRight() {
   if (bestIndex >= 0 && bestIndex !== currentElementIndex) {
     currentElementIndex = bestIndex;
     updateCursor();
+    ensureElementVisible();
     logger.debug(`Auth: Moved right to index ${bestIndex}`);
   }
 }
@@ -658,9 +694,19 @@ function updateCursor() {
 }
 
 function removeAllCursors() {
-  // Remove all existing cursor elements
+  // Remove auth-specific cursor elements
   document.querySelectorAll('.auth-vim-cursor').forEach(cursor => {
+    logger.debug("Auth: Removing cursor element:", cursor.className);
     cursor.remove();
+  });
+  
+  // Force remove any border highlights that might persist from auth modal inputs
+  document.querySelectorAll('#authModal input, #authModal textarea').forEach(input => {
+    if (input.style) {
+      input.style.border = '';
+      input.style.outline = '';
+      input.style.boxShadow = '';
+    }
   });
   
   // Restore original text content for buttons
@@ -671,7 +717,8 @@ function removeAllCursors() {
 }
 
 function removeInsertModeIndicators() {
-  document.querySelectorAll('.auth-insert-indicator').forEach(indicator => {
+  // Remove auth-specific insert indicators and any generic ones that might persist
+  document.querySelectorAll('.auth-insert-indicator, .insert-indicator, [class*="insert-indicator"]').forEach(indicator => {
     indicator.remove();
   });
 }
@@ -841,6 +888,33 @@ function clearAllSelectionsImmediately() {
       window.getSelection().removeAllRanges();
     }
   }, 1);
+}
+
+// Auto-scroll functionality to ensure element is visible
+function ensureElementVisible() {
+  const element = getCurrentElement();
+  if (!element) return;
+  
+  const rect = element.getBoundingClientRect();
+  const windowHeight = window.innerHeight;
+  const windowWidth = window.innerWidth;
+  
+  // Check if element is out of view
+  const isOutOfView = (
+    rect.top < 0 || 
+    rect.bottom > windowHeight || 
+    rect.left < 0 || 
+    rect.right > windowWidth
+  );
+  
+  if (isOutOfView) {
+    logger.debug("Auth: Element is out of view, scrolling into view");
+    element.scrollIntoView({ 
+      behavior: 'smooth', 
+      block: 'center',  // Center the element vertically
+      inline: 'center'  // Center the element horizontally
+    });
+  }
 }
 
 // Function to refresh cursor position after animations complete

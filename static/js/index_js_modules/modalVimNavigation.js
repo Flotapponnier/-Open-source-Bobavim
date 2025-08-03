@@ -305,6 +305,7 @@ function moveUp() {
   // Move to previous element (up in the list)
   currentElementIndex = currentElementIndex > 0 ? currentElementIndex - 1 : availableElements.length - 1;
   updateCursor();
+  ensureElementVisible();
 }
 
 function moveDown() {
@@ -313,6 +314,7 @@ function moveDown() {
   // Move to next element (down in the list)
   currentElementIndex = currentElementIndex < availableElements.length - 1 ? currentElementIndex + 1 : 0;
   updateCursor();
+  ensureElementVisible();
 }
 
 function clickCloseButton() {
@@ -447,6 +449,33 @@ export function showModalCursor() {
   if (isVimNavigationActive && currentModal) {
     updateAvailableElements(currentModal, currentModal === 'manual' ? currentManualPage : null);
     updateCursor();
+  }
+}
+
+// Auto-scroll functionality to ensure element is visible
+function ensureElementVisible() {
+  const element = getCurrentElement();
+  if (!element) return;
+  
+  const rect = element.getBoundingClientRect();
+  const windowHeight = window.innerHeight;
+  const windowWidth = window.innerWidth;
+  
+  // Check if element is out of view
+  const isOutOfView = (
+    rect.top < 0 || 
+    rect.bottom > windowHeight || 
+    rect.left < 0 || 
+    rect.right > windowWidth
+  );
+  
+  if (isOutOfView) {
+    logger.debug("Modal: Element is out of view, scrolling into view");
+    element.scrollIntoView({ 
+      behavior: 'smooth', 
+      block: 'center',  // Center the element vertically
+      inline: 'center'  // Center the element horizontally
+    });
   }
 }
 

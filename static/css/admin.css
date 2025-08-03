@@ -1,3 +1,174 @@
+/* ================================
+   ADMIN-SPECIFIC LAYOUT STYLES
+   ================================ */
+
+/* Admin Background Container */
+.background-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #8B4513 0%, #D2691E 50%, #F4A460 100%);
+  position: relative;
+}
+
+/* Admin Container */
+.index-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  min-height: 100vh;
+}
+
+/* Admin Title Container */
+.title-container {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+/* Admin Title - NO ANIMATIONS */
+.typing-title {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+  margin-bottom: 1rem;
+  font-family: 'Courier New', monospace;
+}
+
+/* Boss Avatar Container */
+.boss-avatar-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.boss-avatar-admin {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 3px solid #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Admin Info Panel */
+.admin-info {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.admin-info p {
+  margin: 0 0 1rem 0;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+/* Admin Sections */
+.admin-section {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.admin-section h2 {
+  color: #8B4513;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  border-bottom: 2px solid #8B4513;
+  padding-bottom: 0.5rem;
+}
+
+/* Admin Buttons - Clean and Fast */
+.button-base {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  outline: none;
+}
+
+.button-base:hover {
+  transform: none; /* No hover animations for performance */
+  opacity: 0.9;
+}
+
+.logout-btn {
+  background: #dc3545;
+  color: white;
+}
+
+.logout-btn:hover {
+  background: #c82333;
+}
+
+/* Admin Controls */
+.admin-controls {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.admin-btn {
+  background: #8B4513;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.2s ease;
+}
+
+.admin-btn:hover {
+  background: #6B3410;
+}
+
+/* Form Inputs - Optimized for Fast Typing */
+input[type="text"], 
+input[type="email"], 
+textarea, 
+select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s ease;
+  box-sizing: border-box;
+}
+
+input[type="text"]:focus, 
+input[type="email"]:focus, 
+textarea:focus, 
+select:focus {
+  border-color: #8B4513;
+  box-shadow: 0 0 0 2px rgba(139, 69, 19, 0.2);
+}
+
+/* Remove any inherited animations that cause latency */
+* {
+  animation: none !important;
+  transition: none !important;
+}
+
+/* Re-enable only essential transitions */
+.button-base, .admin-btn {
+  transition: background-color 0.2s ease !important;
+}
+
+input[type="text"], input[type="email"], textarea, select {
+  transition: border-color 0.2s ease !important;
+}
+
 /* Admin Login Styles */
 .admin-login-container {
   position: fixed;

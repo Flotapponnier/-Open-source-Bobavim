@@ -57,23 +57,12 @@ class AdminMain {
   }
 
   initializeTypingAnimation() {
+    // Disabled for admin page - set text immediately for better performance
     const titleElement = document.querySelector('.typing-title');
     if (!titleElement) return;
 
     const text = titleElement.getAttribute('data-text') || titleElement.textContent;
-    titleElement.textContent = '';
-    
-    let index = 0;
-    const typeNextChar = () => {
-      if (index < text.length) {
-        titleElement.textContent += text.charAt(index);
-        index++;
-        setTimeout(typeNextChar, 100);
-      }
-    };
-    
-    // Start typing animation after a short delay
-    setTimeout(typeNextChar, 500);
+    titleElement.textContent = text; // Set immediately without animation
   }
 
   // Utility method for showing toast messages
