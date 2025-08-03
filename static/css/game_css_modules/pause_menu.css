@@ -1,0 +1,221 @@
+/* ===================================
+   PAUSE MENU MODAL STYLES
+   =================================== */
+
+/* Pause Menu Modal */
+.pause-menu-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 99999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pause-menu-modal.hidden {
+  display: none !important;
+}
+
+.pause-menu-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(8px);
+}
+
+.pause-menu-content {
+  position: relative !important;
+  background: linear-gradient(145deg, #2a3f5f, #1a2937) !important;
+  border: 4px solid #4a90a4 !important;
+  border-radius: 16px !important;
+  padding: 2rem !important;
+  min-width: 400px !important;
+  max-width: 500px !important;
+  text-align: center !important;
+  box-shadow: 
+    0 0 0 2px #ffffff,
+    0 0 30px rgba(74, 144, 164, 0.5),
+    inset 0 2px 0 rgba(255, 255, 255, 0.1) !important;
+  z-index: 1 !important;
+  display: block !important;
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+@keyframes pauseMenuAppear {
+  from {
+    opacity: 0;
+    transform: scale(0.8) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Pause Menu Header */
+.pause-menu-header {
+  margin-bottom: 2rem;
+}
+
+.pause-title {
+  font-family: 'Press Start 2P', cursive !important;
+  font-size: 20px !important;
+  color: #ffffff !important;
+  text-shadow: 
+    2px 2px 0 #000000,
+    4px 4px 8px rgba(0, 0, 0, 0.5) !important;
+  margin: 0 0 0.5rem 0 !important;
+  letter-spacing: 2px !important;
+  display: block !important;
+  opacity: 1 !important;
+}
+
+.pause-subtitle {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 12px;
+  color: #4a90a4;
+  text-shadow: 1px 1px 0 #000000;
+  margin: 0;
+  letter-spacing: 1px;
+}
+
+/* Pause Menu Buttons */
+.pause-menu-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.pause-btn {
+  width: 100% !important;
+  padding: 1rem 1.5rem !important;
+  font-size: 14px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  position: relative !important;
+  transition: all 0.2s ease !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  z-index: 2 !important;
+}
+
+.pause-btn .btn-icon {
+  font-size: 16px !important;
+  min-width: 20px !important;
+  text-align: center !important;
+  opacity: 1 !important;
+  display: inline-block !important;
+}
+
+.pause-btn .btn-text {
+  text-align: center !important;
+  opacity: 1 !important;
+  display: inline-block !important;
+  color: inherit !important;
+  width: 100% !important;
+}
+
+/* Button Color Variants */
+#resumeGameBtn {
+  background: #92CD41 !important;
+  box-shadow: inset -4px -4px 0px 0px #4AA52E !important;
+}
+
+#resumeGameBtn:hover {
+  background: #76c442 !important;
+  box-shadow: inset -6px -6px 0px 0px #4AA52E !important;
+}
+
+#restartGameBtn {
+  background: #F7D51D !important;
+  box-shadow: inset -4px -4px 0px 0px #E59400 !important;
+}
+
+#restartGameBtn:hover {
+  background: #E5C61A !important;
+  box-shadow: inset -6px -6px 0px 0px #E59400 !important;
+}
+
+#exitToMenuBtn {
+  background: #FF6B6B !important;
+  box-shadow: inset -4px -4px 0px 0px #CC5555 !important;
+}
+
+#exitToMenuBtn:hover {
+  background: #FF5555 !important;
+  box-shadow: inset -6px -6px 0px 0px #CC5555 !important;
+}
+
+/* Vim Cursor for Pause Menu */
+.pause-btn.vim-selected::before {
+  content: '🧋';
+  position: absolute;
+  left: -30px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  animation: pauseCursorPulse 1s ease-in-out infinite alternate;
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.8));
+}
+
+@keyframes pauseCursorPulse {
+  0% { 
+    opacity: 0.7; 
+    transform: translateY(-50%) scale(1);
+  }
+  100% { 
+    opacity: 1; 
+    transform: translateY(-50%) scale(1.1);
+  }
+}
+
+/* Pause Menu Footer */
+.pause-menu-footer {
+  border-top: 2px solid #4a90a4;
+  padding-top: 1rem;
+  margin-top: 1rem;
+}
+
+.pause-controls-hint {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 8px;
+  color: #a0a0a0;
+  text-shadow: 1px 1px 0 #000000;
+  letter-spacing: 0.5px;
+  line-height: 1.4;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .pause-menu-content {
+    min-width: 300px;
+    max-width: 90vw;
+    padding: 1.5rem;
+  }
+  
+  .pause-title {
+    font-size: 16px;
+  }
+  
+  .pause-subtitle {
+    font-size: 10px;
+  }
+  
+  .pause-btn {
+    padding: 0.8rem 1rem !important;
+    font-size: 12px !important;
+  }
+  
+  .pause-controls-hint {
+    font-size: 7px;
+  }
+}

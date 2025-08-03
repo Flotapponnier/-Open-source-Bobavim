@@ -62,4 +62,34 @@
     <button id="backMenu" class="btn eightbit-btn">Menu</button>
   </div>
 </div>
+
+<!-- Pause Menu Modal -->
+<div id="pauseMenuModal" class="pause-menu-modal hidden">
+  <div class="pause-menu-overlay"></div>
+  <div class="pause-menu-content">
+    <div class="pause-menu-header">
+      <h2 class="pause-title">GAME PAUSED</h2>
+      <div class="pause-subtitle">🧋 Boba.vim Adventure</div>
+    </div>
+    
+    <div class="pause-menu-buttons">
+      <button id="resumeGameBtn" class="eightbit-btn pause-btn" data-action="resume">
+        <span class="btn-text">Resume Game</span>
+      </button>
+      
+      <button id="restartGameBtn" class="eightbit-btn pause-btn" data-action="restart">
+        <span class="btn-text">Play Again</span>
+      </button>
+      
+      <button id="exitToMenuBtn" class="eightbit-btn pause-btn" data-action="exit">
+        <span class="btn-text">Back to Menu</span>
+      </button>
+    </div>
+    
+    <div class="pause-menu-footer">
+      <div class="pause-controls-hint">Use j/k to navigate • Enter to select • Escape to resume</div>
+    </div>
+  </div>
+</div>
+
 {{end}}

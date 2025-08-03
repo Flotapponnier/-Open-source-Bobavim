@@ -23,3 +23,17 @@ type StartGameRequest struct {
 type MigrateGuestProgressRequest struct {
 	GuestCompletedMaps []int `json:"guest_completed_maps"`
 }
+
+type PauseGameRequest struct {
+	PauseTime int64 `json:"pauseTime" binding:"required"`
+}
+
+type ResumeGameRequest struct {
+	ResumeTime       int64 `json:"resumeTime" binding:"required"`
+	PauseDuration    int64 `json:"pauseDuration" binding:"required"`
+	TotalPausedTime  int64 `json:"totalPausedTime" binding:"required"`
+}
+
+type RestartGameRequest struct {
+	MapID string `json:"mapId"`
+}

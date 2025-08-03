@@ -71,6 +71,18 @@ func (gh *GameHandler) QuitGame(c *gin.Context) {
 	game_handler_modules.QuitGame(gh.db, c)
 }
 
+func (gh *GameHandler) PauseGame(c *gin.Context) {
+	game_handler_modules.PauseGame(gh.db, c)
+}
+
+func (gh *GameHandler) ResumeGame(c *gin.Context) {
+	game_handler_modules.ResumeGame(gh.db, c)
+}
+
+func (gh *GameHandler) RestartGame(c *gin.Context) {
+	game_handler_modules.RestartGame(gh.gameService, c)
+}
+
 // Movement & Gameplay Handlers
 func (gh *GameHandler) MovePlayer(c *gin.Context) {
 	game_handler_modules.MovePlayer(gh.gameService, c)

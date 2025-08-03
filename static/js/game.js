@@ -6,6 +6,7 @@ import { initializeBackToMenuButton } from "./game_js_modules/navigation.js";
 import { initializeResponsiveScaling } from "./game_js_modules/responsive_scaling.js";
 import { initializeScalingVariables } from "./game_js_modules/responsive_js_modules/scalingCore.js";
 import { initializeVimManual } from "./vimManual.js";
+import pauseMenuSystem from "./game_js_modules/pauseMenuSystem.js";
 import * as tutorialModule from "./game_js_modules/tutorial.js";
 import * as feedbackModule from "./game_js_modules/feedback.js";
 import * as displayModule from "./game_js_modules/display.js";
@@ -47,6 +48,7 @@ window.scoreAnimationsModule = scoreAnimationsModule;
 window.realTimeUpdatesModule = realTimeUpdatesModule;
 window.paragraphModule = paragraphModule;
 window.intelligentScaling = intelligentScaling;
+window.pauseMenuSystem = pauseMenuSystem;
 
 // Initialize sound effects
 initializeGameSoundEffects();
@@ -95,6 +97,7 @@ document.addEventListener("DOMContentLoaded", function () {
   initializeMapToggle();
   initializeTutorialMode();
   initializeVimManual();
+  pauseMenuSystem.initialize();
   lineNumbersModule.initializeLineNumbers();
   relativeLineNumbersModule.initializeRelativeLineNumbers();
   spaceHighlightModule.initializeSpaceHighlight();

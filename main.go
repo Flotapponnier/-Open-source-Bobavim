@@ -145,6 +145,9 @@ func main() {
 		api.GET("/leaderboard-by-map", gameHandler.GetLeaderboardByMap)
 		api.POST("/start-game", gameHandler.StartGameWithMap)
 		api.POST("/quit-game", gameHandler.QuitGame)
+		api.POST("/pause-game", gameHandler.PauseGame)
+		api.POST("/resume-game", gameHandler.ResumeGame)
+		api.POST("/restart-game", gameHandler.RestartGame)
 		api.GET("/completed-maps", gameHandler.GetCompletedMaps)
 		api.POST("/migrate-guest-progress", gameHandler.MigrateGuestProgress)
 

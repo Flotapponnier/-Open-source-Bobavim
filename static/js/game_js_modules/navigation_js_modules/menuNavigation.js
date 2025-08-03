@@ -5,6 +5,13 @@ export function initializeBackToMenuButton() {
   if (!menuButton) return;
 
   menuButton.addEventListener("click", async function () {
+    // Show pause menu instead of directly going to menu
+    if (window.pauseMenuSystem && !window.pauseMenuSystem.getIsPaused()) {
+      window.pauseMenuSystem.showPauseMenu();
+      return;
+    }
+    
+    // Fallback: original behavior if pause menu system isn't available
     menuButton.disabled = true;
     try {
       // Call quit game endpoint before navigating away
