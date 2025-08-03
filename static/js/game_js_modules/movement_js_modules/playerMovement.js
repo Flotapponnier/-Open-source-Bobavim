@@ -11,8 +11,8 @@ let movePending = false;
 let lastMoveTime = 0;
 const MOVE_COOLDOWN = 75; // Increased to 75ms to better match server rate limiting
 
-// Client-side prediction state
-let predictedPosition = null;
+// Optimized prediction state
+let activePredictions = new Set();
 let serverSyncPending = false;
 
 // Client-side game state for prediction
@@ -125,22 +125,10 @@ export async function movePlayer(direction, count = 1, hasExplicitCount = false)
 
   const now = Date.now();
   
-  
-  // Adaptive cooldown based on move type and count
-  let requiredCooldown;
-  if (count > 1) {
-    // Numbered movements: shorter cooldown since they're intentional
-    requiredCooldown = 50; 
-  } else if (['w', 'W', 'e', 'E', 'b', 'B'].includes(direction)) {
-    // Word movements: longer cooldown as they can trigger rapidly and cause server issues
-    requiredCooldown = MOVE_COOLDOWN + 50; // 125ms total
-  } else {
-    // Regular movements: standard cooldown
-    requiredCooldown = MOVE_COOLDOWN;
-  }
+  // Simplified cooldown - more optimistic
+  const requiredCooldown = count > 1 ? 30 : 50; // Reduced cooldowns
   
   if (now - lastMoveTime < requiredCooldown) {
-    logger.debug("Move too fast, ignoring. Direction:", direction, "Count:", count, "Required cooldown:", requiredCooldown, "Time since last:", now - lastMoveTime);
     return;
   }
 
@@ -155,32 +143,6 @@ export async function movePlayer(direction, count = 1, hasExplicitCount = false)
       return await movePlayerServerOnly(direction, count, hasExplicitCount);
     }
 
-    // Debug logging for word movements
-    if (direction === 'w' || direction === 'W' || direction === 'e' || direction === 'E' || direction === 'b' || direction === 'B') {
-      const currentChar = currentState.currentCol < currentState.textGrid[currentState.currentRow].length ? 
-        currentState.textGrid[currentState.currentRow][currentState.currentCol] : '';
-      const lineChars = currentState.textGrid[currentState.currentRow];
-      
-      logger.debug('Word movement debug:', {
-        direction,
-        currentRow: currentState.currentRow,
-        currentCol: currentState.currentCol,
-        preferredColumn: currentState.preferredColumn,
-        currentChar: `"${currentChar}"`,
-        currentCharCode: currentChar ? currentChar.charCodeAt(0) : 'n/a',
-        lineContent: `"${lineChars.join('')}"`,
-        // Show character codes around current position
-        charCodes: lineChars.slice(Math.max(0, currentState.currentCol - 3), currentState.currentCol + 4)
-          .map((char, idx) => ({
-            pos: currentState.currentCol - 3 + idx,
-            char: `"${char}"`,
-            code: char.charCodeAt(0),
-            isSpace: char === ' ' || char === '\t',
-            isWordChar: /[a-zA-Z0-9_]/.test(char),
-            isPunctuation: !/[a-zA-Z0-9_\s]/.test(char)
-          }))
-      });
-    }
 
     // Perform client-side prediction
     const prediction = predictMovement(
@@ -194,19 +156,17 @@ export async function movePlayer(direction, count = 1, hasExplicitCount = false)
       hasExplicitCount
     );
 
-    // Debug logging for word movement results
-    if (direction === 'w' || direction === 'W' || direction === 'e' || direction === 'E' || direction === 'b' || direction === 'B') {
-      logger.debug('Word movement prediction result:', prediction);
-    }
-
     if (prediction.success && prediction.finalPosition) {
+      // Generate prediction ID and track it
+      const predictionId = `pred_${Date.now()}_${Math.random()}`;
+      activePredictions.add(predictionId);
+      
       // Immediately update UI with predicted position
-      predictedPosition = prediction.finalPosition;
       updateUIWithPrediction(prediction.finalPosition, currentState.gameMap);
       
-      // Start server validation in parallel
+      // Start optimized server validation
       serverSyncPending = true;
-      validatePredictionWithServer(direction, count, prediction, hasExplicitCount);
+      validatePredictionOptimized(direction, count, prediction, hasExplicitCount, predictionId);
     } else {
       // Prediction failed (movement blocked), still send to server for authoritative response
       logger.debug("Client prediction blocked, checking with server");
@@ -260,14 +220,12 @@ async function movePlayerServerOnly(direction, count, hasExplicitCount) {
   }
 }
 
-// Validate prediction with server
-async function validatePredictionWithServer(direction, count, prediction, hasExplicitCount) {
+// Optimized prediction validation
+async function validatePredictionOptimized(direction, count, prediction, hasExplicitCount, predictionId) {
   try {
     const response = await fetch(API_ENDPOINTS.MOVE, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         direction: direction,
         count: count,
@@ -277,60 +235,40 @@ async function validatePredictionWithServer(direction, count, prediction, hasExp
 
     const result = await response.json();
     
-    // Check if server result matches our prediction
-    if (serverSyncPending) {
-      if (result.success && prediction.success) {
-        // Both successful - check if positions match
-        const serverPos = result.player_pos;
-        const predictedPos = prediction.finalPosition;
-        
-        if (serverPos.row === predictedPos.newRow && serverPos.col === predictedPos.newCol) {
-          // Perfect match! Just update other game state (score, pearls, etc.)
-          logger.debug("Client prediction accurate!");
-          handleServerSyncSuccess(result, direction);
-        } else {
-          // Position mismatch - but don't show visual jump, just sync state quietly
-          logger.debug("Client prediction position mismatch, syncing quietly");
-          updateClientGameState(result);
-          
-          // Force cleanup of orphaned player sprites on prediction mismatch
-          if (window.displayModule && window.displayModule.cleanupOrphanedPlayerSprites) {
-            window.displayModule.cleanupOrphanedPlayerSprites(result.game_map);
-          }
-          
-          // Update display without showing movement animation
-          if (window.displayModule && window.displayModule.updateGameDisplay) {
-            window.displayModule.updateGameDisplay(result.game_map);
-          }
-          // Update other game state (score, pearls, etc.) without movement animation
-          handleServerSyncSuccess(result, direction);
-        }
-      } else if (!result.success && !prediction.success) {
-        // Both blocked - show blocked feedback
-        handleBlockedMove(result, direction);
+    // Remove prediction from active set
+    activePredictions.delete(predictionId);
+    
+    if (!serverSyncPending) return;
+    
+    if (result.success && prediction.success) {
+      const serverPos = result.player_pos;
+      const predictedPos = prediction.finalPosition;
+      
+      if (serverPos.row === predictedPos.newRow && serverPos.col === predictedPos.newCol) {
+        // Perfect match - only sync non-position data
+        handleServerSyncSuccess(result, direction);
       } else {
-        // Prediction/server mismatch - trust server
-        logger.debug("Client/server prediction mismatch, using server result");
+        // Position mismatch - trust server but minimize visual disruption
         updateClientGameState(result);
-        if (result.success) {
-          handleSuccessfulMove(result, direction);
-        } else {
-          if (direction === 'G') {
-            window.displayModule.updateGameDisplay(result.game_map);
-            window.displayModule.updateScore(result.score);
-            window.feedbackModule.showMovementFeedback(direction, count, hasExplicitCount);
-          } else {
-            handleBlockedMove(result, direction);
-          }
+        if (window.displayModule?.updateGameDisplay) {
+          window.displayModule.updateGameDisplay(result.game_map);
         }
+        handleServerSyncSuccess(result, direction);
+      }
+    } else if (!result.success) {
+      // Server blocked - revert to server state
+      updateClientGameState(result);
+      if (result.success) {
+        handleSuccessfulMove(result, direction);
+      } else {
+        handleBlockedMove(result, direction);
       }
     }
   } catch (error) {
-    logger.error("Error validating prediction with server:", error);
-    // On error, we keep the predicted position since user already sees it
+    logger.error("Prediction validation error:", error);
+    activePredictions.delete(predictionId);
   } finally {
     serverSyncPending = false;
-    predictedPosition = null;
   }
 }
 
@@ -356,34 +294,35 @@ function getCurrentGameState() {
   }
 }
 
-// Update UI with predicted position immediately
+// Update UI with predicted position immediately - optimized
 function updateUIWithPrediction(predictedPos, gameMap) {
   try {
-    // Update client-side game state immediately
+    // Update client state
     clientGameState.currentRow = predictedPos.newRow;
     clientGameState.currentCol = predictedPos.newCol;
     clientGameState.preferredColumn = predictedPos.preferredColumn;
     
-    // Create a temporary updated game map for display
-    const tempGameMap = gameMap.map(row => [...row]); // Deep copy
+    // Efficient map update
+    const tempGameMap = gameMap.map(row => [...row]);
     
-    // Remove player from old position and place at new position
+    // Clear old player positions and set new one
     for (let row = 0; row < tempGameMap.length; row++) {
       for (let col = 0; col < tempGameMap[row].length; col++) {
-        if (tempGameMap[row][col] === 1) { // PLAYER value
-          tempGameMap[row][col] = 0; // EMPTY
-        }
+        if (tempGameMap[row][col] === 1) tempGameMap[row][col] = 0;
       }
     }
-    tempGameMap[predictedPos.newRow][predictedPos.newCol] = 1; // PLAYER
+    tempGameMap[predictedPos.newRow][predictedPos.newCol] = 1;
     
-    // Update the visual display immediately
-    if (window.displayModule && window.displayModule.updateGameDisplay) {
-      window.displayModule.updateGameDisplay(tempGameMap);
-    }
+    // Immediate visual update
+    window.displayModule?.updateGameDisplay(tempGameMap);
   } catch (error) {
-    logger.error("Error updating UI with prediction:", error);
+    logger.error("Prediction UI update error:", error);
   }
+}
+
+// Check if predictions are currently active
+export function isPredictionActive() {
+  return activePredictions.size > 0 || serverSyncPending;
 }
 
 // Initialize/update client state from server response

@@ -1,7 +1,7 @@
 package multiplayer
 
 import (
-	"log"
+	"boba-vim/internal/utils"
 )
 
 // MovementResult represents the result of a movement calculation
@@ -28,8 +28,7 @@ func SetMovementCalculator(calc MovementCalculator) {
 
 // ProcessMove processes a move for multiplayer and returns new position, preferred column, and score
 func ProcessMove(gameState *GameState, currentRow, currentCol int, direction string, count int, hasExplicitCount bool, preferredColumn int) (int, int, int, int) {
-	log.Printf("🎮 MULTIPLAYER BACKEND ProcessMove: direction=%s, count=%d, hasExplicitCount=%t, position=(%d,%d), preferredColumn=%d", 
-		direction, count, hasExplicitCount, currentRow, currentCol, preferredColumn)
+	utils.Debug("MULTIPLAYER ProcessMove: direction=%s, count=%d, position=(%d,%d)", direction, count, currentRow, currentCol)
 	
 	// Get text grid and game map for movement calculation
 	textGrid := gameState.GetTextGrid()
@@ -79,32 +78,32 @@ func ProcessMove(gameState *GameState, currentRow, currentCol int, direction str
 				hasExplicitCount,
 			)
 		} else {
-			// For other movements, iterate count times (CRITICAL FIX)
-			log.Printf("🔄 MULTIPLAYER BACKEND: Iterating %s movement %d times", direction, count)
+			// For other movements, iterate count times - optimized
+			utils.Debug("Iterating %s movement %d times", direction, count)
 			tempRow := currentRow
 			tempCol := currentCol
 			tempPreferredColumn := preferredColumn
 			var finalResult *MovementResult
 			
 			for i := 0; i < count; i++ {
-				log.Printf("🔄 MULTIPLAYER BACKEND: Iteration %d/%d, current position=(%d,%d), preferredColumn=%d", i+1, count, tempRow, tempCol, tempPreferredColumn)
 				tempResult, tempErr := movementCalc.CalculateNewPosition(
 					direction,
 					tempRow,
 					tempCol,
 					gameMap,
 					textGrid,
-					tempPreferredColumn, // Use actual preferred column
+					tempPreferredColumn,
 				)
 				
 				if tempErr != nil {
 					err = tempErr
+					utils.Error("Movement calculation error at iteration %d: %v", i+1, tempErr)
 					break
 				}
 				
 				// If movement is blocked, stop here
 				if !tempResult.IsValid {
-					log.Printf("🚫 MULTIPLAYER BACKEND: Movement blocked at iteration %d/%d", i+1, count)
+					utils.Debug("Movement blocked at iteration %d/%d", i+1, count)
 					break
 				}
 				
@@ -113,7 +112,6 @@ func ProcessMove(gameState *GameState, currentRow, currentCol int, direction str
 				tempCol = tempResult.NewCol
 				tempPreferredColumn = tempResult.PreferredColumn
 				finalResult = tempResult
-				log.Printf("✅ MULTIPLAYER BACKEND: Iteration %d/%d successful, new position=(%d,%d), newPreferredColumn=%d", i+1, count, tempRow, tempCol, tempPreferredColumn)
 			}
 			
 			if finalResult != nil {
@@ -143,11 +141,10 @@ func ProcessMove(gameState *GameState, currentRow, currentCol int, direction str
 	score := 0
 	if gameState.GetPearlPosition().Row == newRow && gameState.GetPearlPosition().Col == newCol {
 		score = gameState.CollectPearl(newRow, newCol)
+		utils.Debug("Pearl collected! Score: %d", score)
 	}
 	
-	log.Printf("🎮 MULTIPLAYER BACKEND ProcessMove RESULT: (%d,%d) -> (%d,%d), preferredColumn: %d -> %d, score=%d", 
-		currentRow, currentCol, newRow, newCol, preferredColumn, newPreferredColumn, score)
-	
+	utils.Debug("ProcessMove result: (%d,%d) -> (%d,%d), score=%d", currentRow, currentCol, newRow, newCol, score)
 	return newRow, newCol, newPreferredColumn, score
 }
 

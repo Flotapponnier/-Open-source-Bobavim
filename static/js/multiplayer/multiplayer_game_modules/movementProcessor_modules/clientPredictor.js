@@ -9,29 +9,15 @@ export class ClientPredictor {
   }
 
   async processMoveWithPrediction(direction, count = 1, hasExplicitCount = false) {
-    logger.debug('🚀 PROCESS MOVE WITH PREDICTION:', {
-      direction: direction,
-      count: count,
-      hasExplicitCount: hasExplicitCount,
-      isConnected: this.game.isConnected,
-      hasClientGameState: !!this.game.clientGameState,
-      countdownActive: this.game.countdownActive
-    });
-    
-    if (!this.game.isConnected || !this.game.clientGameState) {
-      logger.debug('Cannot process move - not connected or no game state');
-      return;
-    }
-
-    // Block movement during countdown
-    if (this.game.countdownActive) {
-      logger.debug('🚫 Movement blocked - countdown is active');
-      this.movementProcessor.moveQueue.showMoveBlocked(direction);
+    // Fast validation - exit early if not possible
+    if (!this.game.isConnected || !this.game.clientGameState || this.game.countdownActive) {
+      if (this.game.countdownActive) {
+        this.movementProcessor.moveQueue.showMoveBlocked(direction);
+      }
       return;
     }
 
     if (!this.game.clientGameState.text_grid || !this.game.clientGameState.game_map) {
-      logger.error('Cannot process move - missing text grid or game map');
       return;
     }
 
@@ -47,23 +33,7 @@ export class ClientPredictor {
     const currentPos = currentPlayer.position;
 
     try {
-      logger.debug('⚡ ATTEMPTING CLIENT PREDICTION:', {
-        direction,
-        currentPos,
-        count: count,
-        hasExplicitCount: hasExplicitCount,
-        gameMapSize: this.game.clientGameState.game_map?.length,
-        textGridSize: this.game.clientGameState.text_grid?.length,
-        preferredColumn: this.game.preferredColumn
-      });
-      
-      logger.debug('🎭 PRE-PREDICTION CHARACTER STATE:', {
-        player1Character: this.game.clientGameState.player1?.character,
-        player2Character: this.game.clientGameState.player2?.character,
-        currentPlayerCharacter: currentPlayer?.character,
-        isPlayer1: isPlayer1
-      });
-      
+      // Fast prediction with minimal logging
       const prediction = predictMovement(
         direction,
         currentPos.row,
@@ -75,19 +45,14 @@ export class ClientPredictor {
         hasExplicitCount
       );
 
-      logger.debug('Prediction result:', prediction);
-
       if (prediction.success && prediction.finalPosition) {
         this.applyPrediction(prediction, currentPlayer, moveId, direction, count, hasExplicitCount);
       } else {
         this.movementProcessor.moveQueue.showMoveBlocked(direction);
-        // Play blocked movement sound
         gameSoundEffectsManager.playBlockedMovementSound();
       }
     } catch (error) {
-      logger.error('Error in client prediction:', error);
       this.movementProcessor.moveQueue.showMoveBlocked(direction);
-      // Play blocked movement sound
       gameSoundEffectsManager.playBlockedMovementSound();
     }
   }
@@ -95,14 +60,17 @@ export class ClientPredictor {
   applyPrediction(prediction, currentPlayer, moveId, direction, count, hasExplicitCount) {
     const newPos = prediction.finalPosition;
     
+    // Preserve character state
     const player1Character = this.game.clientGameState.player1?.character;
     const player2Character = this.game.clientGameState.player2?.character;
     
+    // Update position immediately
     currentPlayer.position = {
       row: newPos.newRow,
       col: newPos.newCol
     };
     
+    // Restore character state
     if (this.game.clientGameState.player1) {
       this.game.clientGameState.player1.character = player1Character;
     }
@@ -112,17 +80,11 @@ export class ClientPredictor {
     
     this.game.preferredColumn = newPos.preferredColumn;
     
-    logger.debug('🎭 POST-PREDICTION CHARACTER STATE (before map update):', {
-      player1Character: this.game.clientGameState.player1?.character,
-      player2Character: this.game.clientGameState.player2?.character,
-      currentPlayerCharacter: currentPlayer?.character,
-      restoredCorrectly: this.game.clientGameState.player1?.character && this.game.clientGameState.player2?.character
-    });
-    
+    // Fast visual update
     this.game.displayManager.updateClientGameMap();
     this.game.displayManager.throttledDisplayUpdate();
     
-    // Add to pending moves for reconciliation  
+    // Track for reconciliation
     this.movementProcessor.stateReconciler.addPendingMove({
       id: moveId,
       direction: direction,
@@ -131,7 +93,7 @@ export class ClientPredictor {
       timestamp: Date.now()
     });
     
-    // Send move to server for validation (non-blocking with 2s timeout)
+    // Send to server with optimized timeout
     this.movementProcessor.serverCommunicator.sendMoveToServer(direction, count, hasExplicitCount, moveId);
   }
 

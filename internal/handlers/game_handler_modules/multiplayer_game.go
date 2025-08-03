@@ -3,12 +3,12 @@ package game_handler_modules
 import (
 	"encoding/json"
 	"net/http"
-	"log"
 	"sync"
 	"time"
 
 	"boba-vim/internal/services/game"
 	"boba-vim/internal/services/matchmaking"
+	"boba-vim/internal/utils"
 
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
@@ -158,7 +158,7 @@ func addGameConnection(gameID string, playerID uint, conn *websocket.Conn) {
 	gc.connections[playerID] = conn
 	gc.mutex.Unlock()
 	
-	log.Printf("🔗 Added WebSocket connection for player %d in game %s", playerID, gameID)
+	utils.Debug("Added WebSocket connection for player %d in game %s", playerID, gameID)
 }
 
 // removeGameConnection removes a WebSocket connection for a specific game and player
@@ -175,7 +175,7 @@ func removeGameConnection(gameID string, playerID uint) {
 			gameConnectionManager.games.Delete(gameID)
 		}
 	}
-	log.Printf("🔌 Removed WebSocket connection for player %d in game %s", playerID, gameID)
+	utils.Debug("Removed WebSocket connection for player %d in game %s", playerID, gameID)
 }
 
 // areBothPlayersConnectedToGame checks if both players are connected to a game
@@ -196,7 +196,7 @@ func areBothPlayersConnectedToGame(multiplayerGame *game.MultiplayerGameService,
 	_, player2Connected := gc.connections[game.Player2ID]
 	gc.mutex.RUnlock()
 	
-	log.Printf("🔍 Game %s connection status: P1(%d)=%v, P2(%d)=%v", 
+	utils.Debug("Game %s connection status: P1(%d)=%v, P2(%d)=%v", 
 		gameID, game.Player1ID, player1Connected, game.Player2ID, player2Connected)
 	
 	return player1Connected && player2Connected
@@ -206,17 +206,17 @@ func areBothPlayersConnectedToGame(multiplayerGame *game.MultiplayerGameService,
 func sendCountdownToGame(multiplayerGame *game.MultiplayerGameService, gameID string) {
 	game := multiplayerGame.GetGameByID(gameID)
 	if game == nil {
-		log.Printf("❌ Game %s not found for countdown", gameID)
+		utils.Error("Game %s not found for countdown", gameID)
 		return
 	}
 	
 	// Check if countdown can be started and set initial state
 	if !multiplayerGame.SetCountdownState(gameID, true, true) {
-		log.Printf("⏭️ Countdown already started for game %s", gameID)
+		utils.Debug("Countdown already started for game %s", gameID)
 		return
 	}
 	
-	log.Printf("🎯 Starting countdown for game %s", gameID)
+	utils.Info("Starting countdown for game %s", gameID)
 	
 	// Use ticker for more efficient timing
 	ticker := time.NewTicker(1 * time.Second)

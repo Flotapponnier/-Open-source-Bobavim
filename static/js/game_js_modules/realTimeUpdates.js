@@ -39,6 +39,13 @@ function scheduleNextPoll() {
 
 async function pollGameState() {
   try {
+    // Skip polling if client predictions are active to prevent interference
+    if (window.playerMovement && window.playerMovement.isPredictionActive && 
+        window.playerMovement.isPredictionActive()) {
+      consecutiveEmptyPolls++;
+      return;
+    }
+
     const response = await fetch(API_ENDPOINTS.GAME_STATE);
     const gameState = await response.json();
     
@@ -52,14 +59,17 @@ async function pollGameState() {
       }
       
       if (lastGameMapState !== currentMapState) {
-        // Game map has changed, update the display
-        window.displayModule.updateGameDisplay(gameState.game_map);
-        lastGameMapState = currentMapState;
-        logger.debug("Game map updated due to real-time changes");
-        
-        // Switch to critical mode when map changes detected
-        currentPollingMode = 'critical';
-        consecutiveEmptyPolls = 0;
+        // Only update if no active predictions to avoid rubber banding
+        if (!window.playerMovement || !window.playerMovement.isPredictionActive || 
+            !window.playerMovement.isPredictionActive()) {
+          window.displayModule.updateGameDisplay(gameState.game_map);
+          lastGameMapState = currentMapState;
+          logger.debug("Game map updated due to real-time changes");
+          
+          // Switch to critical mode when map changes detected
+          currentPollingMode = 'critical';
+          consecutiveEmptyPolls = 0;
+        }
       } else {
         consecutiveEmptyPolls++;
       }
@@ -88,34 +98,38 @@ async function pollGameState() {
 function updatePollingStrategy() {
   const timeSinceLastMovement = Date.now() - lastMovementTime;
   
+  // Check if predictions are active to reduce polling interference
+  const predictionActive = window.playerMovement && window.playerMovement.isPredictionActive && 
+                          window.playerMovement.isPredictionActive();
+  
   // Adaptive polling intervals based on activity, criticality, and pearl mold presence
   if (currentPollingMode === 'critical') {
-    // Critical mode: fast polling for 10 seconds after map changes
-    adaptivePollingInterval = 500;
+    // Critical mode: fast polling but respect predictions
+    adaptivePollingInterval = predictionActive ? 1000 : 500;
     if (timeSinceLastMovement > 10000) {
       currentPollingMode = 'active';
     }
   } else if (currentPollingMode === 'active') {
     // Active mode: medium polling when recently active
-    adaptivePollingInterval = hasPearlMold ? 1200 : 2000; // Faster if pearl mold present
+    const baseInterval = hasPearlMold ? 1200 : 2000;
+    adaptivePollingInterval = predictionActive ? baseInterval * 1.5 : baseInterval;
     if (timeSinceLastMovement > 30000) {
       currentPollingMode = 'idle';
     }
   } else {
     // Idle mode: adaptive polling based on game state
+    let baseInterval;
     if (hasPearlMold) {
-      // Pearl mold present: moderate polling needed
-      adaptivePollingInterval = 2500;
+      baseInterval = 2500;
     } else if (consecutiveEmptyPolls > 10) {
-      // No changes for a while: very slow polling
-      adaptivePollingInterval = 5000;
+      baseInterval = 5000;
     } else {
-      // Standard idle polling
-      adaptivePollingInterval = 3000;
+      baseInterval = 3000;
     }
+    
+    // Increase interval if predictions are active
+    adaptivePollingInterval = predictionActive ? baseInterval * 2 : baseInterval;
   }
-  
-  logger.debug(`Polling mode: ${currentPollingMode}, interval: ${adaptivePollingInterval}ms, pearl mold: ${hasPearlMold}, empty polls: ${consecutiveEmptyPolls}`);
 }
 
 // Called by movement system to indicate recent activity
