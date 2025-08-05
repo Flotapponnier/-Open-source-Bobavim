@@ -54,11 +54,15 @@
   <div class="news-game-container">
     <div class="news-header">
       <div class="boss-avatar">
-        <img
-          src="/static/sprites/avatar/boss_boba.png"
-          alt="Boss Boba"
-          class="boss-avatar-img"
-        />
+        <picture>
+          <source srcset="/static/sprites/avatar/boss_boba.webp" type="image/webp">
+          <img
+            src="/static/sprites/avatar/boss_boba.png"
+            alt="Boss Boba"
+            class="boss-avatar-img"
+            loading="lazy"
+          />
+        </picture>
       </div>
       <div class="boss-info">
         <h2>Boss Boba</h2>

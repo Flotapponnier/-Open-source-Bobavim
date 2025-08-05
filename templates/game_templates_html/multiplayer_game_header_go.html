@@ -2,22 +2,28 @@
 <div class="game-header multiplayer-vs-header">
   <!-- Boba.vim Banner -->
   <div class="banner-side">
-    <img
-      src="/static/sprites/logo/boba_vim_banner.png"
-      alt="Boba.vim"
-      class="multiplayer-header-banner"
-    />
+    <picture>
+      <source srcset="/static/sprites/logo/boba_vim_banner.webp" type="image/webp">
+      <img
+        src="/static/sprites/logo/boba_vim_banner.png"
+        alt="Boba.vim"
+        class="multiplayer-header-banner"
+      />
+    </picture>
   </div>
 
   <!-- Player 1 Side -->
   <div class="player-side player1-side">
     <div class="player-info">
-      <img
-        id="player1-character"
-        src="/static/sprites/avatar/boba_avatar.png"
-        alt="Player 1"
-        class="player-avatar"
-      />
+      <picture>
+        <source srcset="/static/sprites/avatar/boba_avatar.webp" type="image/webp">
+        <img
+          id="player1-character"
+          src="/static/sprites/avatar/boba_avatar.png"
+          alt="Player 1"
+          class="player-avatar"
+        />
+      </picture>
       <div class="player-details">
         <span class="player-username" id="player1-username">Player 1</span>
         <div class="player-score-display">
@@ -46,12 +52,15 @@
           <span id="player2-score" class="score-value">0</span>
         </div>
       </div>
-      <img
-        id="player2-character"
-        src="/static/sprites/avatar/boba_avatar.png"
-        alt="Player 2"
-        class="player-avatar"
-      />
+      <picture>
+        <source srcset="/static/sprites/avatar/boba_avatar.webp" type="image/webp">
+        <img
+          id="player2-character"
+          src="/static/sprites/avatar/boba_avatar.png"
+          alt="Player 2"
+          class="player-avatar"
+        />
+      </picture>
     </div>
   </div>
 

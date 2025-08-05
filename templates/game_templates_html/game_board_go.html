@@ -18,35 +18,50 @@
           <div class="boba-character">
             <div class="boba-shadow"></div>
             {{if eq $.selected_character "boba"}}
-            <img
-              src="/static/sprites/character/boba.png"
-              alt="Boba"
-              class="boba-sprite"
-            />
+            <picture>
+              <source srcset="/static/sprites/character/boba.webp" type="image/webp">
+              <img
+                src="/static/sprites/character/boba.png"
+                alt="Boba"
+                class="boba-sprite"
+              />
+            </picture>
             {{else if eq $.selected_character "pinky"}}
-            <img
-              src="/static/sprites/character/pinky_boba.png"
-              alt="Pinky Boba"
-              class="boba-sprite"
-            />
+            <picture>
+              <source srcset="/static/sprites/character/pinky_boba.webp" type="image/webp">
+              <img
+                src="/static/sprites/character/pinky_boba.png"
+                alt="Pinky Boba"
+                class="boba-sprite"
+              />
+            </picture>
             {{else if eq $.selected_character "golden"}}
-            <img
-              src="/static/sprites/character/golden_boba.png"
-              alt="Golden Boba"
-              class="boba-sprite"
-            />
+            <picture>
+              <source srcset="/static/sprites/character/golden_boba.webp" type="image/webp">
+              <img
+                src="/static/sprites/character/golden_boba.png"
+                alt="Golden Boba"
+                class="boba-sprite"
+              />
+            </picture>
             {{else if eq $.selected_character "black"}}
-            <img
-              src="/static/sprites/character/black_boba.png"
-              alt="Black Boba"
-              class="boba-sprite"
-            />
+            <picture>
+              <source srcset="/static/sprites/character/black_boba.webp" type="image/webp">
+              <img
+                src="/static/sprites/character/black_boba.png"
+                alt="Black Boba"
+                class="boba-sprite"
+              />
+            </picture>
             {{else if eq $.selected_character "boba_diamond"}}
-            <img
-              src="/static/sprites/character/boba_diamond.png"
-              alt="Boba Diamond"
-              class="boba-sprite"
-            />
+            <picture>
+              <source srcset="/static/sprites/character/boba_diamond.webp" type="image/webp">
+              <img
+                src="/static/sprites/character/boba_diamond.png"
+                alt="Boba Diamond"
+                class="boba-sprite"
+              />
+            </picture>
             {{else}}
             <img
               src="/static/sprites/character/{{$.selected_character}}_boba.png"
@@ -58,29 +73,38 @@
           {{else if eq $mapValue 2}}
           <div class="enemy">
             <div class="enemy-shadow"></div>
-            <img
-              src="/static/sprites/character/stop_boba.png"
-              alt="Enemy"
-              class="enemy-sprite"
-            />
+            <picture>
+              <source srcset="/static/sprites/character/stop_boba.webp" type="image/webp">
+              <img
+                src="/static/sprites/character/stop_boba.png"
+                alt="Enemy"
+                class="enemy-sprite"
+              />
+            </picture>
           </div>
           {{else if eq $mapValue 3}}
           <div class="pearl">
             <div class="pearl-shadow"></div>
-            <img
-              src="/static/sprites/character/pearl.png"
-              alt="Pearl"
-              class="pearl-sprite"
-            />
+            <picture>
+              <source srcset="/static/sprites/character/pearl.webp" type="image/webp">
+              <img
+                src="/static/sprites/character/pearl.png"
+                alt="Pearl"
+                class="pearl-sprite"
+              />
+            </picture>
           </div>
           {{else if eq $mapValue 4}}
           <div class="pearl-mold">
             <div class="pearl-mold-shadow"></div>
-            <img
-              src="/static/sprites/character/pearl_mold.png"
-              alt="Pearl Mold"
-              class="pearl-mold-sprite"
-            />
+            <picture>
+              <source srcset="/static/sprites/character/pearl_mold.webp" type="image/webp">
+              <img
+                src="/static/sprites/character/pearl_mold.png"
+                alt="Pearl Mold"
+                class="pearl-mold-sprite"
+              />
+            </picture>
           </div>
           {{end}}
         </div>

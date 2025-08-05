@@ -26,11 +26,15 @@
         </div>
         <div class="page-content">
           <div class="beach-image-container">
-            <img
-              src="/static/sprites/widget/boba_beach.png"
-              alt="Boba Beach"
-              class="beach-image"
-            />
+            <picture>
+              <source srcset="/static/sprites/widget/boba_beach.webp" type="image/webp">
+              <img
+                src="/static/sprites/widget/boba_beach.png"
+                alt="Boba Beach"
+                class="beach-image"
+                loading="lazy"
+              />
+            </picture>
           </div>
           <div class="teaser-text">
             <p>

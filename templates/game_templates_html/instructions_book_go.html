@@ -1,6 +1,9 @@
 {{define "instructions_book"}}
 <!-- Instructions Book Icon -->
 <div class="instructions-book" id="instructionsBook">
-  <img src="/static/sprites/widget/book.png" alt="Instructions" />
+  <picture>
+    <source srcset="/static/sprites/widget/book.webp" type="image/webp">
+    <img src="/static/sprites/widget/book.png" alt="Instructions" loading="lazy" />
+  </picture>
 </div>
 {{end}}

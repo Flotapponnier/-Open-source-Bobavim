@@ -31,13 +31,16 @@
 
     <!-- Game music button - bottom right -->
     <div class="game-music-button">
-      <img
-        src="/static/sprites/avatar/uncle_song.png"
-        alt="Music Control"
-        id="gameMusicButton"
-        class="music-icon"
-        title="Play/Stop Music"
-      />
+      <picture>
+        <source srcset="/static/sprites/avatar/uncle_song.webp" type="image/webp">
+        <img
+          src="/static/sprites/avatar/uncle_song.png"
+          alt="Music Control"
+          id="gameMusicButton"
+          class="music-icon"
+          title="Play/Stop Music"
+        />
+      </picture>
       <div class="stop-overlay" id="gameStopOverlay">⏸</div>
     </div>
 
