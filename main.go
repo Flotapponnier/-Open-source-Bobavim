@@ -116,6 +116,20 @@ func main() {
 	router.GET("/play", webHandler.PlayGame)
 	router.GET("/reset-password", webHandler.ResetPassword)
 	router.GET("/admin/dashboard/secure", webHandler.AdminPanel)
+	
+	// SEO-friendly redirects to prevent 404s
+	router.GET("/game", func(c *gin.Context) {
+		c.Redirect(301, "/play")
+	})
+	router.GET("/vim-game", func(c *gin.Context) {
+		c.Redirect(301, "/")
+	})
+	router.GET("/learn-vim", func(c *gin.Context) {
+		c.Redirect(301, "/")
+	})
+	router.GET("/vim-tutorial", func(c *gin.Context) {
+		c.Redirect(301, "/")
+	})
 
 
 	// API routes

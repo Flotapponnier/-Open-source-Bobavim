@@ -10,14 +10,21 @@ Allow: /static/sprites/
 Disallow: /admin/
 Disallow: /api/auth/
 Disallow: /api/admin/
+Disallow: /api/player/
+Disallow: /api/payment/
 
-# Allow game pages
-Allow: /game/*
-Allow: /multiplayer/*
+# Allow important game pages
+Allow: /play
+Allow: /reset-password
 
-# Block temporary files
+# Block WebSocket and API endpoints from crawling
+Disallow: /ws/
+Disallow: /api/
+
+# Block temporary and cache files
 Disallow: /*.tmp$
 Disallow: /*.temp$
+Disallow: /*.json$
 
 # Sitemap location
 Sitemap: https://www.bobavim.com/sitemap.xml
