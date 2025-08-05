@@ -1,11 +1,14 @@
 {{define "game_header"}}
 <div class="game-header">
   <h1 class="game-title">
-    <img
-      src="/static/sprites/logo/boba_vim_banner.png"
-      alt="Boba.vim"
-      class="game-header-banner"
-    />
+    <picture>
+      <source srcset="/static/sprites/logo/boba_vim_banner.webp" type="image/webp">
+      <img
+        src="/static/sprites/logo/boba_vim_banner.png"
+        alt="Boba.vim"
+        class="game-header-banner"
+      />
+    </picture>
     <div class="character-avatar">
       {{if eq $.selected_character "pinky"}}
       <img

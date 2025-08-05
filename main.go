@@ -15,6 +15,7 @@ import (
 	"github.com/joho/godotenv"
 	"html/template"
 	"net/http"
+	"strings"
 )
 
 func main() {
@@ -47,6 +48,18 @@ func main() {
 	router.Use(middleware.Sessions(cfg.SessionSecret))
 	router.Use(middleware.Logger())
 	router.Use(middleware.ErrorHandler()) // Add error handling middleware
+	
+	// Add Gzip compression for better performance
+	if !cfg.IsDevelopment {
+		router.Use(func(c *gin.Context) {
+			// Enable compression for text-based content
+			c.Header("Vary", "Accept-Encoding")
+			if shouldCompress(c.Request.Header.Get("Accept-Encoding"), c.Request.URL.Path) {
+				c.Header("Content-Encoding", "gzip")
+			}
+			c.Next()
+		})
+	}
 
 	// Serve static files
 	if cfg.IsDevelopment {
@@ -268,4 +281,20 @@ func main() {
 	
 	// Cleanup services
 	gameHandler.Cleanup()
+}
+
+// shouldCompress checks if content should be compressed based on accept-encoding and content type
+func shouldCompress(acceptEncoding, path string) bool {
+	if !strings.Contains(acceptEncoding, "gzip") {
+		return false
+	}
+	
+	// Compress text-based content
+	if strings.HasSuffix(path, ".js") || strings.HasSuffix(path, ".css") || 
+	   strings.HasSuffix(path, ".html") || strings.HasSuffix(path, ".json") ||
+	   strings.Contains(path, "/api/") {
+		return true
+	}
+	
+	return false
 }

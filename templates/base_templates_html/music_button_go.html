@@ -1,13 +1,17 @@
 {{define "music_button"}}
 <!-- Music button - bottom left, next to instructions book -->
 <div class="music-button">
-  <img
-    src="/static/sprites/avatar/uncle_song.png"
-    alt="Music Control"
-    id="musicButton"
-    class="music-icon"
-    title="Play/Stop Music"
-  />
+  <picture>
+    <source srcset="/static/sprites/avatar/uncle_song.webp" type="image/webp">
+    <img
+      src="/static/sprites/avatar/uncle_song.png"
+      alt="Music Control"
+      id="musicButton"
+      class="music-icon"
+      title="Play/Stop Music"
+      loading="lazy"
+    />
+  </picture>
   <div class="stop-overlay" id="stopOverlay">⏸</div>
 </div>
 <audio id="backgroundMusic" loop>

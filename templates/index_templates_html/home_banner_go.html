@@ -1,18 +1,25 @@
 {{define "home_banner"}}
 <div class="home-banner">
-  <img
-    src="/static/sprites/logo/boba_vim_banner.png"
-    alt="Boba.vim Banner"
-    class="banner-image"
-  />
+  <picture>
+    <source srcset="/static/sprites/logo/boba_vim_banner.webp" type="image/webp">
+    <img
+      src="/static/sprites/logo/boba_vim_banner.png"
+      alt="Boba.vim Banner"
+      class="banner-image"
+    />
+  </picture>
 </div>
 
 <div class="love-letter-container">
-  <img
-    src="/static/sprites/widget/love_letter.png"
-    alt="Love Letter"
-    class="love-letter-image"
-    onclick="openLoveLetterModal()"
-  />
+  <picture>
+    <source srcset="/static/sprites/widget/love_letter.webp" type="image/webp">
+    <img
+      src="/static/sprites/widget/love_letter.png"
+      alt="Love Letter"
+      class="love-letter-image"
+      onclick="openLoveLetterModal()"
+      loading="lazy"
+    />
+  </picture>
 </div>
 {{end}}

@@ -1,6 +1,9 @@
 {{define "instructions_book"}}
 <!-- Instructions book - top left -->
 <div class="instructions-book">
-  <img src="/static/sprites/widget/book.png" alt="Instructions Manual" id="instructionsBook" class="book-icon" title="Vim Motion Instructions">
+  <picture>
+    <source srcset="/static/sprites/widget/book.webp" type="image/webp">
+    <img src="/static/sprites/widget/book.png" alt="Instructions Manual" id="instructionsBook" class="book-icon" title="Vim Motion Instructions" loading="lazy">
+  </picture>
 </div>
 {{end}}
