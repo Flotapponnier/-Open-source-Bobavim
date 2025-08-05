@@ -170,7 +170,7 @@ We welcome contributions! Here's how to get started:
 
 1. **Fork the repository**
    ```bash
-   git fork https://github.com/Flotapponnier/Open-source-Bobavim.git
+   git fork https://github.com/Flotapponnier/Bobavim.git
    ```
 
 2. **Create a feature branch**
@@ -204,9 +204,9 @@ Maps are designed around specific Vim concepts:
 
 ##  Links
 
-- **Repository**: https://github.com/Flotapponnier/Open-source-Bobavim
-- **Issues**: https://github.com/Flotapponnier/Open-source-Bobavim/issues
-- **Discussions**: https://github.com/Flotapponnier/Open-source-Bobavim/discussions
+- **Repository**: https://github.com/Flotapponnier/Bobavim
+- **Issues**: https://github.com/Flotapponnier/Bobavim/issues
+- **Discussions**: https://github.com/Flotapponnier/Bobavim/discussions
 
 ##  License
 
