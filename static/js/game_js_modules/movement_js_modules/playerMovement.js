@@ -125,8 +125,8 @@ export async function movePlayer(direction, count = 1, hasExplicitCount = false)
 
   const now = Date.now();
   
-  // Simplified cooldown - more optimistic
-  const requiredCooldown = count > 1 ? 30 : 50; // Reduced cooldowns
+  // Increased cooldown to prevent rubber banding
+  const requiredCooldown = count > 1 ? 50 : 80; // Increased cooldowns for stability
   
   if (now - lastMoveTime < requiredCooldown) {
     return;

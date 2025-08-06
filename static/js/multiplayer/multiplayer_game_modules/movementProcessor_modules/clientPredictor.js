@@ -6,6 +6,9 @@ export class ClientPredictor {
     this.movementProcessor = movementProcessor;
     this.game = movementProcessor.game;
     this.moveSequence = 0;
+    this.displayUpdateQueued = false;
+    this.lastDisplayUpdate = 0;
+    this.DISPLAY_UPDATE_THROTTLE = 30; // 30ms minimum between display updates
   }
 
   async processMoveWithPrediction(direction, count = 1, hasExplicitCount = false) {
@@ -80,9 +83,8 @@ export class ClientPredictor {
     
     this.game.preferredColumn = newPos.preferredColumn;
     
-    // Fast visual update
-    this.game.displayManager.updateClientGameMap();
-    this.game.displayManager.throttledDisplayUpdate();
+    // Throttled visual update to prevent jerkiness
+    this.throttledDisplayUpdate();
     
     // Track for reconciliation
     this.movementProcessor.stateReconciler.addPendingMove({
@@ -125,32 +127,40 @@ export class ClientPredictor {
       const pearlPos = this.game.clientGameState.pearl_position;
       if (newPos.newRow === pearlPos.row && newPos.newCol === pearlPos.col) {
         currentPlayer.score += 50;
-        this.generateNewPearl();
-        // Note: Pearl collection sound is played when server confirms in messageHandler
+        // Note: Pearl collection and repositioning handled by server
+        // Client prediction doesn't need to generate new pearl position
       }
       
       this.game.displayManager.updateClientGameMap();
     }
   }
 
-  generateNewPearl() {
-    const textGrid = this.game.clientGameState.text_grid;
-    const gameMap = this.game.clientGameState.game_map;
+  throttledDisplayUpdate() {
+    const now = Date.now();
     
-    if (!textGrid || textGrid.length === 0) {
-      logger.warn('Cannot generate pearl - no text grid available');
-      return;
+    if (now - this.lastDisplayUpdate < this.DISPLAY_UPDATE_THROTTLE) {
+      // If an update is already queued, skip
+      if (!this.displayUpdateQueued) {
+        this.displayUpdateQueued = true;
+        setTimeout(() => {
+          this.performDisplayUpdate();
+          this.displayUpdateQueued = false;
+          this.lastDisplayUpdate = Date.now();
+        }, this.DISPLAY_UPDATE_THROTTLE - (now - this.lastDisplayUpdate));
+      }
+    } else {
+      // Can update immediately
+      this.performDisplayUpdate();
+      this.lastDisplayUpdate = now;
     }
-    
-    let newRow, newCol;
-    let attempts = 0;
-    
-    do {
-      newRow = Math.floor(Math.random() * textGrid.length);
-      newCol = Math.floor(Math.random() * textGrid[newRow].length);
-      attempts++;
-    } while (gameMap[newRow] && gameMap[newRow][newCol] !== 0 && attempts < 100);
-    
-    this.game.clientGameState.pearl_position = { row: newRow, col: newCol };
+  }
+
+  performDisplayUpdate() {
+    try {
+      this.game.displayManager.updateClientGameMap();
+      this.game.displayManager.throttledDisplayUpdate();
+    } catch (error) {
+      logger.error('Error in display update:', error);
+    }
   }
 }

@@ -192,24 +192,16 @@ export class MessageHandler {
   }
 
   forceVisualUpdate() {
-    logger.debug('🔄 FORCING DOM REFLOW AND REPAINT');
+    // Simplified visual update without forced reflows
     const mapElement = document.getElementById('multiplayer-game-map');
     if (mapElement) {
-      const height = mapElement.offsetHeight;
-      const width = mapElement.offsetWidth;
-      logger.debug('📏 Map dimensions (forcing reflow):', width, 'x', height);
-      
-      mapElement.style.transform = 'translateZ(0)';
-      mapElement.offsetHeight;
-      mapElement.style.transform = '';
-      
       const sprites = mapElement.querySelectorAll('.boba-character, .pearl');
       sprites.forEach(sprite => {
         sprite.style.visibility = 'visible';
         sprite.style.opacity = '1';
       });
       
-      logger.debug('🎨 Found and ensured visibility of', sprites.length, 'sprites');
+      logger.debug('🎨 Updated visibility of', sprites.length, 'sprites');
     }
     
     logger.debug('🎭 CHARACTER DEBUG - Final character data after handleGameUpdate:', {
