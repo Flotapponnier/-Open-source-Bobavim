@@ -1,6 +1,6 @@
 // Survey module for collecting user feedback with slide-down panel
 import { toggleSurveyPanel, showSurveyPanel, hideSurveyPanel, setupSurveyEventListeners } from './survey_js_modules/surveyModal.js';
-import { getUserSurveyData } from './survey_js_modules/surveyStorage.js';
+import { getUserSurveyData, clearAllCaches } from './survey_js_modules/surveyStorage.js';
 
 export async function initializeSurvey() {
   const surveyButton = document.getElementById('surveyButton');
@@ -48,8 +48,6 @@ function startSurveyRefresh() {
 async function refreshSurveyIfChanged() {
   try {
     // Import the clearAllCaches function
-    const { clearAllCaches } = await import('./survey_js_modules/surveyStorage.js');
-    
     // Clear caches to force refresh
     clearAllCaches();
     

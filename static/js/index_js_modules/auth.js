@@ -1,5 +1,7 @@
 import { AUTH_CONFIG } from "./index_constants/auth.js";
 import { migrateGuestProgressToAccount, refreshProgression } from "./mapSelection_submodule/mapProgressionManager.js";
+import { unlockAllCharacters, lockPremiumCharacters, lockPaidCharacters } from "./characterSelection.js";
+import { clearMapCache } from "./mapSelection.js";
 
 // Import auth vim navigation module directly
 let authVimModule = null;
@@ -305,9 +307,7 @@ function updateUIForLoggedInUser(user) {
   }
 
   if (user.is_registered) {
-    import("./characterSelection.js").then((module) => {
-      module.unlockAllCharacters();
-    });
+    unlockAllCharacters();
   }
 }
 
@@ -325,10 +325,8 @@ function updateUIForLoggedOutUser() {
     authButtons.classList.remove("hidden");
   }
 
-  import("./characterSelection.js").then((module) => {
-    module.lockPremiumCharacters();
-    module.lockPaidCharacters();
-  });
+  lockPremiumCharacters();
+  lockPaidCharacters();
 }
 
 async function handleRegistration(e) {
@@ -378,7 +376,6 @@ async function handleRegistration(e) {
       
       // Clear map cache to force refresh of map selection
       try {
-        const { clearMapCache } = await import("./mapSelection.js");
         clearMapCache();
       } catch (error) {
         logger.error("Failed to clear map cache:", error);
@@ -437,7 +434,6 @@ async function handleLogin(e) {
       
       // Clear map cache to force refresh of map selection
       try {
-        const { clearMapCache } = await import("./mapSelection.js");
         clearMapCache();
       } catch (error) {
         logger.error("Failed to clear map cache:", error);
@@ -513,11 +509,9 @@ async function handleLogout() {
       
       // Refresh map progression to update locked/unlocked status
       try {
-        const { refreshProgression } = await import("./mapSelection_submodule/mapProgressionManager.js");
         await refreshProgression();
         
         // Clear map cache to force refresh of map selection
-        const { clearMapCache } = await import("./mapSelection.js");
         clearMapCache();
       } catch (error) {
         logger.error("Failed to refresh progression after logout:", error);

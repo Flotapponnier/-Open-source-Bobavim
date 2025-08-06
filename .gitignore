@@ -29,3 +29,15 @@ Thumbs.db
 
 # Go specific
 vendor/
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build artifacts
+static/js/dist/
+
+# Claude Code files
+CLAUDE.md

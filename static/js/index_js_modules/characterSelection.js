@@ -1,4 +1,6 @@
 import { CHARACTER_CONFIG } from "./index_constants/characters.js";
+import { showPaymentModal } from "./paymentModal.js";
+import { showAuthModal } from "./auth.js";
 
 const STORAGE_KEY = "boba_vim_selected_character";
 let selectedCharacter = loadSelectedCharacterFromStorage();
@@ -28,28 +30,20 @@ export function initializeCharacterSelection() {
             .then(data => {
               if (data.authenticated) {
                 // User is logged in, show payment modal
-                import("./paymentModal.js").then((module) => {
-                  module.showPaymentModal(character);
-                });
+                showPaymentModal(character);
               } else {
                 // User not logged in, show registration modal
-                import("./auth.js").then((module) => {
-                  module.showAuthModal("register");
-                });
+                showAuthModal("register");
               }
             })
             .catch(error => {
               logger.error('Error checking auth status:', error);
               // Fallback to showing registration modal
-              import("./auth.js").then((module) => {
-                module.showAuthModal("register");
-              });
+              showAuthModal("register");
             });
         } else {
           // For other locked characters, show auth modal
-          import("./auth.js").then((module) => {
-            module.showAuthModal("register");
-          });
+          showAuthModal("register");
         }
         return;
       }
@@ -255,9 +249,7 @@ function showComingSoonMessage(character) {
   logger.debug(`Coming soon character clicked: ${character}`);
   
   // All locked characters now show registration modal
-  import("./auth.js").then((module) => {
-    module.showAuthModal("register");
-  });
+  showAuthModal("register");
 }
 
 // Optional: Toast notification function (more elegant than alert)

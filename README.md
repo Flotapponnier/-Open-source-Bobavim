@@ -24,13 +24,19 @@ A multiplayer Vim game built with Go and vanilla JavaScript, teaching Vim comman
    ```
    This will create a `.env` file from `.env.example`. Edit `.env` if you need custom settings.
 
-3. **Start the development server**
+3. **Build frontend assets**
+   ```bash
+   npm run build
+   ```
+   This builds the JavaScript files needed for the game interface.
+
+4. **Start the development server**
    ```bash
    make dev
    # or simply: go run main.go
    ```
 
-4. **Open your browser**
+5. **Open your browser**
    - Game: http://localhost:8080
    - Admin Panel: http://localhost:8080/dashboard/secure/admin (username: `test`, password: `test`)
 
@@ -51,15 +57,23 @@ A multiplayer Vim game built with Go and vanilla JavaScript, teaching Vim comman
 
 ### Available Commands
 
+**Backend (Go):**
 ```bash
 make help          # Show all available commands
 make setup         # Initial setup
 make dev           # Start development server
-make build         # Build the application
+make build         # Build the Go application
 make test          # Run tests
 make lint          # Run linter
 make clean         # Clean build artifacts
-make start         # Quick start (setup + dev)
+```
+
+**Frontend (JavaScript):**
+```bash
+npm run build      # Build frontend assets for production
+npm run build:dev  # Build frontend assets for development
+npm run watch      # Watch mode - rebuilds on file changes
+npm run dev        # Development server (Vite)
 ```
 
 ### Project Structure

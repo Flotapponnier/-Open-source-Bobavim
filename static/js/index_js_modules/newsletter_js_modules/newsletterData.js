@@ -3,6 +3,8 @@
  * Handles loading and displaying newsletter data from the API
  */
 
+import { showNewsGameArea } from './newsletterModal.js';
+
 const API_ENDPOINTS = {
   NEWSLETTERS: '/api/newsletters',
   NEWSLETTER_BY_ID: '/api/newsletters'
@@ -103,9 +105,7 @@ export async function showFullNewsletter(newsletterId) {
   markNewsletterAsRead(newsletterId);
   
   // Show the news game area
-  import('./newsletterModal.js').then(module => {
-    module.showNewsGameArea();
-  });
+  showNewsGameArea();
 }
 
 export async function markNewsletterAsRead(newsletterId) {
