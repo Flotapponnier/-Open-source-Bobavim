@@ -1,10 +1,11 @@
+import { networkAdapter } from '../../../shared/networkAdapter.js';
+
 export class MoveQueue {
   constructor(movementProcessor) {
     this.movementProcessor = movementProcessor;
     this.game = movementProcessor.game;
     this.isProcessingMove = false;
     this.lastMoveTime = 0;
-    this.MOVE_COOLDOWN = 80; // Slightly longer cooldown to prevent rapid-fire
   }
 
   queueMove(direction, count = 1, hasExplicitCount = false) {
@@ -14,10 +15,12 @@ export class MoveQueue {
       return;
     }
     
-    // Add cooldown to prevent rapid-fire movements
+    // Track movement and get adaptive cooldown
+    networkAdapter.trackMovement(direction);
     const now = Date.now();
-    if (now - this.lastMoveTime < this.MOVE_COOLDOWN) {
-      logger.debug('Move blocked by cooldown:', direction);
+    const cooldown = networkAdapter.getMoveCooldown(true, direction); // Pass direction for spam detection
+    if (now - this.lastMoveTime < cooldown) {
+      logger.debug('Move blocked by adaptive cooldown:', direction, cooldown + 'ms');
       return;
     }
     

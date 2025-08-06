@@ -6,6 +6,7 @@ import {
 } from './movementHandlers.js';
 import { predictMovement } from './vimMovementPredictor.js';
 import { API_ENDPOINTS } from '../constants_js_modules/api.js';
+import { networkAdapter } from '../../shared/networkAdapter.js';
 
 let movePending = false;
 let lastMoveTime = 0;
@@ -125,8 +126,9 @@ export async function movePlayer(direction, count = 1, hasExplicitCount = false)
 
   const now = Date.now();
   
-  // Increased cooldown to prevent rubber banding
-  const requiredCooldown = count > 1 ? 50 : 80; // Increased cooldowns for stability
+  // Track movement and get adaptive cooldown
+  networkAdapter.trackMovement(direction);
+  const requiredCooldown = networkAdapter.getMoveCooldown(false, direction); // Pass direction
   
   if (now - lastMoveTime < requiredCooldown) {
     return;
@@ -183,6 +185,8 @@ export async function movePlayer(direction, count = 1, hasExplicitCount = false)
 
 // Server-only movement (fallback)
 async function movePlayerServerOnly(direction, count, hasExplicitCount) {
+  const startTime = performance.now();
+  
   try {
     const response = await fetch(API_ENDPOINTS.MOVE, {
       method: "POST",
@@ -195,6 +199,9 @@ async function movePlayerServerOnly(direction, count, hasExplicitCount) {
         has_explicit_count: hasExplicitCount,
       }),
     });
+
+    // Track latency for single-player too
+    networkAdapter.measureLatency(startTime);
 
     const result = await response.json();
 
@@ -222,6 +229,8 @@ async function movePlayerServerOnly(direction, count, hasExplicitCount) {
 
 // Optimized prediction validation
 async function validatePredictionOptimized(direction, count, prediction, hasExplicitCount, predictionId) {
+  const startTime = performance.now();
+  
   try {
     const response = await fetch(API_ENDPOINTS.MOVE, {
       method: "POST",
@@ -232,6 +241,9 @@ async function validatePredictionOptimized(direction, count, prediction, hasExpl
         has_explicit_count: hasExplicitCount,
       }),
     });
+
+    // Track latency
+    networkAdapter.measureLatency(startTime);
 
     const result = await response.json();
     

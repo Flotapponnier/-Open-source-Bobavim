@@ -1,3 +1,5 @@
+import { networkAdapter } from '../../../shared/networkAdapter.js';
+
 export class ServerCommunicator {
   constructor(movementProcessor) {
     this.movementProcessor = movementProcessor;
@@ -5,19 +7,15 @@ export class ServerCommunicator {
   }
 
   async sendMoveToServer(direction, count, hasExplicitCount, moveId) {
+    const startTime = performance.now();
+    
     try {
       logger.debug('📡 SENDING MOVE TO SERVER:', {
         gameId: this.game.gameId,
         direction,
         count,
         hasExplicitCount,
-        moveId,
-        actualPayload: {
-          direction: direction,
-          count: count,
-          has_explicit_count: hasExplicitCount,
-          move_id: moveId
-        }
+        moveId
       });
       
       const controller = new AbortController();
@@ -38,6 +36,10 @@ export class ServerCommunicator {
       });
 
       clearTimeout(timeoutId);
+      
+      // Track network latency
+      networkAdapter.measureLatency(startTime);
+      
       logger.debug('Server response status:', response.status);
       
       if (!response.ok) {
