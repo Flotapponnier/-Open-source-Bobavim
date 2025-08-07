@@ -330,3 +330,265 @@ func (ah *AdminHandler) sendNewsletterEmails(title, summary string) {
 		}
 	}
 }
+
+// GetUserMetrics returns user statistics for admin dashboard
+func (ah *AdminHandler) GetUserMetrics(c *gin.Context) {
+	var totalUsers int64
+	var confirmedUsers int64
+	var activeUsers int64
+
+	// Get total users
+	if err := ah.db.Model(&models.Player{}).Count(&totalUsers).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to count users"})
+		return
+	}
+
+	// Get confirmed email users
+	if err := ah.db.Model(&models.Player{}).Where("email_confirmed = ?", true).Count(&confirmedUsers).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to count confirmed users"})
+		return
+	}
+
+	// Get active users (played in last 7 days)
+	sevenDaysAgo := time.Now().AddDate(0, 0, -7)
+	if err := ah.db.Model(&models.Player{}).Where("updated_at > ?", sevenDaysAgo).Count(&activeUsers).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to count active users"})
+		return
+	}
+
+	// Get recent registrations (last 30 days by day)
+	var dailySignups []struct {
+		Date  string `json:"date"`
+		Count int    `json:"count"`
+	}
+
+	thirtyDaysAgo := time.Now().AddDate(0, 0, -30)
+	rows, err := ah.db.Raw(`
+		SELECT DATE(created_at) as date, COUNT(*) as count 
+		FROM players 
+		WHERE created_at > ? 
+		GROUP BY DATE(created_at) 
+		ORDER BY date DESC
+	`, thirtyDaysAgo).Rows()
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get daily signups"})
+		return
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var signup struct {
+			Date  string `json:"date"`
+			Count int    `json:"count"`
+		}
+		if err := rows.Scan(&signup.Date, &signup.Count); err != nil {
+			continue
+		}
+		dailySignups = append(dailySignups, signup)
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"success": true,
+		"data": gin.H{
+			"total_users":     totalUsers,
+			"confirmed_users": confirmedUsers,
+			"active_users":    activeUsers,
+			"daily_signups":   dailySignups,
+		},
+	})
+}
+
+// GetGameMetrics returns game statistics for admin dashboard
+func (ah *AdminHandler) GetGameMetrics(c *gin.Context) {
+	var totalGames int64
+	var completedGames int64
+	var totalPearls int64
+	var avgCompletionTime float64
+
+	// Get total and completed games
+	if err := ah.db.Model(&models.GameSession{}).Count(&totalGames).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to count total games"})
+		return
+	}
+
+	if err := ah.db.Model(&models.GameSession{}).Where("is_completed = ?", true).Count(&completedGames).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to count completed games"})
+		return
+	}
+
+	// Get total pearls collected
+	var result struct {
+		TotalPearls int64 `json:"total_pearls"`
+	}
+	if err := ah.db.Model(&models.GameSession{}).Select("COALESCE(SUM(pearls_collected), 0) as total_pearls").Scan(&result).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to count total pearls"})
+		return
+	}
+	totalPearls = result.TotalPearls
+
+	// Get average completion time for completed games
+	var avgResult struct {
+		AvgTime float64 `json:"avg_time"`
+	}
+	if err := ah.db.Model(&models.GameSession{}).Where("is_completed = ? AND completion_time > 0", true).
+		Select("AVG(completion_time) as avg_time").Scan(&avgResult).Error; err != nil {
+		avgCompletionTime = 0
+	} else {
+		avgCompletionTime = avgResult.AvgTime
+	}
+
+	// Get most popular maps
+	var popularMaps []struct {
+		MapID   int    `json:"map_id"`
+		MapName string `json:"map_name"`
+		Count   int    `json:"play_count"`
+	}
+
+	mapRows, err := ah.db.Raw(`
+		SELECT map_id, 
+			CASE map_id 
+				WHEN 1 THEN 'Tutorial'
+				WHEN 2 THEN 'Basic Movement'
+				WHEN 3 THEN 'Word Navigation'
+				ELSE CONCAT('Map ', map_id)
+			END as map_name,
+			COUNT(*) as count
+		FROM game_sessions 
+		GROUP BY map_id 
+		ORDER BY count DESC 
+		LIMIT 5
+	`).Rows()
+
+	if err == nil {
+		defer mapRows.Close()
+		for mapRows.Next() {
+			var mapStat struct {
+				MapID   int    `json:"map_id"`
+				MapName string `json:"map_name"`
+				Count   int    `json:"play_count"`
+			}
+			if err := mapRows.Scan(&mapStat.MapID, &mapStat.MapName, &mapStat.Count); err == nil {
+				popularMaps = append(popularMaps, mapStat)
+			}
+		}
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"success": true,
+		"data": gin.H{
+			"total_games":          totalGames,
+			"completed_games":      completedGames,
+			"completion_rate":      float64(completedGames) / float64(totalGames) * 100,
+			"total_pearls":         totalPearls,
+			"avg_completion_time":  avgCompletionTime,
+			"popular_maps":         popularMaps,
+		},
+	})
+}
+
+// GetSystemMetrics returns system statistics for admin dashboard
+func (ah *AdminHandler) GetSystemMetrics(c *gin.Context) {
+	var newsletterCount int64
+	var surveyCount int64
+	var errorCount int64
+
+	// Get newsletter count
+	if err := ah.db.Model(&models.Newsletter{}).Count(&newsletterCount).Error; err != nil {
+		newsletterCount = 0
+	}
+
+	// Get survey count
+	if err := ah.db.Model(&models.Survey{}).Count(&surveyCount).Error; err != nil {
+		surveyCount = 0
+	}
+
+	// Get error count from last 24 hours
+	twentyFourHoursAgo := time.Now().AddDate(0, 0, -1)
+	if err := ah.db.Model(&models.GameError{}).Where("created_at > ?", twentyFourHoursAgo).Count(&errorCount).Error; err != nil {
+		errorCount = 0
+	}
+
+	// Get recent errors
+	var recentErrors []struct {
+		ErrorType string    `json:"error_type"`
+		Message   string    `json:"message"`
+		Count     int       `json:"count"`
+		LastSeen  time.Time `json:"last_seen"`
+	}
+
+	errorRows, err := ah.db.Raw(`
+		SELECT error_type, error_message as message, COUNT(*) as count, MAX(created_at) as last_seen
+		FROM game_errors 
+		WHERE created_at > ? 
+		GROUP BY error_type, error_message 
+		ORDER BY count DESC 
+		LIMIT 5
+	`, twentyFourHoursAgo).Rows()
+
+	if err == nil {
+		defer errorRows.Close()
+		for errorRows.Next() {
+			var errorStat struct {
+				ErrorType string    `json:"error_type"`
+				Message   string    `json:"message"`
+				Count     int       `json:"count"`
+				LastSeen  time.Time `json:"last_seen"`
+			}
+			if err := errorRows.Scan(&errorStat.ErrorType, &errorStat.Message, &errorStat.Count, &errorStat.LastSeen); err == nil {
+				recentErrors = append(recentErrors, errorStat)
+			}
+		}
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"success": true,
+		"data": gin.H{
+			"newsletter_count": newsletterCount,
+			"survey_count":     surveyCount,
+			"error_count_24h":  errorCount,
+			"recent_errors":    recentErrors,
+		},
+	})
+}
+
+// GetUsersList returns paginated list of users for admin management
+func (ah *AdminHandler) GetUsersList(c *gin.Context) {
+	page, _ := strconv.Atoi(c.DefaultQuery("page", "1"))
+	limit, _ := strconv.Atoi(c.DefaultQuery("limit", "20"))
+	search := c.Query("search")
+
+	offset := (page - 1) * limit
+
+	query := ah.db.Model(&models.Player{})
+	
+	// Apply search filter if provided
+	if search != "" {
+		query = query.Where("username ILIKE ? OR email ILIKE ?", "%"+search+"%", "%"+search+"%")
+	}
+
+	var total int64
+	query.Count(&total)
+
+	var users []models.Player
+	if err := query.Order("created_at DESC").Limit(limit).Offset(offset).Find(&users).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch users"})
+		return
+	}
+
+	// Remove sensitive information
+	for i := range users {
+		users[i].Password = ""
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"success": true,
+		"data": gin.H{
+			"users":        users,
+			"total":        total,
+			"current_page": page,
+			"per_page":     limit,
+			"total_pages":  (total + int64(limit) - 1) / int64(limit),
+		},
+	})
+}

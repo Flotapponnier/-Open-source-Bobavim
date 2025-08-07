@@ -46,6 +46,17 @@
                 </div>
             </div>
 
+            <!-- Metrics & Analytics -->
+            <div class="admin-section">
+                <h2>Metrics & Analytics</h2>
+                <div class="admin-controls">
+                    <button id="viewUserMetricsBtn" class="button-base admin-btn">User Metrics</button>
+                    <button id="viewGameMetricsBtn" class="button-base admin-btn">Game Metrics</button>
+                    <button id="viewSystemMetricsBtn" class="button-base admin-btn">System Metrics</button>
+                    <button id="viewUsersListBtn" class="button-base admin-btn">Users List</button>
+                </div>
+            </div>
+
             <!-- Navigation -->
             <div class="admin-section">
                 <h2>Navigation</h2>
@@ -149,6 +160,75 @@
         </div>
     </div>
 
+    <!-- User Metrics Modal -->
+    <div id="userMetricsModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>User Metrics</h3>
+                <button id="closeUserMetricsModal" class="close-btn">×</button>
+            </div>
+            <div class="modal-body">
+                <div id="userMetricsContent" class="metrics-content">
+                    <div class="loading-message">Loading user metrics...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game Metrics Modal -->
+    <div id="gameMetricsModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Game Metrics</h3>
+                <button id="closeGameMetricsModal" class="close-btn">×</button>
+            </div>
+            <div class="modal-body">
+                <div id="gameMetricsContent" class="metrics-content">
+                    <div class="loading-message">Loading game metrics...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- System Metrics Modal -->
+    <div id="systemMetricsModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>System Metrics</h3>
+                <button id="closeSystemMetricsModal" class="close-btn">×</button>
+            </div>
+            <div class="modal-body">
+                <div id="systemMetricsContent" class="metrics-content">
+                    <div class="loading-message">Loading system metrics...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Users List Modal -->
+    <div id="usersListModal" class="modal-overlay">
+        <div class="modal-content large-modal">
+            <div class="modal-header">
+                <h3>Users List</h3>
+                <button id="closeUsersListModal" class="close-btn">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="users-controls">
+                    <input type="text" id="userSearchInput" placeholder="Search users..." class="search-input">
+                    <button id="searchUsersBtn" class="button-base admin-btn">Search</button>
+                </div>
+                <div id="usersListContent" class="users-content">
+                    <div class="loading-message">Loading users...</div>
+                </div>
+                <div class="pagination-controls">
+                    <button id="prevPageBtn" class="button-base admin-btn" disabled>Previous</button>
+                    <span id="pageInfo">Page 1 of 1</span>
+                    <button id="nextPageBtn" class="button-base admin-btn" disabled>Next</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Success/Error Messages -->
     <div id="messageContainer" class="message-container"></div>
 
@@ -158,6 +238,7 @@
     <script src="/static/js/admin_js_modules/adminAuth.js"></script>
     <script src="/static/js/admin_js_modules/adminNewsletter.js"></script>
     <script src="/static/js/admin_js_modules/adminSurvey.js"></script>
+    <script src="/static/js/admin_js_modules/adminMetrics.js"></script>
     <script src="/static/js/admin_js_modules/adminMain.js"></script>
     
     {{else}}

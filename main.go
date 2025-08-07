@@ -244,6 +244,12 @@ func main() {
 				protected.GET("/newsletters", adminHandler.GetNewsletters)
 				protected.DELETE("/newsletter/:id", adminHandler.DeleteNewsletter)
 				protected.POST("/survey", adminHandler.CreateSurvey)
+				
+				// Metrics endpoints
+				protected.GET("/user-metrics", adminHandler.GetUserMetrics)
+				protected.GET("/game-metrics", adminHandler.GetGameMetrics)
+				protected.GET("/system-metrics", adminHandler.GetSystemMetrics)
+				protected.GET("/users-list", adminHandler.GetUsersList)
 			}
 		}
 
