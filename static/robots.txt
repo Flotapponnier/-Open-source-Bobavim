@@ -21,6 +21,9 @@ Allow: /reset-password
 Disallow: /ws/
 Disallow: /api/
 
+# Block Cloudflare email protection endpoints
+Disallow: /cdn-cgi/
+
 # Block temporary and cache files
 Disallow: /*.tmp$
 Disallow: /*.temp$
