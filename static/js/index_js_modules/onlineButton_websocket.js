@@ -35,7 +35,7 @@ function setupButtonHoverEffects(button) {
 
   button.addEventListener("mouseleave", function () {
     if (!isWaitingForOpponent) {
-      button.textContent = "Play online";
+      button.textContent = "Multiplayer";
     } else {
       button.textContent = "Finding opponent...";
     }
@@ -435,7 +435,7 @@ function setButtonState(button, state) {
   switch (state) {
     case "idle":
       button.disabled = false;
-      button.textContent = "Play online";
+      button.textContent = "Multiplayer";
       break;
     case "connecting":
       button.disabled = true;

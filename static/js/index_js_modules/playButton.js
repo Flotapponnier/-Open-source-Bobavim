@@ -40,7 +40,7 @@ function setButtonStartingState(button, isStarting) {
     button.textContent = "🚀 Starting...";
   } else {
     button.disabled = false;
-    button.textContent = "Play";
+    button.textContent = "Pick Map and Play";
   }
 }
 
