@@ -1,9 +1,11 @@
 {{define "character_selection"}}
 <div class="menu-buttons">
-  <button id="playButton" class="eightbit-btn">Play</button>
+  <button id="playButton" class="eightbit-btn">Pick Map and Play</button>
 
-  <div class="character-selection">
-    <div class="character-grid">
+  <div class="character-selection-container">
+    <div class="character-selection-label">Select your boba character</div>
+    <div class="character-selection">
+      <div class="character-grid">
       <div
         class="character-box unlocked"
         data-character="boba"
@@ -77,10 +79,11 @@
         </picture>
         <span class="lock-icon">💎</span>
       </div>
+      </div>
     </div>
   </div>
 
-  <button id="playOnline" class="eightbit-btn">Play online</button>
+  <button id="playOnline" class="eightbit-btn">Multiplayer</button>
   
   <button id="leaderboardButton" class="eightbit-btn">
     🏆 Leaderboard

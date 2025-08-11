@@ -2,8 +2,33 @@
    CHARACTER SELECTION MODULE
    =================================== */
 
-.character-selection {
+.character-selection-container {
+  position: relative;
   margin: 0.8rem 0;
+  padding: 1.2rem 1rem 1rem;
+}
+
+.character-selection-label {
+  position: absolute;
+  top: -8px;
+  left: 12px;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 8px;
+  color: white;
+  background: linear-gradient(145deg, #8b4513, #a0522d, #d2691e);
+  padding: 4px 8px;
+  border: 2px solid #654321;
+  border-radius: 6px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+  box-shadow:
+    inset 1px 1px 2px rgba(255, 255, 255, 0.15),
+    inset -1px -1px 2px rgba(0, 0, 0, 0.4),
+    0 2px 4px rgba(0, 0, 0, 0.4);
+  z-index: 10;
+}
+
+.character-selection {
+  margin: 0;
 }
 
 .character-grid {
@@ -133,6 +158,17 @@
 
 /* Responsive adjustments for character selection */
 @media (max-width: 480px) {
+  .character-selection-container {
+    padding: 1rem 0.6rem 0.8rem;
+  }
+
+  .character-selection-label {
+    font-size: 7px;
+    padding: 3px 6px;
+    top: -6px;
+    left: 8px;
+  }
+
   .character-box {
     width: 60px;
     height: 60px;
