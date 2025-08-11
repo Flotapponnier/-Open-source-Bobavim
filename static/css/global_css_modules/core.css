@@ -313,16 +313,19 @@ h1 {
 
 .terms-section ul,
 #termsModal .terms-section ul,
-.terms-modal .terms-section ul {
+.terms-modal .terms-section ul,
+#faqModal .terms-section ul {
   margin-left: 1.5rem !important;
   margin-bottom: 0.8rem !important;
   color: #333 !important;
   background: none !important;
+  list-style-type: none !important;
 }
 
 .terms-section li,
 #termsModal .terms-section li,
-.terms-modal .terms-section li {
+.terms-modal .terms-section li,
+#faqModal .terms-section li {
   margin-bottom: 0.3rem !important;
   font-size: 0.9rem !important;
   color: #333 !important;
@@ -340,6 +343,67 @@ h1 {
   text-align: center !important;
   font-size: 0.8rem !important;
   color: #666 !important;
+  background: none !important;
+  text-shadow: none !important;
+  animation: none !important;
+}
+
+/* YouTube Recommendation Styles for FAQ Modal */
+.youtube-recommendation,
+#faqModal .youtube-recommendation,
+.terms-modal .youtube-recommendation {
+  background: #f8f9fa !important;
+  border-left: 4px solid #8B4513 !important;
+  padding: 1rem !important;
+  margin: 1rem 0 !important;
+  border-radius: 5px !important;
+}
+
+.youtube-recommendation h4,
+#faqModal .youtube-recommendation h4,
+.terms-modal .youtube-recommendation h4 {
+  color: #8B4513 !important;
+  font-size: 1rem !important;
+  margin-bottom: 0.5rem !important;
+  font-family: var(--font-mono) !important;
+  background: none !important;
+  text-shadow: none !important;
+  animation: none !important;
+  border: none !important;
+}
+
+.youtube-recommendation p,
+#faqModal .youtube-recommendation p,
+.terms-modal .youtube-recommendation p {
+  margin-bottom: 0.8rem !important;
+  font-size: 0.9rem !important;
+  color: #333 !important;
+  background: none !important;
+  text-shadow: none !important;
+  animation: none !important;
+}
+
+.youtube-recommendation a,
+#faqModal .youtube-recommendation a,
+.terms-modal .youtube-recommendation a {
+  color: #4a90e2 !important;
+  text-decoration: underline !important;
+  background: none !important;
+  animation: none !important;
+}
+
+.youtube-recommendation a:hover,
+#faqModal .youtube-recommendation a:hover,
+.terms-modal .youtube-recommendation a:hover {
+  color: #357abd !important;
+}
+
+/* Channel Name Styling */
+.channel-name,
+#faqModal .channel-name,
+.terms-modal .channel-name {
+  color: #000000 !important;
+  font-weight: bold !important;
   background: none !important;
   text-shadow: none !important;
   animation: none !important;

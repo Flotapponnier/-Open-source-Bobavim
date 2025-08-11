@@ -121,6 +121,77 @@
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') {
       closeTermsModal();
+      closeFaqModal();
+    }
+  });
+</script>
+
+<!-- FAQ Modal Functions -->
+<script>
+  function openFaqModal() {
+    logger.debug('FAQ modal opening...');
+    const modal = document.getElementById('faqModal');
+    if (modal) {
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      
+      // Only try to disable vim navigation if we're NOT on a game page
+      const isGamePage = document.body.classList.contains('game-page');
+      if (!isGamePage && window.hideCursor && window.disableVimNavigation) {
+        window.hideCursor();
+        window.disableVimNavigation();
+        logger.debug('FAQ: Main vim navigation disabled');
+        
+        // Initialize vim navigation for FAQ modal
+        setTimeout(() => {
+          import('/static/js/index_js_modules/modalVimNavigation.js').then(module => {
+            console.log('FAQ: About to initialize modal vim');
+            module.initializeModalVim('faq');
+          }).catch(() => {
+            logger.debug('FAQ: Modal vim navigation not available');
+          });
+        }, 100); // Reduced delay for faster cursor appearance
+      } else {
+        logger.debug('FAQ: Skipping vim navigation disable (game page or functions not available)');
+      }
+    }
+  }
+  
+  function closeFaqModal() {
+    logger.debug('FAQ modal closing...');
+    const modal = document.getElementById('faqModal');
+    if (modal) {
+      // Disable FAQ modal vim navigation first
+      import('/static/js/index_js_modules/modalVimNavigation.js').then(module => {
+        module.disableModalVim();
+      }).catch(() => {
+        logger.debug('FAQ: Modal vim navigation not available');
+      });
+      
+      modal.style.display = 'none';
+      document.body.style.overflow = 'auto';
+      
+      // Only try to re-enable vim navigation if we're NOT on a game page
+      const isGamePage = document.body.classList.contains('game-page');
+      if (!isGamePage && window.showCursor && window.enableVimNavigation) {
+        window.showCursor();
+        window.enableVimNavigation();
+        logger.debug('FAQ: Main vim navigation re-enabled');
+      } else {
+        logger.debug('FAQ: Skipping vim navigation re-enable (game page or functions not available)');
+      }
+    }
+  }
+  
+  // Close FAQ modal when clicking outside of it
+  document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('faqModal');
+    if (modal) {
+      modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+          closeFaqModal();
+        }
+      });
     }
   });
 </script>
