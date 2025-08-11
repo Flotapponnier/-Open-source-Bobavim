@@ -145,10 +145,11 @@
         // Initialize vim navigation for FAQ modal
         setTimeout(() => {
           import('/static/js/index_js_modules/modalVimNavigation.js').then(module => {
+            logger.debug('FAQ: About to initialize modal vim');
             console.log('FAQ: About to initialize modal vim');
             module.initializeModalVim('faq');
-          }).catch(() => {
-            logger.debug('FAQ: Modal vim navigation not available');
+          }).catch((error) => {
+            logger.debug('FAQ: Modal vim navigation not available', error);
           });
         }, 100); // Reduced delay for faster cursor appearance
       } else {

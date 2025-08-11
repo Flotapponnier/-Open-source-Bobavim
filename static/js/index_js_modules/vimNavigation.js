@@ -29,7 +29,8 @@ const NAVIGATION_ELEMENTS = [
   { selector: '.social-icons .linkedin-icon', column: 2, row: 1, type: 'social-icon' },
   { selector: '.social-icons .github-icon', column: 2, row: 1, type: 'social-icon' }, // Same row as linkedin (h/l)
   { selector: '.social-icons .portfolio-icon', column: 2, row: 1, type: 'social-icon' }, // Same row as linkedin (h/l)
-  { selector: '.terms-link', column: 2, row: 2, type: 'button' }
+  { selector: '.terms-link', column: 2, row: 2, type: 'button' },
+  { selector: 'button[onclick="openFaqModal()"]', column: 2, row: 3, type: 'button' }
 ];
 
 // Social icons selectors for individual navigation

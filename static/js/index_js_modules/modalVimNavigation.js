@@ -9,7 +9,12 @@ let currentManualPage = 'page-1';
 const MODAL_NAVIGATION_ELEMENTS = {
   // Terms modal - X button and nothing else (starts on X)
   terms: [
-    { selector: '.close-button', column: 0, row: 0, type: 'close' }
+    { selector: '#termsModal .close-button', column: 0, row: 0, type: 'close' }
+  ],
+  
+  // FAQ modal - X button and nothing else (starts on X)
+  faq: [
+    { selector: '#faqModal .close-button', column: 0, row: 0, type: 'close' }
   ],
   
   // Love letter modal - X and Close buttons (j/k navigation)
@@ -59,6 +64,16 @@ export function initializeModalVim(modalType, page = null) {
   // Special debugging for T&C modal
   if (modalType === 'terms') {
     logger.debug("=== T&C MODAL SPECIAL DEBUG ===");
+    const closeButton = document.querySelector('.close-button');
+    const closeButtonInModal = modal.querySelector('.close-button');
+    logger.debug("Global .close-button search:", closeButton);
+    logger.debug("Modal .close-button search:", closeButtonInModal);
+    logger.debug("Modal innerHTML preview:", modal.innerHTML.substring(0, 500));
+  }
+  
+  // Special debugging for FAQ modal
+  if (modalType === 'faq') {
+    logger.debug("=== FAQ MODAL SPECIAL DEBUG ===");
     const closeButton = document.querySelector('.close-button');
     const closeButtonInModal = modal.querySelector('.close-button');
     logger.debug("Global .close-button search:", closeButton);
@@ -116,6 +131,8 @@ function getModalElement(modalType) {
   switch (modalType) {
     case 'terms':
       return document.getElementById('termsModal');
+    case 'faq':
+      return document.getElementById('faqModal');
     case 'loveLetter':
       return document.getElementById('loveLetterModal');
     case 'manual':
@@ -176,6 +193,24 @@ function updateAvailableElements(modalType, page = null) {
         
         const allCloseClasses = document.querySelectorAll('[class*="close"]');
         logger.debug(`T&C: All elements with 'close' in class:`, Array.from(allCloseClasses).map(el => ({
+          tagName: el.tagName,
+          className: el.className,
+          content: el.textContent,
+          id: el.id
+        })));
+      }
+      
+      if (modalType === 'faq') {
+        const allButtons = document.querySelectorAll('button');
+        logger.debug(`FAQ: All buttons in document:`, Array.from(allButtons).map(btn => ({
+          className: btn.className,
+          content: btn.textContent,
+          onclick: btn.onclick ? 'has onclick' : 'no onclick',
+          id: btn.id
+        })));
+        
+        const allCloseClasses = document.querySelectorAll('[class*="close"]');
+        logger.debug(`FAQ: All elements with 'close' in class:`, Array.from(allCloseClasses).map(el => ({
           tagName: el.tagName,
           className: el.className,
           content: el.textContent,
