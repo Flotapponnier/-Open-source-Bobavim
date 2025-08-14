@@ -211,6 +211,8 @@ input[type="text"], input[type="email"], textarea, select {
   border-radius: 50%;
   border: 3px solid #8B4513;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  object-fit: cover;
+  object-position: center;
 }
 
 .login-form {
@@ -363,6 +365,8 @@ input[type="text"], input[type="email"], textarea, select {
   border-radius: 50%;
   border: 3px solid #8B4513;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  object-fit: cover;
+  object-position: center;
 }
 
 /* Modal Styles */
@@ -448,6 +452,21 @@ input[type="text"], input[type="email"], textarea, select {
   color: #4A4A4A;
   font-size: 1rem;
   box-sizing: border-box;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.form-group input[type="text"] {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 60px;
+  max-height: 200px;
+  overflow-y: auto;
 }
 
 .form-group input:focus,
@@ -507,12 +526,19 @@ input[type="text"], input[type="email"], textarea, select {
 .newsletter-item h4 {
   margin: 0 0 0.5rem 0;
   color: #8B4513;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
 }
 
 .newsletter-item p {
   margin: 0 0 0.5rem 0;
   color: #666;
   font-size: 0.9rem;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  line-height: 1.4;
 }
 
 .newsletter-date {
