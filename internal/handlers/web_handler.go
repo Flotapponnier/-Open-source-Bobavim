@@ -137,6 +137,7 @@ func (wh *WebHandler) PlayGame(c *gin.Context) {
 				"score":              result["score"],
 				"selected_character": result["selected_character"],
 				"character_level":    characterLevel,
+				"map_id":             result["map_id"],
 				"env": env,
 				"frontend_log_level": wh.cfg.FrontendLogLevel,
 				"cache_buster": version.GetCacheBuster(),

@@ -40,13 +40,33 @@ class PauseMenuSystem {
     const mapContainer = document.querySelector('.game-board');
     if (mapContainer && mapContainer.dataset.mapId) {
       this.currentMapId = mapContainer.dataset.mapId;
+      logger.debug("Found map ID from game-board data attribute:", this.currentMapId);
+    } else if (window.gameState && window.gameState.map_id) {
+      this.currentMapId = window.gameState.map_id.toString();
+      logger.debug("Found map ID from window.gameState:", this.currentMapId);
     } else if (window.gameState && window.gameState.currentMap) {
       this.currentMapId = window.gameState.currentMap;
+      logger.debug("Found map ID from window.gameState.currentMap:", this.currentMapId);
     } else if (window.currentMapId) {
       this.currentMapId = window.currentMapId;
+      logger.debug("Found map ID from window.currentMapId:", this.currentMapId);
+    } else {
+      // Try to get from URL parameters as a fallback
+      const urlParams = new URLSearchParams(window.location.search);
+      const mapParam = urlParams.get('map');
+      if (mapParam) {
+        this.currentMapId = mapParam;
+        logger.debug("Found map ID from URL parameters:", this.currentMapId);
+      } else {
+        // Get from session storage or local storage as another fallback
+        this.currentMapId = sessionStorage.getItem('current_map_id') || localStorage.getItem('current_map_id');
+        if (this.currentMapId) {
+          logger.debug("Found map ID from storage:", this.currentMapId);
+        }
+      }
     }
     
-    logger.debug("Stored current map ID:", this.currentMapId);
+    logger.debug("Final stored current map ID:", this.currentMapId);
   }
 
   handleEscapeKey(event) {
@@ -283,7 +303,21 @@ class PauseMenuSystem {
     // Hide pause menu first
     this.hidePauseMenu();
     
+    // Ensure we have a valid map ID before making the request
+    if (!this.currentMapId) {
+      logger.warn("No current map ID found, trying to retrieve it again");
+      this.storeCurrentMapInfo();
+      
+      // If still no map ID, default to 1 but log a warning
+      if (!this.currentMapId) {
+        logger.warn("Could not determine current map, defaulting to map 1");
+        this.currentMapId = "1";
+      }
+    }
+    
     try {
+      logger.debug("Restarting game with map ID:", this.currentMapId);
+      
       // Call backend to restart the current map
       const response = await fetch('/api/restart-game', {
         method: 'POST',

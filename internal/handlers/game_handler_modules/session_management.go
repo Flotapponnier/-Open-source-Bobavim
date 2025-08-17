@@ -1,6 +1,7 @@
 package game_handler_modules
 
 import (
+	"fmt"
 	"net/http"
 	"strings"
 	"time"
@@ -301,8 +302,32 @@ func RestartGame(gameService *gameService.GameService, c *gin.Context) {
 	// Start a new game with the same map
 	mapIDStr := request.MapID
 	if mapIDStr == "" {
-		// Default to map 1 if no map specified
-		mapIDStr = "1"
+		// Try to get current map from the active game session
+		if sessionToken != nil {
+			// Get the current game state to extract the map ID
+			currentGameState, err := gameService.GetGameState(sessionToken.(string))
+			if err == nil {
+				if success, ok := currentGameState["success"].(bool); ok && success {
+					// Extract map ID from game state
+					if mapID, exists := currentGameState["map_id"]; exists {
+						if mapIDInt, ok := mapID.(int); ok {
+							mapIDStr = fmt.Sprintf("%d", mapIDInt)
+						} else {
+							mapIDStr = "1" // fallback
+						}
+					} else {
+						mapIDStr = "1" // fallback
+					}
+				} else {
+					mapIDStr = "1"
+				}
+			} else {
+				mapIDStr = "1"
+			}
+		} else {
+			// Default to map 1 if no map specified and no session
+			mapIDStr = "1"
+		}
 	}
 	
 	// Convert mapID to int

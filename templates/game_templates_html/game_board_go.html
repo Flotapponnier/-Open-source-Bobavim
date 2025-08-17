@@ -1,5 +1,5 @@
 {{define "game_board"}}
-<div class="game-board game-board-{{.selected_character}}">
+<div class="game-board game-board-{{.selected_character}}" data-map-id="{{.map_id}}">
   <div class="keyboard-map">
     {{range $rowIndex, $row := .text_grid}}
     <div class="keyboard-row">
